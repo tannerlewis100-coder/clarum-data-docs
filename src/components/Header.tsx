@@ -47,7 +47,7 @@ export default function Header() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-10" />
+          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-14" />
         </Link>
 
         {/* Desktop Nav */}

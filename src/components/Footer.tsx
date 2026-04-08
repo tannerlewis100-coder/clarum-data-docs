@@ -33,7 +33,7 @@ export default function Footer() {
           {/* Col 1 */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-10" />
+              <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-14" />
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed mb-6">
               Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
