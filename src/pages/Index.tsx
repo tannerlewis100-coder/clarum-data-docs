@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { featuredProducts, categories, groupProducts } from "@/data/products";
+import { featuredProducts, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles } from "lucide-react";
 
