@@ -16,31 +16,79 @@ export default function About() {
   return (
     <div ref={revealRef}>
       {/* Hero */}
-      <section className="bg-navy gold-line-texture pt-28 pb-20">
-        <div className="container mx-auto px-4 lg:px-8 max-w-3xl text-center">
-          <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">About Clarum</span>
-          <h1 className="text-4xl lg:text-5xl font-display text-primary-foreground mt-3 mb-6">
-            Built for the Post-2025 Research Market
+      <section className="relative bg-navy overflow-hidden pt-32 pb-24">
+        <div className="absolute inset-0 gold-line-texture" />
+        <div className="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-[120px]" />
+        <div className="relative container mx-auto px-4 lg:px-8 max-w-3xl text-center">
+          <div className="inline-flex items-center gap-2 justify-center mb-4">
+            <span className="h-px w-8 bg-gold/40" />
+            <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Our Story</span>
+            <span className="h-px w-8 bg-gold/40" />
+          </div>
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-display text-primary-foreground leading-[1.1] mb-6">
+            We Saw an Industry Built on{" "}
+            <span className="italic bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">Shortcuts</span>
           </h1>
-          <p className="text-primary-foreground/50 font-body leading-relaxed text-lg">
-            When the most trusted peptide vendors disappeared overnight, researchers lost more than suppliers — they lost trust. Clarum was built to restore it.
+          <p className="text-primary-foreground/45 font-body leading-relaxed text-lg max-w-2xl mx-auto">
+            So we built the company we wished existed.
           </p>
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8 max-w-3xl reveal">
-          <h2 className="text-3xl font-display text-foreground mb-6">Our Mission</h2>
-          <p className="text-muted-foreground font-body leading-relaxed mb-4">
-            2025 and 2026 saw more than eight research peptide vendors shut down — FDA raids, federal charges, overnight closures. Researchers who'd trusted the same suppliers for years were suddenly without a source.
-          </p>
-          <p className="text-muted-foreground font-body leading-relaxed mb-4">
-            Clarum was founded on a simple belief: the research peptide market doesn't need another vendor — it needs a new standard. One built on full-panel independent testing, publicly available Certificates of Analysis, and complete transparency.
-          </p>
-          <p className="text-muted-foreground font-body leading-relaxed">
-            We're not here to cut corners. We're here to set the bar.
-          </p>
+      {/* Story */}
+      <section className="relative py-24 lg:py-32 bg-background overflow-hidden">
+        <div className="absolute top-20 left-0 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
+        <div className="relative container mx-auto px-4 lg:px-8 max-w-3xl">
+          <div className="reveal">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <span className="h-px w-8 bg-gold/60" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">The Problem</span>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-display text-foreground mb-8 leading-tight">
+              An industry that stopped caring about the people it served.
+            </h2>
+            <div className="space-y-5 text-muted-foreground font-body leading-[1.8]">
+              <p>
+                We spent years as researchers on the other side of the counter — ordering peptides, hoping the label matched what was inside the vial. And for a while, a handful of vendors made that easy. They were trusted. Reliable. Consistent.
+              </p>
+              <p>
+                Then the cracks started showing. Vendor after vendor started cutting the same corners: skip identity testing, skip heavy metals, skip endotoxin — just run an HPLC and call it "third-party tested." It was enough to look legitimate, but not enough to actually protect researchers. Purity alone doesn't tell you if a product contains the right molecule, is contaminated with heavy metals, or carries bacterial endotoxins.
+              </p>
+              <p>
+                But it was cheaper. And faster. And most customers couldn't tell the difference. So the entire market raced to the bottom — competing on price, marketing, and influencer deals instead of quality. The COAs that did exist were vague, generic, or recycled across batches. Some vendors didn't publish them at all.
+              </p>
+              <p>
+                Then came 2025 and 2026. FDA raids. Federal charges. Overnight shutdowns. More than eight vendors disappeared — and with them, the supply chains researchers had depended on for years.
+              </p>
+            </div>
+          </div>
+
+          <div className="my-16 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+
+          <div className="reveal">
+            <div className="inline-flex items-center gap-2 mb-6">
+              <span className="h-px w-8 bg-gold/60" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">The Solution</span>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-display text-foreground mb-8 leading-tight">
+              We didn't build Clarum to fill a gap.{" "}
+              <span className="italic text-gold">We built it to fix one.</span>
+            </h2>
+            <div className="space-y-5 text-muted-foreground font-body leading-[1.8]">
+              <p>
+                Clarum exists because we refused to accept that "good enough" was the standard. We didn't want to be another vendor selling vials with a purity number and a trust-me attitude. We wanted to build something we'd actually trust ourselves — as researchers, as customers, as people who care about what goes into a lab.
+              </p>
+              <p>
+                So we did something the industry considers extreme: we test every single batch across five independent panels — HPLC purity, mass spectrometry identity, heavy metals screening, microbial and yeast counts, and endotoxin testing. Not some batches. Not flagship products. <strong className="text-foreground">Every batch. Every product. Every time.</strong>
+              </p>
+              <p>
+                Then we publish the full results. No logins. No paywalls. No vague "certificate on file" language. Every Certificate of Analysis is publicly available, batch-specific, and linked via QR code on every order. If you want to verify what you're buying before you buy it — you can.
+              </p>
+              <p>
+                This isn't a marketing angle. It's the entire point. The research peptide market lost trust because vendors treated transparency as optional. We're building Clarum on the belief that it should be the default.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
