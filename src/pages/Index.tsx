@@ -39,32 +39,48 @@ export default function Index() {
   return (
     <div ref={revealRef}>
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center bg-navy gold-line-texture overflow-hidden">
-        <div className="container mx-auto px-4 lg:px-8 py-32 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <section className="relative min-h-screen flex items-center bg-navy overflow-hidden">
+        {/* Ambient background effects */}
+        <div className="absolute inset-0 gold-line-texture" />
+        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-gold/[0.03] blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.04] blur-[100px]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+
+        <div className="relative container mx-auto px-4 lg:px-8 pt-36 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           {/* Left */}
           <div className="flex-1 max-w-2xl">
-            <span className="inline-block text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold mb-6">
-              Research Grade Peptides
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-normal text-primary-foreground leading-[1.1] mb-6">
-              Nothing Hidden.{" "}
-              <span className="italic text-gold">Everything Tested.</span>
+            <div className="inline-flex items-center gap-2 mb-8">
+              <span className="h-px w-8 bg-gold/60" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">
+                Research Grade Peptides
+              </span>
+            </div>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-normal text-primary-foreground leading-[1.05] mb-8">
+              Nothing Hidden.
+              <br />
+              <span className="italic bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                Everything Tested.
+              </span>
             </h1>
-            <p className="text-base lg:text-lg text-primary-foreground/60 font-body leading-relaxed max-w-xl mb-8">
+
+            <p className="text-base lg:text-lg text-primary-foreground/50 font-body leading-relaxed max-w-xl mb-10">
               Full-panel tested peptides — HPLC purity, mass spec identity, heavy metals, microbial, and endotoxin. The only research peptide brand that shows you the data.
             </p>
-            <div className="flex flex-wrap items-center gap-3 mb-10">
-              <Button variant="gold" size="xl" asChild>
+
+            <div className="flex flex-wrap items-center gap-4 mb-12">
+              <Button variant="gold" size="xl" className="shadow-[0_0_30px_-5px_hsl(40_50%_56%/0.4)] hover:shadow-[0_0_40px_-5px_hsl(40_50%_56%/0.6)] transition-shadow" asChild>
                 <Link to="/shop">Shop the Catalog</Link>
               </Button>
               <Button variant="goldOutline" size="xl" asChild>
                 <Link to="/coa-library">View COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
             </div>
+
             {/* Stat pills */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {stats.map((s) => (
-                <span key={s} className="text-xs font-body font-medium text-primary-foreground/50 border border-primary-foreground/10 rounded-full px-4 py-1.5">
+                <span key={s} className="text-[11px] font-body font-medium text-primary-foreground/40 border border-primary-foreground/10 rounded-full px-5 py-2 backdrop-blur-sm bg-primary-foreground/[0.02]">
                   {s}
                 </span>
               ))}
@@ -73,51 +89,63 @@ export default function Index() {
 
           {/* Right - Lab readout panel */}
           <div className="hidden lg:block flex-1 max-w-md w-full">
-            <div className="frosted-glass rounded-card p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest text-primary-foreground/40 font-body">Batch 2406-BPC</p>
-                  <p className="text-sm font-display text-primary-foreground mt-0.5">BPC-157 (10mg)</p>
-                </div>
-                <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full">
-                  PASS
-                </span>
-              </div>
+            <div className="relative group">
+              {/* Glow behind card */}
+              <div className="absolute -inset-1 rounded-card bg-gradient-to-br from-gold/20 via-gold/5 to-transparent blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
 
-              <div className="space-y-3">
-                {/* HPLC row with bar */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-primary-foreground/50 font-body">HPLC Purity</span>
-                    <span className="text-xs font-body font-semibold text-primary-foreground">99.2%</span>
+              <div className="relative frosted-glass rounded-card p-7 border border-gold/10">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-5 pb-4 border-b border-primary-foreground/10">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/30 font-body mb-1">Batch 2406-BPC</p>
+                    <p className="text-lg font-display text-primary-foreground">BPC-157 <span className="text-sm text-primary-foreground/50">(10mg)</span></p>
                   </div>
-                  <div className="h-1.5 bg-primary-foreground/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-gold rounded-full" style={{ width: "99.2%" }} />
-                  </div>
+                  <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
+                    ● PASS
+                  </span>
                 </div>
 
-                {[
-                  { label: "Mass Spec ID", value: "Confirmed", color: "text-emerald-400" },
-                  { label: "Heavy Metals", value: "ND", color: "text-emerald-400" },
-                  { label: "Microbial Count", value: "< 10 CFU/g", color: "text-emerald-400" },
-                  { label: "Endotoxin", value: "< 1 EU/mg", color: "text-emerald-400" },
-                ].map((row) => (
-                  <div key={row.label} className="flex items-center justify-between py-1.5 border-t border-primary-foreground/5">
-                    <span className="text-xs text-primary-foreground/50 font-body">{row.label}</span>
-                    <span className={`text-xs font-body font-semibold ${row.color}`}>{row.value}</span>
+                <div className="space-y-3.5">
+                  {/* HPLC row with bar */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs text-primary-foreground/50 font-body">HPLC Purity</span>
+                      <span className="text-sm font-body font-semibold text-primary-foreground tabular-nums">99.2%</span>
+                    </div>
+                    <div className="h-2 bg-primary-foreground/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-gold/80 to-gold rounded-full transition-all duration-1000" style={{ width: "99.2%" }} />
+                    </div>
                   </div>
-                ))}
-              </div>
 
-              <div className="mt-5 pt-4 border-t border-primary-foreground/10 flex items-center justify-between">
-                <span className="text-[10px] text-primary-foreground/30 font-body">Independent 3rd-party lab verified</span>
-                <Link to="/coa-library" className="text-[10px] text-gold font-body font-medium hover:text-gold-light transition-colors">
-                  View All COAs →
-                </Link>
+                  {[
+                    { label: "Mass Spec ID", value: "Confirmed", icon: "✓" },
+                    { label: "Heavy Metals", value: "ND (Non-Detect)", icon: "✓" },
+                    { label: "Microbial Count", value: "< 10 CFU/g", icon: "✓" },
+                    { label: "Endotoxin (LAL)", value: "< 1 EU/mg", icon: "✓" },
+                  ].map((row) => (
+                    <div key={row.label} className="flex items-center justify-between py-2 border-t border-primary-foreground/5">
+                      <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
+                      <span className="flex items-center gap-1.5 text-xs font-body font-semibold text-emerald-400">
+                        <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[9px]">{row.icon}</span>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-primary-foreground/10 flex items-center justify-between">
+                  <span className="text-[10px] text-primary-foreground/25 font-body">Independent 3rd-party lab verified</span>
+                  <Link to="/coa-library" className="text-[10px] text-gold font-body font-semibold hover:text-gold-light transition-colors flex items-center gap-1">
+                    View All COAs <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy-deep to-transparent" />
       </section>
 
       {/* ===== TRUST TICKER (moved to Header area) ===== */}
