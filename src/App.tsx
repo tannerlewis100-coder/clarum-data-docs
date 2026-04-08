@@ -14,6 +14,7 @@ import About from "./pages/About";
 import COALibrary from "./pages/COALibrary";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
           <main className="min-h-screen">
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
               <Route path="/coa-library" element={<COALibrary />} />
