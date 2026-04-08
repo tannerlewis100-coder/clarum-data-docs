@@ -3,10 +3,10 @@ import { Check, Search } from "lucide-react";
 import { allProducts } from "@/data/products";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
-const coaData = allProducts.slice(0, 30).map((p, i) => ({
+const coaData = allProducts.map((p) => ({
   product: p.name,
   dosage: p.dosage,
-  batch: `2406-${p.id.toUpperCase().slice(0, 4)}`,
+  batch: p.coaBatch,
   date: "March 2026",
   purity: (99 + Math.random() * 0.9).toFixed(1) + "%",
   pass: true,
