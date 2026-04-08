@@ -120,16 +120,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ===== TRUST TICKER ===== */}
-      <div className="bg-navy-deep border-y border-primary-foreground/5 overflow-hidden py-3">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="mx-6 text-xs uppercase tracking-wider text-primary-foreground/30 font-body font-medium">
-              {item} <span className="text-gold/40 mx-2">·</span>
-            </span>
-          ))}
-        </div>
-      </div>
+      {/* ===== TRUST TICKER (moved to Header area) ===== */}
 
       {/* ===== TESTING STANDARDS ===== */}
       <section className="py-20 lg:py-28 bg-navy gold-grid-texture">
