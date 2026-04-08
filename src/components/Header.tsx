@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
-import clarumLogo from "@/assets/clarum-logo.png";
+import clarumLogo from "@/assets/clarum-logo-transparent.png";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 
@@ -47,7 +47,7 @@ export default function Header() {
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-28" />
+          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-36" />
         </Link>
 
         {/* Desktop Nav */}
