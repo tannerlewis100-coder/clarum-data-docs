@@ -1,24 +1,16 @@
 import { useState, useMemo } from "react";
-import { Check, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { allProducts } from "@/data/products";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-
-const coaData = allProducts.map((p) => ({
-  product: p.name,
-  dosage: p.dosage,
-  batch: p.coaBatch,
-  date: "March 2026",
-  purity: (99 + Math.random() * 0.9).toFixed(1) + "%",
-  pass: true,
-}));
+import CoaCard from "@/components/CoaCard";
 
 export default function COALibrary() {
   const [search, setSearch] = useState("");
   const revealRef = useScrollReveal();
 
   const filtered = useMemo(() => {
-    if (!search) return coaData;
-    return coaData.filter((c) => c.product.toLowerCase().includes(search.toLowerCase()));
+    if (!search) return allProducts;
+    return allProducts.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
   }, [search]);
 
   return (
@@ -30,7 +22,7 @@ export default function COALibrary() {
             COA Library
           </h1>
           <p className="text-primary-foreground/50 font-body max-w-lg mx-auto">
-            Full 5-panel Certificates of Analysis for every product, every batch. No login required.
+            Full 6-panel Certificates of Analysis for every product, every batch. No login required.
           </p>
         </div>
       </section>
@@ -51,39 +43,13 @@ export default function COALibrary() {
 
           {/* COA Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal">
-            {filtered.map((coa) => (
-              <div key={coa.batch} className="bg-card rounded-card border border-border overflow-hidden hover:border-gold/40 hover:shadow-[0_8px_30px_-8px_hsl(40_50%_56%/0.15)] transition-all duration-300">
-                <div className="bg-navy p-4 flex items-center justify-between">
-                  <div>
-                    <p className="font-display text-primary-foreground">{coa.product}</p>
-                    <p className="text-[10px] text-primary-foreground/40 font-body mt-0.5">
-                      {coa.dosage && `${coa.dosage} · `}Batch {coa.batch}
-                    </p>
-                  </div>
-                  <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full">
-                    PASS
-                  </span>
-                </div>
-                <div className="p-4 space-y-2">
-                  <div className="flex justify-between text-xs font-body">
-                    <span className="text-muted-foreground">HPLC Purity</span>
-                    <span className="font-semibold text-foreground">{coa.purity}</span>
-                  </div>
-                  <div className="flex justify-between text-xs font-body">
-                    <span className="text-muted-foreground">5-Panel Test</span>
-                    <span className="font-semibold text-emerald-600 flex items-center gap-1"><Check className="h-3 w-3" /> Complete</span>
-                  </div>
-                  <div className="flex justify-between text-xs font-body">
-                    <span className="text-muted-foreground">Test Date</span>
-                    <span className="text-foreground">{coa.date}</span>
-                  </div>
-                </div>
-                <div className="border-t border-border px-4 py-3">
-                  <button className="text-xs text-gold font-body font-medium hover:text-gold-light transition-colors uppercase tracking-wider">
-                    View Full Report →
-                  </button>
-                </div>
-              </div>
+            {filtered.map((product) => (
+              <CoaCard
+                key={product.id}
+                name={product.name}
+                form={product.coa.form}
+                coa={product.coa}
+              />
             ))}
           </div>
         </div>
