@@ -1,13 +1,11 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { allProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { Slider } from "@/components/ui/slider";
 
-const MIN_PRICE = 0;
-const MAX_PRICE = 400;
+type SortOption = "price-low" | "price-high";
 
 type SortOption = "price-low" | "price-high";
 
