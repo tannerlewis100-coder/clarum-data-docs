@@ -7,13 +7,10 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type SortOption = "price-low" | "price-high";
 
-type SortOption = "price-low" | "price-high";
-
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCat = searchParams.get("cat") || "All";
   const [query, setQuery] = useState("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
   const [sort, setSort] = useState<SortOption>("price-low");
   const revealRef = useScrollReveal();
 
