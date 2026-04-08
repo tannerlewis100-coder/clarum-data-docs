@@ -36,7 +36,7 @@ export default function Footer() {
               <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Research Peptides</span>
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed mb-6">
-              Research-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
+              Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
             </p>
             <div className="flex items-center gap-4">
               {["Instagram", "X", "Reddit"].map((s) => (

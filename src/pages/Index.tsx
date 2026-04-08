@@ -11,7 +11,7 @@ const testingCards = [
   { icon: FlaskConical, title: "HPLC Purity", desc: "Confirms ≥99% purity. You see the exact percentage, not a range.", num: "01" },
   { icon: Atom, title: "Mass Spectrometry", desc: "LC-MS confirms molecular identity down to the atomic level. No substitutions.", num: "02" },
   { icon: Shield, title: "Heavy Metals", desc: "ICP-MS screens arsenic, lead, mercury, cadmium. Every batch reported as ND or flagged.", num: "03" },
-  { icon: Bug, title: "Microbial & Yeast", desc: "Total aerobic count, yeast, and mold screened for research-grade cleanliness.", num: "04" },
+  { icon: Bug, title: "Microbial & Yeast", desc: "Total aerobic count, yeast, and mold screened for pharmaceutical-grade cleanliness.", num: "04" },
   { icon: Syringe, title: "Endotoxin (LAL)", desc: "The test most peptide brands skip entirely. We run it on every batch.", num: "05" },
 ];
 
@@ -39,7 +39,7 @@ export default function Index() {
             <div className="inline-flex items-center gap-2 mb-8">
               <span className="h-px w-8 bg-gold/60" />
               <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">
-                Research Grade Peptides
+                Pharmaceutical Grade Peptides
               </span>
             </div>
 
@@ -360,7 +360,7 @@ export default function Index() {
             </div>
             <h2 className="text-4xl lg:text-5xl font-display text-foreground">Featured Compounds</h2>
             <p className="text-muted-foreground font-body mt-4 max-w-md mx-auto">
-              Research-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
+              Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
@@ -388,7 +388,7 @@ export default function Index() {
             <h2 className="text-3xl lg:text-5xl font-display text-primary-foreground leading-tight mb-6">
               Ready to Source{" "}
               <span className="italic bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
-                Research-Grade?
+                Pharmaceutical-Grade?
               </span>
             </h2>
             <p className="text-primary-foreground/40 font-body text-lg mb-10 max-w-lg mx-auto">
