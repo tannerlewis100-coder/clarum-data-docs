@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { featuredProducts, categories, groupProducts } from "@/data/products";
+import { featuredProducts, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles } from "lucide-react";
 
@@ -125,27 +125,30 @@ export default function Index() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy-deep to-transparent" />
       </section>
 
-      {/* ===== TESTING STANDARDS ===== */}
+      {/* ===== TESTING & COA TRANSPARENCY (Combined) ===== */}
       <section className="relative py-24 lg:py-32 bg-navy-deep overflow-hidden">
         <div className="absolute inset-0 gold-grid-texture" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
+        <div className="absolute top-1/3 -left-40 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-[100px]" />
 
         <div className="relative container mx-auto px-4 lg:px-8">
+          {/* Header */}
           <div className="text-center mb-16 reveal">
             <div className="inline-flex items-center gap-2 justify-center mb-4">
               <span className="h-px w-8 bg-gold/40" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Quality Assurance</span>
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Quality & Transparency</span>
               <span className="h-px w-8 bg-gold/40" />
             </div>
             <h2 className="text-4xl lg:text-5xl font-display text-primary-foreground leading-tight">
               We Test What Others <span className="italic text-gold">Skip</span>
             </h2>
             <p className="text-primary-foreground/40 font-body mt-4 max-w-lg mx-auto">
-              Every batch undergoes 5 independent lab tests. Most competitors only do one.
+              Every batch undergoes 5 independent lab tests. Full COAs published publicly — no login required.
             </p>
           </div>
 
+          {/* 5-Panel Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 reveal">
             {testingCards.map((card) => (
               <div key={card.title} className="group relative">
@@ -162,10 +165,88 @@ export default function Index() {
             ))}
           </div>
 
-          <div className="text-center mt-14 reveal">
-            <Button variant="goldOutline" size="lg" asChild>
-              <Link to="/coa-library">Browse the COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
-            </Button>
+          {/* COA Details + Sample COA Card */}
+          <div className="mt-20 flex flex-col lg:flex-row gap-14 lg:gap-20 items-center reveal">
+            <div className="flex-1">
+              <h3 className="text-3xl lg:text-[2.75rem] font-display text-primary-foreground leading-[1.15] mb-6">
+                Every Batch Has a COA.
+                <br />
+                <span className="italic text-gold">No Exceptions.</span>
+              </h3>
+              <p className="text-primary-foreground/50 font-body leading-relaxed mb-8">
+                We don't just claim "third-party tested." We publish the actual data — batch-specific Certificates of Analysis with full 5-panel results — publicly available, no login required.
+              </p>
+              <ul className="space-y-4 mb-10">
+                {[
+                  "Batch-specific COA, not generic certificates",
+                  "Independent third-party lab",
+                  "Full 5-panel results published publicly",
+                  "Heavy metals and endotoxin — tests most vendors skip",
+                  "QR code on every order links to batch COA",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span className="mt-0.5 w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                      <Check className="h-3 w-3 text-emerald-400" />
+                    </span>
+                    <span className="text-sm text-primary-foreground/70 font-body leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button variant="gold" size="lg" className="shadow-[0_0_25px_-5px_hsl(40_50%_56%/0.3)]" asChild>
+                <Link to="/coa-library">View the COA Library</Link>
+              </Button>
+            </div>
+
+            <div className="flex-1 max-w-md w-full">
+              <div className="relative group">
+                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-gold/15 via-transparent to-emerald-500/10 blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="relative bg-navy-deep rounded-2xl overflow-hidden border border-primary-foreground/10 group-hover:border-gold/20 transition-colors duration-300">
+                  <div className="p-6 bg-gradient-to-r from-navy-deep to-navy">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Sparkles className="h-3.5 w-3.5 text-gold/60" />
+                          <p className="text-[10px] uppercase tracking-[0.2em] text-gold/60 font-body font-semibold">Certificate of Analysis</p>
+                        </div>
+                        <p className="text-base font-display text-primary-foreground">GHK-Cu (50mg)</p>
+                        <p className="text-[11px] text-primary-foreground/30 font-body mt-0.5">Batch #2406-GHK</p>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
+                        ● PASS
+                      </span>
+                    </div>
+                  </div>
+                  <div className="divide-y divide-primary-foreground/5">
+                    {[
+                      { label: "HPLC Purity", value: "99.4%", check: true },
+                      { label: "Molecular Identity (LC-MS)", value: "Confirmed", check: true },
+                      { label: "Heavy Metals", value: "ND Non-Detect", check: true },
+                      { label: "Total Aerobic Count", value: "< 10 CFU/g", check: true },
+                      { label: "Endotoxin", value: "< 1 EU/mg", check: true },
+                      { label: "Testing Lab", value: "ISO/IEC 17025", check: false },
+                      { label: "Test Date", value: "March 2026", check: false },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center justify-between px-6 py-3.5">
+                        <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
+                        <span className="text-xs font-body font-semibold text-primary-foreground flex items-center gap-2">
+                          {row.check && (
+                            <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                              <Check className="h-2.5 w-2.5 text-emerald-400" />
+                            </span>
+                          )}
+                          {row.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="bg-emerald-500/[0.08] px-6 py-4 border-t border-emerald-500/10">
+                    <p className="text-xs text-emerald-400 font-body font-medium flex items-center gap-2">
+                      <Check className="h-4 w-4" /> All parameters within specification
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -198,7 +279,7 @@ export default function Index() {
             </div>
 
             <div className="flex-1 grid grid-cols-2 gap-4 reveal">
-              {brandStats.map((s, i) => (
+              {brandStats.map((s) => (
                 <div key={s.num} className="group relative">
                   <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative bg-secondary border border-border rounded-2xl p-7 text-center h-full transition-all duration-300 group-hover:border-gold/30 group-hover:-translate-y-1">
@@ -208,142 +289,6 @@ export default function Index() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== COA / TRANSPARENCY ===== */}
-      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
-        <div className="absolute inset-0 gold-grid-texture" />
-        <div className="absolute top-1/3 -left-40 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-[100px]" />
-
-        <div className="relative container mx-auto px-4 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 items-center">
-            <div className="flex-1 reveal">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="h-px w-8 bg-gold/60" />
-                <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Full Transparency</span>
-              </div>
-              <h2 className="text-3xl lg:text-[2.75rem] font-display text-primary-foreground leading-[1.15] mb-6">
-                Every Batch Has a COA.
-                <br />
-                <span className="italic text-gold">No Exceptions.</span>
-              </h2>
-              <p className="text-primary-foreground/50 font-body leading-relaxed mb-8">
-                We don't just claim "third-party tested." We publish the actual data — batch-specific Certificates of Analysis with full 5-panel results — publicly available, no login required.
-              </p>
-              <ul className="space-y-4 mb-10">
-                {[
-                  "Batch-specific COA, not generic certificates",
-                  "Independent third-party lab",
-                  "Full 5-panel results published publicly, no login required",
-                  "Heavy metals and endotoxin — tests most vendors skip",
-                  "QR code on every order links to batch COA",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="mt-0.5 w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                      <Check className="h-3 w-3 text-emerald-400" />
-                    </span>
-                    <span className="text-sm text-primary-foreground/70 font-body leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button variant="gold" size="lg" className="shadow-[0_0_25px_-5px_hsl(40_50%_56%/0.3)]" asChild>
-                <Link to="/coa-library">View the COA Library</Link>
-              </Button>
-            </div>
-
-            <div className="flex-1 max-w-md w-full reveal">
-              <div className="relative group">
-                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-gold/15 via-transparent to-emerald-500/10 blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="relative bg-navy-deep rounded-2xl overflow-hidden border border-primary-foreground/10 group-hover:border-gold/20 transition-colors duration-300">
-                  {/* COA Header */}
-                  <div className="p-6 bg-gradient-to-r from-navy-deep to-navy">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Sparkles className="h-3.5 w-3.5 text-gold/60" />
-                          <p className="text-[10px] uppercase tracking-[0.2em] text-gold/60 font-body font-semibold">Certificate of Analysis</p>
-                        </div>
-                        <p className="text-base font-display text-primary-foreground">GHK-Cu (50mg)</p>
-                        <p className="text-[11px] text-primary-foreground/30 font-body mt-0.5">Batch #2406-GHK</p>
-                      </div>
-                      <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
-                        ● PASS
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* COA Rows */}
-                  <div className="divide-y divide-primary-foreground/5">
-                    {[
-                      { label: "HPLC Purity", value: "99.4%", check: true },
-                      { label: "Molecular Identity (LC-MS)", value: "Confirmed", check: true },
-                      { label: "Heavy Metals", value: "ND Non-Detect", check: true },
-                      { label: "Total Aerobic Count", value: "< 10 CFU/g", check: true },
-                      { label: "Endotoxin", value: "< 1 EU/mg", check: true },
-                      { label: "Testing Lab", value: "ISO/IEC 17025", check: false },
-                      { label: "Test Date", value: "March 2026", check: false },
-                    ].map((row) => (
-                      <div key={row.label} className="flex items-center justify-between px-6 py-3.5">
-                        <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
-                        <span className="text-xs font-body font-semibold text-primary-foreground flex items-center gap-2">
-                          {row.check && (
-                            <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                              <Check className="h-2.5 w-2.5 text-emerald-400" />
-                            </span>
-                          )}
-                          {row.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* COA Footer */}
-                  <div className="bg-emerald-500/[0.08] px-6 py-4 border-t border-emerald-500/10">
-                    <p className="text-xs text-emerald-400 font-body font-medium flex items-center gap-2">
-                      <Check className="h-4 w-4" /> All parameters within specification
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== CATEGORY GRID ===== */}
-      <section className="relative py-24 lg:py-32 bg-secondary overflow-hidden">
-        <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full bg-gold/[0.02] blur-[120px]" />
-        <div className="relative container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14 reveal">
-            <div className="inline-flex items-center gap-2 justify-center mb-4">
-              <span className="h-px w-8 bg-gold/40" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Categories</span>
-              <span className="h-px w-8 bg-gold/40" />
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-display text-foreground">Browse by Category</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal">
-            {categories.map((cat) => (
-              <Link
-                key={cat.slug}
-                to={`/shop?cat=${cat.slug}`}
-                className="group relative overflow-hidden"
-              >
-                <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative bg-card rounded-2xl border border-border p-7 flex items-center gap-5 transition-all duration-300 group-hover:translate-x-1 group-hover:border-gold/30 group-hover:shadow-[0_8px_30px_-8px_hsl(40_50%_56%/0.15)]">
-                  <span className="text-4xl group-hover:scale-110 transition-transform duration-300">{cat.emoji}</span>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display text-xl text-foreground group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
-                    <p className="text-xs text-muted-foreground font-body mt-1 truncate">{cat.examples}</p>
-                  </div>
-                  <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center group-hover:border-gold group-hover:bg-gold/10 transition-all duration-300">
-                    <ArrowRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-gold transition-colors" />
-                  </div>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>
