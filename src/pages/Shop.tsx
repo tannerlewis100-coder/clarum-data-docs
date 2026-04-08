@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
-import { allProducts, categories } from "@/data/products";
+import { allProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
@@ -11,13 +11,13 @@ export default function Shop() {
   const [query, setQuery] = useState("");
   const revealRef = useScrollReveal();
 
-  const filtered = useMemo(() => {
+  const grouped = useMemo(() => {
     let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
     if (query.trim()) {
       const q = query.trim().toLowerCase();
       items = items.filter((p) => p.name.toLowerCase().includes(q));
     }
-    return items;
+    return groupProducts(items);
   }, [activeCat, query]);
 
   const allCats = ["All", ...categories.map((c) => c.slug)];
@@ -69,12 +69,12 @@ export default function Shop() {
 
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
-            {filtered.map((p) => (
-              <ProductCard key={p.id} product={p} />
+            {grouped.map(([first, variants]) => (
+              <ProductCard key={first.id} product={first} variants={variants} />
             ))}
           </div>
 
-          {filtered.length === 0 && (
+          {grouped.length === 0 && (
             <p className="text-center text-muted-foreground font-body py-20">No products found in this category.</p>
           )}
         </div>
