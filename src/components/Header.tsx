@@ -46,7 +46,7 @@ export default function Header() {
         {/* Logo */}
         <Link to="/" className="flex flex-col leading-none">
           <span className="font-display text-2xl tracking-[0.12em] text-primary-foreground">CLARUM</span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Research Peptides</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Pharmaceutical Peptides</span>
         </Link>
 
         {/* Desktop Nav */}
