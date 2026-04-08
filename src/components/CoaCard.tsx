@@ -20,7 +20,7 @@ function CoaField({ label, value, pass }: { label: string; value: string; pass?:
   );
 }
 
-export default function CoaCard({ name, form, coa, compact }: CoaCardProps) {
+export default function CoaCard({ name, coa, compact }: CoaCardProps) {
   if (compact) {
     return (
       <div className="h-full flex flex-col bg-navy rounded-t-2xl overflow-hidden">
