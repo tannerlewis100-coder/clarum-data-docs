@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import type { Product } from "@/data/products";
+import { useCart } from "@/contexts/CartContext";
 
 interface Props {
   product: Product;
@@ -12,6 +13,7 @@ export default function ProductCard({ product, variants }: Props) {
   const items = variants && variants.length > 1 ? variants : [product];
   const [selectedIdx, setSelectedIdx] = useState(0);
   const selected = items[selectedIdx];
+  const { addItem } = useCart();
 
   return (
     <div className="group relative">
@@ -61,7 +63,10 @@ export default function ProductCard({ product, variants }: Props) {
               ${selected.price}
             </span>
             <div className="flex items-center gap-2">
-              <button className="inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg hover:bg-navy-deep transition-colors">
+              <button
+                onClick={() => addItem(selected)}
+                className="inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg hover:bg-navy-deep transition-colors"
+              >
                 <ShoppingCart className="h-3 w-3" />
                 Add
               </button>

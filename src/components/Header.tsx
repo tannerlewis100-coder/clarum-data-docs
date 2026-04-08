@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
@@ -27,7 +28,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
-
+  const { totalItems, toggleCart } = useCart();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
@@ -66,10 +67,13 @@ export default function Header() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <button className="relative text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+          <button
+            onClick={toggleCart}
+            className="relative text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+          >
             <ShoppingCart className="h-5 w-5" />
             <span className="absolute -top-1.5 -right-1.5 bg-gold text-navy-deep text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-              0
+              {totalItems}
             </span>
           </button>
 
