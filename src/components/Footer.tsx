@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import clarumLogo from "@/assets/clarum-logo.png";
 
 const catalogLinks = [
   { label: "All Peptides", to: "/shop" },
@@ -31,9 +32,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Col 1 */}
           <div className="lg:col-span-1">
-            <div className="flex flex-col leading-none mb-4">
-              <span className="font-display text-2xl tracking-[0.12em]">CLARUM</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Pharmaceutical Peptides</span>
+            <div className="mb-4">
+              <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-10" />
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed mb-6">
               Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
