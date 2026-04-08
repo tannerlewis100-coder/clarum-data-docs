@@ -19,14 +19,10 @@ export default function ProductCard({ product, variants }: Props) {
 
       <div className="relative bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-gold/30 group-hover:shadow-[0_20px_50px_-15px_hsl(40_50%_56%/0.2)]">
         {/* Gradient image area */}
-        <div
-          className="relative h-48 gold-grid-texture overflow-hidden"
-          style={{
-            background: `linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(${selected.categoryColor}) 100%)`,
-          }}
-        >
+        <div className="relative h-48 gold-grid-texture overflow-hidden bg-navy">
+          <div className="absolute inset-0 bg-gradient-to-br from-gold/[0.06] via-transparent to-gold/[0.03]" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary-foreground/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-          <span className="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.15em] text-gold font-body font-semibold bg-navy/70 backdrop-blur-sm px-3 py-1 rounded-md border border-gold/10">
+          <span className="absolute bottom-3 left-3 text-[10px] uppercase tracking-[0.15em] text-gold font-body font-semibold bg-navy-deep/80 backdrop-blur-sm px-3 py-1 rounded-md border border-gold/10">
             {selected.category}
           </span>
         </div>
