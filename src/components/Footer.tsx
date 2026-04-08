@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex flex-col leading-none mb-4">
               <span className="font-display text-2xl tracking-[0.12em]">CLARUM</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Research Peptides</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Pharmaceutical Peptides</span>
             </div>
             <p className="text-sm text-primary-foreground/60 leading-relaxed mb-6">
               Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
