@@ -13,6 +13,17 @@ const navLinks = [
   { label: "COA Library", to: "/coa-library", accent: true },
 ];
 
+const marqueeItems = [
+  "HPLC ≥99% Purity Verified",
+  "Mass Spectrometry Identity Confirmed",
+  "Heavy Metals Tested — ND",
+  "Microbial & Yeast Screened",
+  "Endotoxin Tested (LAL Method)",
+  "Batch-Specific COA Included",
+  "Ships from USA",
+  "No Fillers. No Shortcuts.",
+];
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -71,6 +82,17 @@ export default function Header() {
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
+        </div>
+      </div>
+
+      {/* Trust Ticker - pinned right under nav */}
+      <div className="bg-navy-deep border-y border-primary-foreground/5 overflow-hidden py-2">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span key={i} className="mx-6 text-xs uppercase tracking-wider text-primary-foreground/30 font-body font-medium">
+              {item} <span className="text-gold/40 mx-2">·</span>
+            </span>
+          ))}
         </div>
       </div>
 
