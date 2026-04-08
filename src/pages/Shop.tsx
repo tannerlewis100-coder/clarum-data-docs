@@ -105,6 +105,7 @@ export default function Shop() {
                 <option value="price-high">Price: High → Low</option>
               </select>
             </div>
+          </div>
 
           {/* ── Product Count ── */}
           <p className="text-xs text-muted-foreground font-body mb-6 reveal">
