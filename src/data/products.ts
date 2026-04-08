@@ -6,6 +6,17 @@ export interface Product {
   dosage: string;
   categoryColor: string;
   coaBatch: string;
+  description?: string;
+}
+
+/** Slug used for URL routing — groups variants under one base slug */
+export function getProductSlug(product: Product): string {
+  return product.id.replace(/-\d+mg$|-\d+iu$|-\d+ml$|-01mg$/, "").replace(/-r$|-s$/, "");
+}
+
+/** Find all variants sharing the same base slug */
+export function getProductVariants(slug: string): Product[] {
+  return allProducts.filter((p) => getProductSlug(p) === slug);
 }
 
 const CAT = {
