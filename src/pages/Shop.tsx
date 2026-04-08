@@ -1,17 +1,19 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, ChevronDown } from "lucide-react";
+import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
 import { allProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { Slider } from "@/components/ui/slider";
 
-type SortOption = "price-low" | "price-high";
+const MIN_PRICE = 0;
+const MAX_PRICE = 400;
 
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCat = searchParams.get("cat") || "All";
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState<SortOption>("price-low");
+  const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
   const revealRef = useScrollReveal();
 
   const grouped = useMemo(() => {
@@ -22,24 +24,10 @@ export default function Shop() {
       items = items.filter((p) => p.name.toLowerCase().includes(q));
     }
 
+    items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
-    const groups = groupProducts(items);
-
-    // Sort
-    groups.sort((a, b) => {
-      const [fa] = a;
-      const [fb] = b;
-      switch (sort) {
-        case "price-low": return fa.price - fb.price;
-        case "price-high": return fb.price - fa.price;
-        default: return 0;
-      }
-    });
-
-    return groups;
-  }, [activeCat, query, sort]);
-
-  const allCats = ["All", ...categories.map((c) => c.slug)];
+    return groupProducts(items);
+  }, [activeCat, query, priceRange]);
 
   return (
     <div ref={revealRef}>
@@ -58,7 +46,7 @@ export default function Shop() {
       <section className="py-12 lg:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
 
-          {/* ── Toolbar: Search + Sort + Price ── */}
+          {/* ── Toolbar ── */}
           <div className="flex flex-col lg:flex-row gap-4 lg:items-end mb-8 reveal">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
@@ -87,16 +75,25 @@ export default function Shop() {
               </select>
             </div>
 
-            {/* Sort */}
-            <div className="flex items-center gap-2">
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortOption)}
-                className="text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
-              >
-                <option value="price-low">Price: Low → High</option>
-                <option value="price-high">Price: High → Low</option>
-              </select>
+            {/* Price Range */}
+            <div className="flex items-center gap-4 min-w-[260px]">
+              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <div className="flex-1">
+                <div className="flex justify-between mb-1.5">
+                  <span className="text-[10px] font-body font-semibold uppercase tracking-wider text-muted-foreground">Price</span>
+                  <span className="text-[10px] font-body font-semibold text-gold">
+                    ${priceRange[0]} — ${priceRange[1]}
+                  </span>
+                </div>
+                <Slider
+                  min={MIN_PRICE}
+                  max={MAX_PRICE}
+                  step={5}
+                  value={priceRange}
+                  onValueChange={(val) => setPriceRange(val as [number, number])}
+                  className="w-full"
+                />
+              </div>
             </div>
           </div>
 
