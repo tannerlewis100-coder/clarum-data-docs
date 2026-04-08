@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
-import type { Product } from "@/data/products";
+import { type Product, getProductSlug } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 
 interface Props {
