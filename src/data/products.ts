@@ -1,3 +1,15 @@
+export interface CoaData {
+  purity: string;
+  assay: string;
+  identity: "Confirmed";
+  heavyMetals: "<20ppb";
+  tamc: "0 CFU";
+  tymc: "0 CFU";
+  sku: string;
+  date: string;
+  form: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -7,6 +19,7 @@ export interface Product {
   categoryColor: string;
   coaBatch: string;
   description?: string;
+  coa: CoaData;
 }
 
 /** Slug used for URL routing — groups variants under one base slug */
