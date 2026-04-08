@@ -1,22 +1,17 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { allProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { Slider } from "@/components/ui/slider";
 
-const MIN_PRICE = 0;
-const MAX_PRICE = 400;
-
-type SortOption = "a-z" | "z-a" | "price-low" | "price-high";
+type SortOption = "price-low" | "price-high";
 
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCat = searchParams.get("cat") || "All";
   const [query, setQuery] = useState("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
-  const [sort, setSort] = useState<SortOption>("a-z");
+  const [sort, setSort] = useState<SortOption>("price-low");
   const revealRef = useScrollReveal();
 
   const grouped = useMemo(() => {
@@ -27,8 +22,6 @@ export default function Shop() {
       items = items.filter((p) => p.name.toLowerCase().includes(q));
     }
 
-    // Price filter (check if any variant falls in range)
-    items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     const groups = groupProducts(items);
 
@@ -37,8 +30,6 @@ export default function Shop() {
       const [fa] = a;
       const [fb] = b;
       switch (sort) {
-        case "a-z": return fa.name.localeCompare(fb.name);
-        case "z-a": return fb.name.localeCompare(fa.name);
         case "price-low": return fa.price - fb.price;
         case "price-high": return fb.price - fa.price;
         default: return 0;
@@ -46,7 +37,7 @@ export default function Shop() {
     });
 
     return groups;
-  }, [activeCat, query, priceRange, sort]);
+  }, [activeCat, query, sort]);
 
   const allCats = ["All", ...categories.map((c) => c.slug)];
 
@@ -81,59 +72,32 @@ export default function Shop() {
               />
             </div>
 
+            {/* Category Dropdown */}
+            <div className="flex items-center gap-2">
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+              <select
+                value={activeCat}
+                onChange={(e) => setSearchParams(e.target.value === "All" ? {} : { cat: e.target.value })}
+                className="text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
+              >
+                <option value="All">All Categories</option>
+                {categories.map((c) => (
+                  <option key={c.slug} value={c.slug}>{c.name}</option>
+                ))}
+              </select>
+            </div>
+
             {/* Sort */}
             <div className="flex items-center gap-2">
-              <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground" />
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortOption)}
-                className="text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all appearance-none pr-8"
-                style={{ backgroundImage: "none" }}
+                className="text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
               >
-                <option value="a-z">A → Z</option>
-                <option value="z-a">Z → A</option>
                 <option value="price-low">Price: Low → High</option>
                 <option value="price-high">Price: High → Low</option>
               </select>
             </div>
-
-            {/* Price Range */}
-            <div className="flex items-center gap-4 min-w-[260px]">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <div className="flex-1">
-                <div className="flex justify-between mb-1.5">
-                  <span className="text-[10px] font-body font-semibold uppercase tracking-wider text-muted-foreground">Price</span>
-                  <span className="text-[10px] font-body font-semibold text-gold">
-                    ${priceRange[0]} — ${priceRange[1]}
-                  </span>
-                </div>
-                <Slider
-                  min={MIN_PRICE}
-                  max={MAX_PRICE}
-                  step={5}
-                  value={priceRange}
-                  onValueChange={(val) => setPriceRange(val as [number, number])}
-                  className="w-full"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ── Category Bar ── */}
-          <div className="flex flex-wrap gap-2 mb-10 reveal">
-            {allCats.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSearchParams(cat === "All" ? {} : { cat })}
-                className={`text-xs uppercase tracking-wider font-body font-semibold px-4 py-2 rounded-full border transition-all ${
-                  activeCat === cat
-                    ? "bg-gold text-navy-deep border-gold"
-                    : "border-border text-muted-foreground hover:border-gold/40 hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
           </div>
 
           {/* ── Product Count ── */}
