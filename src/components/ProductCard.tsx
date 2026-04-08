@@ -71,7 +71,7 @@ export default function ProductCard({ product, variants }: Props) {
                 Add
               </button>
               <Link
-                to="/shop"
+                to={`/product/${getProductSlug(selected)}`}
                 className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-gold hover:border-gold hover:bg-gold/5 transition-all duration-300"
               >
                 <ArrowRight className="h-3.5 w-3.5" />
