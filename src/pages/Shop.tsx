@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Search } from "lucide-react";
 import { allProducts, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -7,12 +8,17 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCat = searchParams.get("cat") || "All";
+  const [query, setQuery] = useState("");
   const revealRef = useScrollReveal();
 
   const filtered = useMemo(() => {
-    if (activeCat === "All") return allProducts;
-    return allProducts.filter((p) => p.category === activeCat);
-  }, [activeCat]);
+    let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      items = items.filter((p) => p.name.toLowerCase().includes(q));
+    }
+    return items;
+  }, [activeCat, query]);
 
   const allCats = ["All", ...categories.map((c) => c.slug)];
 
@@ -32,6 +38,18 @@ export default function Shop() {
 
       <section className="py-12 lg:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
+          {/* Search */}
+          <div className="relative max-w-md mb-8 reveal">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search peptides..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-full border border-border bg-background text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 transition-all"
+            />
+          </div>
+
           {/* Filters */}
           <div className="flex flex-wrap gap-2 mb-10 reveal">
             {allCats.map((cat) => (
