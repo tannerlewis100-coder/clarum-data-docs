@@ -1,7 +1,22 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { toast } from "sonner";
+import { Mail, Phone, MapPin, Clock, ArrowRight, Send } from "lucide-react";
+
+const contactInfo = [
+  { icon: Mail, label: "Email", value: "support@tpeptides.com", href: "mailto:support@tpeptides.com" },
+  { icon: Phone, label: "Phone", value: "1-800-PEPTIDE", href: "tel:1800737843" },
+  { icon: MapPin, label: "Location", value: "United States" },
+  { icon: Clock, label: "Business Hours", value: "Mon – Fri: 9AM – 5PM EST" },
+];
+
+const quickLinks = [
+  { label: "Frequently Asked Questions", to: "/faq" },
+  { label: "About Us", to: "/about" },
+  { label: "Browse Products", to: "/shop" },
+];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -9,58 +24,187 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmed = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      subject: form.subject.trim(),
+      message: form.message.trim(),
+    };
+    if (!trimmed.name || !trimmed.email || !trimmed.subject || !trimmed.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
     toast.success("Message sent! We'll be in touch soon.");
     setForm({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
     <div ref={revealRef}>
-      <section className="bg-navy gold-line-texture pt-28 pb-16">
-        <div className="container mx-auto px-4 lg:px-8 text-center">
-          <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">Get in Touch</span>
-          <h1 className="text-4xl lg:text-5xl font-display text-primary-foreground mt-2">
-            Contact Us
+      {/* Hero */}
+      <section className="relative bg-navy overflow-hidden pt-32 pb-20">
+        <div className="absolute inset-0 gold-line-texture" />
+        <div className="absolute top-1/3 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-[120px]" />
+        <div className="relative container mx-auto px-4 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 justify-center mb-4">
+            <span className="h-px w-8 bg-gold/40" />
+            <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Contact</span>
+            <span className="h-px w-8 bg-gold/40" />
+          </div>
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-display text-primary-foreground leading-tight mb-4">
+            Get in Touch
           </h1>
+          <p className="text-primary-foreground/40 font-body text-lg max-w-md mx-auto">
+            We typically respond within 24–48 business hours.
+          </p>
         </div>
       </section>
 
-      <section className="py-12 lg:py-20 bg-background">
-        <div className="container mx-auto px-4 lg:px-8 max-w-xl reveal">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {[
-              { label: "Name", key: "name", type: "text" },
-              { label: "Email", key: "email", type: "email" },
-              { label: "Subject", key: "subject", type: "text" },
-            ].map((field) => (
-              <div key={field.key}>
-                <label className="text-xs uppercase tracking-wider text-muted-foreground font-body font-semibold block mb-1.5">
-                  {field.label}
-                </label>
-                <input
-                  type={field.type}
-                  required
-                  value={form[field.key as keyof typeof form]}
-                  onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
-                  className="w-full px-4 py-3 rounded-[6px] border border-border bg-card text-foreground font-body text-sm focus:outline-none focus:border-gold/40 transition-colors"
-                />
+      {/* Content */}
+      <section className="relative py-20 lg:py-28 bg-background overflow-hidden">
+        <div className="absolute bottom-20 left-0 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
+        <div className="relative container mx-auto px-4 lg:px-8">
+          <div className="flex flex-col lg:flex-row gap-14 lg:gap-20">
+
+            {/* Left – Contact Info */}
+            <div className="lg:w-[380px] shrink-0 reveal">
+              {/* Info cards */}
+              <div className="space-y-5 mb-10">
+                {contactInfo.map((item) => (
+                  <div key={item.label} className="group flex items-start gap-4">
+                    <div className="w-11 h-11 rounded-xl bg-secondary border border-border flex items-center justify-center shrink-0 group-hover:border-gold/30 transition-colors">
+                      <item.icon className="h-5 w-5 text-gold/70" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground font-body font-semibold mb-0.5">{item.label}</p>
+                      {item.href ? (
+                        <a href={item.href} className="text-sm font-body text-foreground hover:text-gold transition-colors">
+                          {item.value}
+                        </a>
+                      ) : (
+                        <p className="text-sm font-body text-foreground">{item.value}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-            <div>
-              <label className="text-xs uppercase tracking-wider text-muted-foreground font-body font-semibold block mb-1.5">
-                Message
-              </label>
-              <textarea
-                required
-                rows={5}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="w-full px-4 py-3 rounded-[6px] border border-border bg-card text-foreground font-body text-sm focus:outline-none focus:border-gold/40 transition-colors resize-none"
-              />
+
+              {/* Divider */}
+              <div className="h-px bg-gradient-to-r from-border via-gold/15 to-transparent mb-10" />
+
+              {/* Follow Us */}
+              <div className="mb-10">
+                <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground font-body font-semibold mb-4">Follow Us</p>
+                <div className="flex items-center gap-3">
+                  {["Instagram", "X / Twitter", "Reddit"].map((platform) => (
+                    <span
+                      key={platform}
+                      className="text-xs font-body text-muted-foreground bg-secondary border border-border rounded-lg px-4 py-2 hover:border-gold/30 hover:text-gold transition-all duration-300 cursor-pointer"
+                    >
+                      {platform}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quick Links */}
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground font-body font-semibold mb-4">Quick Links</p>
+                <div className="space-y-2.5">
+                  {quickLinks.map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className="group/link flex items-center gap-2 text-sm font-body text-foreground hover:text-gold transition-colors"
+                    >
+                      <ArrowRight className="h-3.5 w-3.5 text-gold/50 group-hover/link:translate-x-0.5 transition-transform" />
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
-            <Button variant="gold" size="lg" type="submit" className="w-full">
-              Send Message
-            </Button>
-          </form>
+
+            {/* Right – Form */}
+            <div className="flex-1 reveal">
+              <div className="relative group/form">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-gold/10 via-transparent to-transparent opacity-0 group-hover/form:opacity-100 transition-opacity duration-500 blur-sm" />
+                <div className="relative bg-card border border-border rounded-2xl p-8 lg:p-10">
+                  <h2 className="text-2xl lg:text-3xl font-display text-foreground mb-2">Send Us a Message</h2>
+                  <p className="text-sm text-muted-foreground font-body mb-8">
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </p>
+
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground font-body font-semibold block mb-2">
+                          Full Name <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          maxLength={100}
+                          placeholder="John Doe"
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground font-body text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground font-body font-semibold block mb-2">
+                          Email Address <span className="text-gold">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          maxLength={255}
+                          placeholder="john@example.com"
+                          value={form.email}
+                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground font-body text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground font-body font-semibold block mb-2">
+                        Subject <span className="text-gold">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        maxLength={200}
+                        placeholder="How can we help you?"
+                        value={form.subject}
+                        onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground font-body text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] uppercase tracking-[0.12em] text-muted-foreground font-body font-semibold block mb-2">
+                        Message <span className="text-gold">*</span>
+                      </label>
+                      <textarea
+                        required
+                        rows={5}
+                        maxLength={2000}
+                        placeholder="Please provide details about your inquiry..."
+                        value={form.message}
+                        onChange={(e) => setForm({ ...form, message: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground font-body text-sm placeholder:text-muted-foreground/40 focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all resize-none"
+                      />
+                    </div>
+
+                    <Button variant="gold" size="lg" type="submit" className="w-full shadow-[0_0_25px_-5px_hsl(40_50%_56%/0.3)] hover:shadow-[0_0_35px_-5px_hsl(40_50%_56%/0.5)] transition-shadow">
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Message
+                    </Button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
