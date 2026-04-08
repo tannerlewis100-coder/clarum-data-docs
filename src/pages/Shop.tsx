@@ -22,8 +22,6 @@ export default function Shop() {
       items = items.filter((p) => p.name.toLowerCase().includes(q));
     }
 
-    // Price filter (check if any variant falls in range)
-    items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     const groups = groupProducts(items);
 
@@ -39,7 +37,7 @@ export default function Shop() {
     });
 
     return groups;
-  }, [activeCat, query, priceRange, sort]);
+  }, [activeCat, query, sort]);
 
   const allCats = ["All", ...categories.map((c) => c.slug)];
 
