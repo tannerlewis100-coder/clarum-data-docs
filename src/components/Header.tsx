@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingCart } from "lucide-react";
+import clarumLogo from "@/assets/clarum-logo.png";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 
@@ -45,9 +46,8 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bg}`}>
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
         {/* Logo */}
-        <Link to="/" className="flex flex-col leading-none">
-          <span className="font-display text-2xl tracking-[0.12em] text-primary-foreground">CLARUM</span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-body font-medium">Pharmaceutical Peptides</span>
+        <Link to="/" className="flex items-center">
+          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-10" />
         </Link>
 
         {/* Desktop Nav */}
