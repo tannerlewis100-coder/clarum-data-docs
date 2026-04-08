@@ -5,81 +5,116 @@ export interface Product {
   category: string;
   dosage: string;
   categoryColor: string;
+  coaBatch: string;
 }
 
-export const featuredProducts: Product[] = [
-  { id: "bpc-157", name: "BPC-157", price: 119, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "tb-500", name: "TB-500", price: 159, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "semax", name: "Semax", price: 79, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "ghk-cu", name: "GHK-Cu", price: 95, category: "GHK-Cu", dosage: "50mg", categoryColor: "280 60% 55%" },
-  { id: "epitalon", name: "Epitalon", price: 115, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "nad-plus", name: "NAD+", price: 229, category: "NAD+", dosage: "500mg", categoryColor: "45 80% 55%" },
-  { id: "mots-c", name: "MOTS-c", price: 219, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "klow-blend", name: "KLOW Blend", price: 219, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-];
+// Category color tokens (HSL values)
+const CAT = {
+  Recovery: "22 90% 55%",
+  Longevity: "160 60% 45%",
+  "GHK-Cu": "280 60% 55%",
+  Cognitive: "200 80% 55%",
+  "NAD+": "45 80% 55%",
+  Blends: "340 60% 55%",
+  Immune: "170 50% 45%",
+  "Growth Hormone": "260 50% 55%",
+  Sexual: "350 65% 55%",
+} as const;
 
 export const allProducts: Product[] = [
-  ...featuredProducts,
-  { id: "selank", name: "Selank", price: 69, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "dsip", name: "DSIP", price: 89, category: "Cognitive", dosage: "5mg", categoryColor: "200 80% 55%" },
-  { id: "foxo4-dri", name: "FOXO4-DRI", price: 349, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "glutathione", name: "Glutathione", price: 79, category: "NAD+", dosage: "200mg", categoryColor: "45 80% 55%" },
-  { id: "aicar", name: "AICAR", price: 189, category: "NAD+", dosage: "50mg", categoryColor: "45 80% 55%" },
-  { id: "wolverine", name: "Wolverine Blend", price: 259, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "4x-mic", name: "4X MIC", price: 179, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "glow-blend", name: "GLOW Blend", price: 199, category: "GHK-Cu", dosage: "", categoryColor: "280 60% 55%" },
-  { id: "ipamorelin", name: "Ipamorelin", price: 89, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "cjc-1295", name: "CJC-1295", price: 99, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "pt-141", name: "PT-141", price: 69, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "thymosin-alpha", name: "Thymosin Alpha-1", price: 139, category: "Longevity", dosage: "5mg", categoryColor: "160 60% 45%" },
-  { id: "ss-31", name: "SS-31", price: 199, category: "Longevity", dosage: "5mg", categoryColor: "160 60% 45%" },
-  { id: "dihexa", name: "Dihexa", price: 149, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "noopept", name: "Noopept", price: 59, category: "Cognitive", dosage: "20mg", categoryColor: "200 80% 55%" },
-  { id: "cerebrolysin", name: "Cerebrolysin", price: 179, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "igf-1-lr3", name: "IGF-1 LR3", price: 199, category: "Recovery", dosage: "1mg", categoryColor: "22 90% 55%" },
-  { id: "mgf", name: "MGF", price: 129, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "follistatin", name: "Follistatin 344", price: 289, category: "Recovery", dosage: "1mg", categoryColor: "22 90% 55%" },
-  { id: "aod-9604", name: "AOD-9604", price: 79, category: "NAD+", dosage: "5mg", categoryColor: "45 80% 55%" },
-  { id: "tesamorelin", name: "Tesamorelin", price: 189, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "hexarelin", name: "Hexarelin", price: 79, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "ghrp-6", name: "GHRP-6", price: 69, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "ghrp-2", name: "GHRP-2", price: 69, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "sermorelin", name: "Sermorelin", price: 99, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "kisspeptin", name: "Kisspeptin-10", price: 119, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "melanotan-ii", name: "Melanotan II", price: 59, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "snap-8", name: "SNAP-8", price: 89, category: "GHK-Cu", dosage: "50mg", categoryColor: "280 60% 55%" },
-  { id: "copper-peptide", name: "Copper Peptide AHK", price: 99, category: "GHK-Cu", dosage: "50mg", categoryColor: "280 60% 55%" },
-  { id: "thymalin", name: "Thymalin", price: 149, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "pinealon", name: "Pinealon", price: 89, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "vilon", name: "Vilon", price: 89, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "epithalon-nasal", name: "Epithalon Nasal", price: 139, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "nad-nasal", name: "NAD+ Nasal", price: 199, category: "NAD+", dosage: "250mg", categoryColor: "45 80% 55%" },
-  { id: "nmn", name: "NMN", price: 149, category: "NAD+", dosage: "500mg", categoryColor: "45 80% 55%" },
-  { id: "resveratrol", name: "Resveratrol", price: 79, category: "NAD+", dosage: "500mg", categoryColor: "45 80% 55%" },
-  { id: "fisetin", name: "Fisetin", price: 89, category: "Longevity", dosage: "500mg", categoryColor: "160 60% 45%" },
-  { id: "rapamycin", name: "Rapamycin Analog", price: 299, category: "Longevity", dosage: "5mg", categoryColor: "160 60% 45%" },
-  { id: "dasatinib", name: "Dasatinib Analog", price: 249, category: "Longevity", dosage: "10mg", categoryColor: "160 60% 45%" },
-  { id: "quercetin", name: "Quercetin", price: 59, category: "Longevity", dosage: "500mg", categoryColor: "160 60% 45%" },
-  { id: "p21", name: "P21", price: 159, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "cortagen", name: "Cortagen", price: 99, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "na-selank", name: "NA-Selank", price: 99, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "na-semax", name: "NA-Semax", price: 99, category: "Cognitive", dosage: "10mg", categoryColor: "200 80% 55%" },
-  { id: "bpc-tb-blend", name: "BPC + TB Blend", price: 249, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "recovery-stack", name: "Recovery Stack", price: 289, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "longevity-stack", name: "Longevity Stack", price: 319, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "cognitive-stack", name: "Cognitive Stack", price: 259, category: "Blends", dosage: "", categoryColor: "340 60% 55%" },
-  { id: "ll-37", name: "LL-37", price: 129, category: "Recovery", dosage: "5mg", categoryColor: "22 90% 55%" },
-  { id: "ta1-thymosin", name: "TA1", price: 149, category: "Longevity", dosage: "5mg", categoryColor: "160 60% 45%" },
-  { id: "pentosan", name: "Pentosan", price: 179, category: "Recovery", dosage: "10mg", categoryColor: "22 90% 55%" },
-  { id: "bpc-oral", name: "BPC-157 Oral", price: 89, category: "Recovery", dosage: "500mcg x 60", categoryColor: "22 90% 55%" },
-  { id: "ghk-cu-topical", name: "GHK-Cu Topical", price: 129, category: "GHK-Cu", dosage: "50ml", categoryColor: "280 60% 55%" },
+  // Recovery
+  { id: "bpc-157-5mg", name: "BPC-157", price: 59, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC5" },
+  { id: "bpc-157-10mg", name: "BPC-157", price: 119, category: "Recovery", dosage: "10mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC10" },
+  { id: "bpc-157-20mg", name: "BPC-157", price: 179, category: "Recovery", dosage: "20mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC20" },
+  { id: "tb-500-5mg", name: "Thymosin Beta 4 / TB-500", price: 89, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-TB5" },
+  { id: "tb-500-10mg", name: "Thymosin Beta 4 / TB-500", price: 159, category: "Recovery", dosage: "10mg", categoryColor: CAT.Recovery, coaBatch: "2406-TB10" },
+  { id: "ll-37", name: "LL-37", price: 129, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-LL37" },
+
+  // Longevity
+  { id: "epitalon-10mg", name: "Epitalon", price: 115, category: "Longevity", dosage: "10mg", categoryColor: CAT.Longevity, coaBatch: "2406-EPI10" },
+  { id: "epitalon-50mg", name: "Epitalon", price: 165, category: "Longevity", dosage: "50mg", categoryColor: CAT.Longevity, coaBatch: "2406-EPI50" },
+  { id: "na-epitalon", name: "N-Acetyl Epitalon Amidate", price: 115, category: "Longevity", dosage: "5mg", categoryColor: CAT.Longevity, coaBatch: "2406-NAEP" },
+  { id: "mots-c-10mg", name: "MOTS-c", price: 219, category: "Longevity", dosage: "10mg", categoryColor: CAT.Longevity, coaBatch: "2406-MOT10" },
+  { id: "mots-c-40mg", name: "MOTS-c", price: 219, category: "Longevity", dosage: "40mg", categoryColor: CAT.Longevity, coaBatch: "2406-MOT40" },
+  { id: "foxo4", name: "FOXO4", price: 349, category: "Longevity", dosage: "10mg", categoryColor: CAT.Longevity, coaBatch: "2406-FOX4" },
+  { id: "gdf-8", name: "GDF-8 / Myostatin", price: 249, category: "Longevity", dosage: "1mg", categoryColor: CAT.Longevity, coaBatch: "2406-GDF8" },
+  { id: "pinealon", name: "Pinealon", price: 135, category: "Longevity", dosage: "20mg", categoryColor: CAT.Longevity, coaBatch: "2406-PIN" },
+  { id: "ss-31-10mg", name: "SS-31", price: 139, category: "Longevity", dosage: "10mg", categoryColor: CAT.Longevity, coaBatch: "2406-SS10" },
+  { id: "ss-31-50mg", name: "SS-31", price: 279, category: "Longevity", dosage: "50mg", categoryColor: CAT.Longevity, coaBatch: "2406-SS50" },
+  { id: "thymalin", name: "Thymalin", price: 149, category: "Longevity", dosage: "10mg", categoryColor: CAT.Longevity, coaBatch: "2406-THYM" },
+
+  // GHK-Cu & Skin
+  { id: "ghk-cu-50mg", name: "GHK-Cu", price: 95, category: "GHK-Cu", dosage: "50mg", categoryColor: CAT["GHK-Cu"], coaBatch: "2406-GHK50" },
+  { id: "ghk-cu-100mg", name: "GHK-Cu", price: 149, category: "GHK-Cu", dosage: "100mg", categoryColor: CAT["GHK-Cu"], coaBatch: "2406-GHK100" },
+  { id: "snap-8", name: "Snap-8", price: 115, category: "GHK-Cu", dosage: "10mg", categoryColor: CAT["GHK-Cu"], coaBatch: "2406-SNAP" },
+
+  // Cognitive & Sleep
+  { id: "semax", name: "Semax", price: 79, category: "Cognitive", dosage: "10mg", categoryColor: CAT.Cognitive, coaBatch: "2406-SEM" },
+  { id: "selank", name: "Selank", price: 79, category: "Cognitive", dosage: "10mg", categoryColor: CAT.Cognitive, coaBatch: "2406-SEL" },
+  { id: "dsip-5mg", name: "DSIP", price: 89, category: "Cognitive", dosage: "5mg", categoryColor: CAT.Cognitive, coaBatch: "2406-DSIP5" },
+  { id: "dsip-15mg", name: "DSIP", price: 129, category: "Cognitive", dosage: "15mg", categoryColor: CAT.Cognitive, coaBatch: "2406-DSIP15" },
+
+  // NAD+ & Metabolic
+  { id: "nad-500mg", name: "NAD+", price: 229, category: "NAD+", dosage: "500mg", categoryColor: CAT["NAD+"], coaBatch: "2406-NAD500" },
+  { id: "nad-1000mg", name: "NAD+", price: 329, category: "NAD+", dosage: "1000mg", categoryColor: CAT["NAD+"], coaBatch: "2406-NAD1K" },
+  { id: "nad-bio", name: "NAD+ Biofermented", price: 259, category: "NAD+", dosage: "1000mg · 5ml Vial", categoryColor: CAT["NAD+"], coaBatch: "2406-NADBIO" },
+  { id: "5a1mq-5mg", name: "5-Amino-1MQ", price: 65, category: "NAD+", dosage: "5mg", categoryColor: CAT["NAD+"], coaBatch: "2406-5A5" },
+  { id: "5a1mq-50mg", name: "5-Amino-1MQ", price: 229, category: "NAD+", dosage: "50mg", categoryColor: CAT["NAD+"], coaBatch: "2406-5A50" },
+  { id: "aicar", name: "AICAR", price: 139, category: "NAD+", dosage: "50mg", categoryColor: CAT["NAD+"], coaBatch: "2406-AIC" },
+  { id: "aod-9604", name: "AOD-9604", price: 125, category: "NAD+", dosage: "5mg", categoryColor: CAT["NAD+"], coaBatch: "2406-AOD" },
+  { id: "slu-pp-332", name: "SLU-PP-332", price: 119, category: "NAD+", dosage: "5mg", categoryColor: CAT["NAD+"], coaBatch: "2406-SLU" },
+  { id: "glutathione-600mg", name: "Glutathione", price: 89, category: "NAD+", dosage: "600mg", categoryColor: CAT["NAD+"], coaBatch: "2406-GLU6" },
+  { id: "glutathione-1500mg", name: "Glutathione", price: 165, category: "NAD+", dosage: "1500mg", categoryColor: CAT["NAD+"], coaBatch: "2406-GLU15" },
+  { id: "b12", name: "B12", price: 99, category: "NAD+", dosage: "10ml", categoryColor: CAT["NAD+"], coaBatch: "2406-B12" },
+
+  // Immune & Anti-Inflammatory
+  { id: "cagrilintide", name: "Cagrilintide", price: 159, category: "Immune", dosage: "10mg", categoryColor: CAT.Immune, coaBatch: "2406-CAG" },
+  { id: "kpv", name: "KPV / Lysine-Proline-Valine", price: 129, category: "Immune", dosage: "10mg", categoryColor: CAT.Immune, coaBatch: "2406-KPV" },
+  { id: "ara-290", name: "ARA-290", price: 159, category: "Immune", dosage: "10mg", categoryColor: CAT.Immune, coaBatch: "2406-ARA" },
+  { id: "vip10", name: "VIP10", price: 199, category: "Immune", dosage: "10mg", categoryColor: CAT.Immune, coaBatch: "2406-VIP" },
+  { id: "ta-1", name: "Thymosin Alpha 1 / TA-1", price: 139, category: "Immune", dosage: "10mg", categoryColor: CAT.Immune, coaBatch: "2406-TA1" },
+
+  // Growth Hormone
+  { id: "cjc-nodac", name: "CJC-1295 Without DAC", price: 99, category: "Growth Hormone", dosage: "10mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-CJCND" },
+  { id: "cjc-dac", name: "CJC-1295 With DAC", price: 109, category: "Growth Hormone", dosage: "5mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-CJCD" },
+  { id: "ipamorelin", name: "Ipamorelin", price: 129, category: "Growth Hormone", dosage: "10mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-IPA" },
+  { id: "ghrp-6-5mg", name: "GHRP-6 Acetate", price: 99, category: "Growth Hormone", dosage: "5mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-GH65" },
+  { id: "ghrp-6-10mg", name: "GHRP-6 Acetate", price: 129, category: "Growth Hormone", dosage: "10mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-GH610" },
+  { id: "hexarelin", name: "Hexarelin Acetate", price: 139, category: "Growth Hormone", dosage: "5mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-HEX" },
+  { id: "sermorelin", name: "Sermorelin", price: 115, category: "Growth Hormone", dosage: "10mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-SER" },
+  { id: "tesamorelin-10mg", name: "Tesamorelin", price: 165, category: "Growth Hormone", dosage: "10mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-TES10" },
+  { id: "tesamorelin-20mg", name: "Tesamorelin", price: 299, category: "Growth Hormone", dosage: "20mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-TES20" },
+  { id: "igf-1-lr3", name: "IGF-1 LR3", price: 189, category: "Growth Hormone", dosage: "1mg", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-IGF" },
+  { id: "hcg", name: "HCG", price: 189, category: "Growth Hormone", dosage: "10000iu", categoryColor: CAT["Growth Hormone"], coaBatch: "2406-HCG" },
+
+  // Sexual Health
+  { id: "pt-141", name: "PT-141", price: 129, category: "Sexual Health", dosage: "10mg", categoryColor: CAT.Sexual, coaBatch: "2406-PT14" },
+  { id: "kisspeptin", name: "Kisspeptin", price: 129, category: "Sexual Health", dosage: "10mg", categoryColor: CAT.Sexual, coaBatch: "2406-KISS" },
+  { id: "melanotan-ii", name: "Melanotan II", price: 115, category: "Sexual Health", dosage: "10mg", categoryColor: CAT.Sexual, coaBatch: "2406-MEL2" },
+
+  // Blends & Stacks
+  { id: "wolverine-5mg", name: "Wolverine Blend — BPC-157 + TB-500", price: 109, category: "Blends", dosage: "5mg each", categoryColor: CAT.Blends, coaBatch: "2406-WLV5" },
+  { id: "wolverine-10mg", name: "Wolverine Blend — BPC-157 + TB-500", price: 199, category: "Blends", dosage: "10mg each", categoryColor: CAT.Blends, coaBatch: "2406-WLV10" },
+  { id: "cjc-ipa-blend", name: "CJC-1295 NoDac + Ipamorelin 2X Blend", price: 105, category: "Blends", dosage: "5mg each", categoryColor: CAT.Blends, coaBatch: "2406-CJIP" },
+  { id: "glow-blend", name: "GLOW Blend — GHK-Cu + BPC-157 + TB-500", price: 279, category: "Blends", dosage: "50mg + 10mg + 10mg", categoryColor: CAT.Blends, coaBatch: "2406-GLOW" },
+  { id: "klow-blend", name: "KLOW Blend — GHK-Cu + KPV + BPC-157 + TB-500", price: 219, category: "Blends", dosage: "", categoryColor: CAT.Blends, coaBatch: "2406-KLOW" },
+  { id: "4x-mic", name: "4X MIC Blend", price: 195, category: "Blends", dosage: "", categoryColor: CAT.Blends, coaBatch: "2406-4MIC" },
+  { id: "8x-lipo", name: "8X Lipotropic Blend", price: 175, category: "Blends", dosage: "", categoryColor: CAT.Blends, coaBatch: "2406-8LIP" },
 ];
 
+// Featured products shown on homepage
+export const featuredProducts: Product[] = allProducts.filter((p) =>
+  ["bpc-157-10mg", "tb-500-10mg", "epitalon-10mg", "mots-c-10mg", "ghk-cu-50mg", "nad-500mg", "klow-blend", "wolverine-10mg"].includes(p.id)
+);
+
 export const categories = [
-  { name: "Recovery & Performance", emoji: "💪", examples: "BPC-157, TB-500", slug: "Recovery" },
+  { name: "Recovery & Performance", emoji: "💪", examples: "BPC-157, TB-500, LL-37", slug: "Recovery" },
   { name: "Longevity & Anti-Aging", emoji: "⏳", examples: "Epitalon, MOTS-c, FOXO4", slug: "Longevity" },
-  { name: "GHK-Cu & Radiance", emoji: "✨", examples: "GHK-Cu 50mg, GLOW Blend", slug: "GHK-Cu" },
+  { name: "GHK-Cu & Radiance", emoji: "✨", examples: "GHK-Cu, Snap-8", slug: "GHK-Cu" },
   { name: "Cognitive & Sleep", emoji: "🧠", examples: "Semax, Selank, DSIP", slug: "Cognitive" },
-  { name: "NAD+ & Metabolic", emoji: "⚡", examples: "NAD+, Glutathione, AICAR", slug: "NAD+" },
-  { name: "Blends & Stacks", emoji: "🔬", examples: "KLOW, Wolverine, 4X MIC", slug: "Blends" },
+  { name: "NAD+ & Metabolic", emoji: "⚡", examples: "NAD+, AICAR, Glutathione", slug: "NAD+" },
+  { name: "Immune & Anti-Inflammatory", emoji: "🛡️", examples: "KPV, ARA-290, TA-1", slug: "Immune" },
+  { name: "Growth Hormone", emoji: "📈", examples: "CJC-1295, Ipamorelin, HCG", slug: "Growth Hormone" },
+  { name: "Sexual Health", emoji: "💎", examples: "PT-141, Kisspeptin", slug: "Sexual Health" },
+  { name: "Blends & Stacks", emoji: "🔬", examples: "Wolverine, GLOW, KLOW", slug: "Blends" },
 ];
