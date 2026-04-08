@@ -6,49 +6,49 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 220 40% 12%;
+    --background: 210 20% 98%;
+    --foreground: 215 45% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 40% 12%;
+    --card: 210 25% 99%;
+    --card-foreground: 215 45% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 40% 12%;
+    --popover: 210 25% 99%;
+    --popover-foreground: 215 45% 8%;
 
-    --primary: 220 50% 12%;
-    --primary-foreground: 40 5% 98%;
+    --primary: 215 50% 7%;
+    --primary-foreground: 45 10% 96%;
 
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 50% 12%;
+    --secondary: 210 18% 95%;
+    --secondary-foreground: 215 45% 8%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 210 15% 94%;
+    --muted-foreground: 215 12% 50%;
 
-    --accent: 40 50% 56%;
-    --accent-foreground: 220 50% 12%;
+    --accent: 38 55% 52%;
+    --accent-foreground: 215 50% 7%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 40 50% 56%;
+    --border: 210 16% 90%;
+    --input: 210 16% 90%;
+    --ring: 38 55% 52%;
     --radius: 1.25rem;
 
-    /* Brand tokens */
-    --navy: 220 50% 12%;
-    --navy-deep: 220 55% 8%;
-    --gold: 40 50% 56%;
-    --gold-light: 40 45% 70%;
-    --off-white: 220 20% 97%;
-    --white-pure: 0 0% 98%;
+    /* Brand tokens — richer, darker navy + warmer champagne gold */
+    --navy: 218 55% 7%;
+    --navy-deep: 220 60% 4%;
+    --gold: 38 55% 52%;
+    --gold-light: 36 50% 68%;
+    --off-white: 210 20% 98%;
+    --white-pure: 0 0% 99%;
 
     /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(40 50% 56%), hsl(40 45% 70%));
+    --gradient-gold: linear-gradient(135deg, hsl(38 55% 52%), hsl(36 50% 68%));
 
     /* Shadows */
-    --shadow-card: 0 4px 24px -4px hsl(220 50% 12% / 0.08);
-    --shadow-card-hover: 0 12px 40px -8px hsl(40 50% 56% / 0.25);
+    --shadow-card: 0 4px 24px -4px hsl(218 55% 7% / 0.06);
+    --shadow-card-hover: 0 12px 40px -8px hsl(38 55% 52% / 0.2);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -56,38 +56,38 @@
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 210 16% 90%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 220 55% 8%;
+    --background: 220 60% 4%;
     --foreground: 0 0% 98%;
-    --card: 220 50% 12%;
+    --card: 218 55% 7%;
     --card-foreground: 0 0% 98%;
-    --popover: 220 50% 12%;
+    --popover: 218 55% 7%;
     --popover-foreground: 0 0% 98%;
-    --primary: 40 50% 56%;
-    --primary-foreground: 220 50% 12%;
-    --secondary: 220 40% 16%;
+    --primary: 38 55% 52%;
+    --primary-foreground: 218 55% 7%;
+    --secondary: 220 45% 12%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 220 40% 16%;
-    --muted-foreground: 220 10% 65%;
-    --accent: 40 50% 56%;
-    --accent-foreground: 220 50% 12%;
+    --muted: 220 45% 12%;
+    --muted-foreground: 215 12% 60%;
+    --accent: 38 55% 52%;
+    --accent-foreground: 218 55% 7%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 40% 18%;
-    --input: 220 40% 18%;
-    --ring: 40 50% 56%;
-    --sidebar-background: 220 55% 8%;
+    --border: 220 40% 14%;
+    --input: 220 40% 14%;
+    --ring: 38 55% 52%;
+    --sidebar-background: 220 60% 4%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 40 50% 56%;
-    --sidebar-primary-foreground: 220 50% 12%;
-    --sidebar-accent: 220 40% 16%;
+    --sidebar-primary: 38 55% 52%;
+    --sidebar-primary-foreground: 218 55% 7%;
+    --sidebar-accent: 220 45% 12%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 40% 16%;
-    --sidebar-ring: 40 50% 56%;
+    --sidebar-border: 220 40% 14%;
+    --sidebar-ring: 38 55% 52%;
   }
 }
 
@@ -105,14 +105,14 @@
 
 /* Gold dot grid texture overlay */
 .gold-grid-texture {
-  background-image: radial-gradient(circle, hsl(40 50% 56% / 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(circle, hsl(38 55% 52% / 0.035) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .gold-line-texture {
   background-image:
-    linear-gradient(hsl(40 50% 56% / 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(40 50% 56% / 0.04) 1px, transparent 1px);
+    linear-gradient(hsl(38 55% 52% / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(38 55% 52% / 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -138,7 +138,7 @@
 
 /* Frosted glass */
 .frosted-glass {
-  background: hsl(220 50% 12% / 0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid hsl(40 50% 56% / 0.15);
+  background: hsl(218 55% 7% / 0.65);
+  backdrop-filter: blur(24px);
+  border: 1px solid hsl(38 55% 52% / 0.12);
 }
