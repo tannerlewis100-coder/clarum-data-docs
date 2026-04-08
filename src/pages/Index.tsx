@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { featuredProducts, categories } from "@/data/products";
+import { featuredProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles } from "lucide-react";
 
@@ -364,8 +364,8 @@ export default function Index() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
-            {featuredProducts.map((p) => (
-              <ProductCard key={p.id} product={p} />
+            {groupProducts(featuredProducts).map(([first, variants]) => (
+              <ProductCard key={first.id} product={first} variants={variants} />
             ))}
           </div>
           <div className="text-center mt-12 reveal">

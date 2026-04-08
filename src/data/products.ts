@@ -102,6 +102,18 @@ export const allProducts: Product[] = [
   { id: "8x-lipo", name: "8X Lipotropic Blend", price: 175, category: "Blends", dosage: "", categoryColor: CAT.Blends, coaBatch: "2406-8LIP" },
 ];
 
+/** Group products by name+category into variant sets. Returns [firstProduct, allVariants][] */
+export function groupProducts(products: Product[]): [Product, Product[]][] {
+  const map = new Map<string, Product[]>();
+  for (const p of products) {
+    const key = `${p.name}|||${p.category}`;
+    const arr = map.get(key) || [];
+    arr.push(p);
+    map.set(key, arr);
+  }
+  return Array.from(map.values()).map((variants) => [variants[0], variants]);
+}
+
 // Featured products shown on homepage
 export const featuredProducts: Product[] = allProducts.filter((p) =>
   ["bpc-157-10mg", "tb-500-10mg", "epitalon-10mg", "mots-c-10mg", "ghk-cu-50mg", "nad-500mg", "klow-blend", "wolverine-10mg"].includes(p.id)
