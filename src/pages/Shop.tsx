@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Search } from "lucide-react";
 import { allProducts, categories } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -7,12 +8,17 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCat = searchParams.get("cat") || "All";
+  const [query, setQuery] = useState("");
   const revealRef = useScrollReveal();
 
   const filtered = useMemo(() => {
-    if (activeCat === "All") return allProducts;
-    return allProducts.filter((p) => p.category === activeCat);
-  }, [activeCat]);
+    let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      items = items.filter((p) => p.name.toLowerCase().includes(q));
+    }
+    return items;
+  }, [activeCat, query]);
 
   const allCats = ["All", ...categories.map((c) => c.slug)];
 
