@@ -5,11 +5,8 @@ import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Shop", to: "/shop" },
-  { label: "Recovery", to: "/shop?cat=Recovery" },
-  { label: "Longevity", to: "/shop?cat=Longevity" },
-  { label: "GHK-Cu", to: "/shop?cat=GHK-Cu" },
-  { label: "Cognitive", to: "/shop?cat=Cognitive" },
-  { label: "NAD+", to: "/shop?cat=NAD+" },
+  { label: "FAQ", to: "/faq" },
+  { label: "Contact", to: "/contact" },
   { label: "COA Library", to: "/coa-library", accent: true },
 ];
 
