@@ -28,7 +28,7 @@ export default function Index() {
   return (
     <div ref={revealRef}>
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center bg-navy overflow-hidden">
+      <section className="relative min-h-[88vh] flex items-center bg-navy overflow-hidden">
         <div className="absolute inset-0 gold-line-texture" />
         <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-gold/[0.03] blur-[120px]" />
         <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.04] blur-[100px]" />
