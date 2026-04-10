@@ -88,11 +88,11 @@ export default function Header() {
       </div>
 
       {/* Trust Ticker - pinned right under nav */}
-      <div className="bg-navy-deep border-y border-primary-foreground/5 overflow-hidden py-2">
+      <div className="bg-gradient-to-r from-navy-deep via-navy to-navy-deep border-y border-gold/20 overflow-hidden py-2.5">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="mx-6 text-xs uppercase tracking-wider text-primary-foreground/30 font-body font-medium">
-              {item} <span className="text-gold/40 mx-2">·</span>
+            <span key={i} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+              {item} <span className="text-gold mx-3">✦</span>
             </span>
           ))}
         </div>
