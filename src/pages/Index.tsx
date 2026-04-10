@@ -252,7 +252,7 @@ export default function Index() {
       </section>
 
       {/* ===== BRAND STORY ===== */}
-      <section className="relative py-24 lg:py-32 bg-background overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
         <div className="absolute top-20 right-0 w-[300px] h-[300px] rounded-full bg-gold/[0.03] blur-[100px]" />
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 items-center">
@@ -261,15 +261,15 @@ export default function Index() {
                 <span className="h-px w-8 bg-gold/60" />
                 <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Why We Exist</span>
               </div>
-              <h2 className="text-3xl lg:text-[2.75rem] font-display text-foreground leading-[1.05] text-balance mb-8">
+              <h2 className="text-3xl lg:text-[2.75rem] font-display text-white leading-[1.05] text-balance mb-8">
                 The Market Lost Its Most Trusted Vendors.<br />
                 <span className="italic text-gold">We Built the Replacement.</span>
               </h2>
               <div className="space-y-5 mb-10">
-                <p className="text-muted-foreground font-body leading-relaxed">
+                <p className="text-white/60 font-body leading-relaxed">
                   2025 and 2026 saw more than eight research peptide vendors shut down — FDA raids, federal charges, overnight closures. Researchers who'd trusted the same suppliers for years were suddenly without a source.
                 </p>
-                <p className="text-muted-foreground font-body leading-relaxed">
+                <p className="text-white/60 font-body leading-relaxed">
                   Clarum was built for this moment. Not to fill a gap with the same shortcuts that got vendors shut down — but to set a new standard. Full-panel testing. Public COAs. Nothing hidden.
                 </p>
               </div>
@@ -282,9 +282,9 @@ export default function Index() {
               {brandStats.map((s) => (
                 <div key={s.num} className="group relative">
                   <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative bg-secondary border border-border rounded-2xl p-7 text-center h-full transition-all duration-300 group-hover:border-gold/30 group-hover:-translate-y-1">
-                    <p className="text-4xl lg:text-5xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent mb-3">{s.num}</p>
-                    <p className="text-xs text-muted-foreground font-body leading-relaxed">{s.label}</p>
+                  <div className="relative bg-white/[0.04] border border-white/10 rounded-2xl p-7 text-center h-full transition-all duration-300 group-hover:border-gold/30 group-hover:-translate-y-1">
+                    <p className="text-4xl lg:text-5xl font-display text-gold mb-3">{s.num}</p>
+                    <p className="text-xs text-white/40 font-body leading-relaxed">{s.label}</p>
                   </div>
                 </div>
               ))}
@@ -294,7 +294,7 @@ export default function Index() {
       </section>
 
       {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="relative py-24 lg:py-32 bg-background overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-offwhite overflow-hidden">
         <div className="absolute top-0 right-1/4 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14 reveal">
