@@ -7,6 +7,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import CartDrawer from "@/components/CartDrawer";
 import AgeGate from "@/components/AgeGate";
+import DiscountPopup from "@/components/DiscountPopup";
 import Footer from "@/components/Footer";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
