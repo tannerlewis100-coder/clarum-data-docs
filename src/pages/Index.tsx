@@ -34,7 +34,7 @@ export default function Index() {
         <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.04] blur-[100px]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
 
-        <div className="relative container mx-auto px-4 lg:px-8 pt-36 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-36 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <div className="flex-1 max-w-2xl">
             <div className="inline-flex items-center gap-2 mb-8">
               <span className="h-px w-8 bg-gold/60" />
@@ -132,7 +132,7 @@ export default function Index() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         <div className="absolute top-1/3 -left-40 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-[100px]" />
 
-        <div className="relative container mx-auto px-4 lg:px-8">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-16 reveal">
             <div className="inline-flex items-center gap-2 justify-center mb-4">
@@ -254,7 +254,7 @@ export default function Index() {
       {/* ===== BRAND STORY ===== */}
       <section className="relative py-24 lg:py-32 bg-background overflow-hidden">
         <div className="absolute top-20 right-0 w-[300px] h-[300px] rounded-full bg-gold/[0.03] blur-[100px]" />
-        <div className="container mx-auto px-4 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 items-center">
             <div className="flex-1 reveal">
               <div className="inline-flex items-center gap-2 mb-4">
@@ -296,7 +296,7 @@ export default function Index() {
       {/* ===== FEATURED PRODUCTS ===== */}
       <section className="relative py-24 lg:py-32 bg-background overflow-hidden">
         <div className="absolute top-0 right-1/4 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
-        <div className="relative container mx-auto px-4 lg:px-8">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-14 reveal">
             <div className="inline-flex items-center gap-2 justify-center mb-4">
               <span className="h-px w-8 bg-gold/40" />
@@ -327,7 +327,7 @@ export default function Index() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-gold/[0.04] blur-[120px]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
 
-        <div className="relative container mx-auto px-4 lg:px-8 text-center">
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="max-w-2xl mx-auto reveal">
             <Sparkles className="h-8 w-8 text-gold/50 mx-auto mb-6" />
             <h2 className="text-3xl lg:text-5xl font-display text-primary-foreground leading-tight mb-6">
