@@ -15,7 +15,7 @@ const navLinks = [
 
 const marqueeItems = [
   "HPLC ≥99% Purity Verified",
-  "Mass Spectrometry Identity Confirmed",
+  
   "Heavy Metals Tested — ND",
   "Microbial & Yeast Screened",
   "Endotoxin Tested (LAL Method)",
