@@ -28,6 +28,7 @@ const App = () => (
       <BrowserRouter>
         <CartProvider>
           <AgeGate />
+          <DiscountPopup />
           <Header />
           <CartDrawer />
           <main className="min-h-screen">
