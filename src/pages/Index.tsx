@@ -122,11 +122,11 @@ export default function Index() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy-deep to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy to-transparent" />
       </section>
 
       {/* ===== TESTING & COA TRANSPARENCY (Combined) ===== */}
-      <section className="relative py-24 lg:py-32 bg-navy-deep overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
         <div className="absolute inset-0 gold-grid-texture" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
@@ -200,8 +200,8 @@ export default function Index() {
             <div className="flex-1 max-w-md w-full">
               <div className="relative group">
                 <div className="absolute -inset-2 rounded-2xl bg-gradient-to-br from-gold/15 via-transparent to-emerald-500/10 blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="relative bg-navy-deep rounded-2xl overflow-hidden border border-primary-foreground/10 group-hover:border-gold/20 transition-colors duration-300">
-                  <div className="p-6 bg-gradient-to-r from-navy-deep to-navy">
+                <div className="relative bg-navy rounded-2xl overflow-hidden border border-primary-foreground/10 group-hover:border-gold/20 transition-colors duration-300">
+                  <div className="p-6 bg-gradient-to-r from-navy to-navy">
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="flex items-center gap-2 mb-1.5">

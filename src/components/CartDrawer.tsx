@@ -9,7 +9,7 @@ export default function CartDrawer() {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[80] bg-navy-deep/60 backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 z-[80] bg-navy/60 backdrop-blur-sm transition-opacity"
           onClick={closeCart}
         />
       )}
@@ -26,7 +26,7 @@ export default function CartDrawer() {
             <ShoppingBag className="h-5 w-5 text-gold" />
             <h2 className="font-display text-xl text-foreground">Your Cart</h2>
             {totalItems > 0 && (
-              <span className="text-[10px] font-body font-bold bg-gold text-navy-deep px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-body font-bold bg-gold text-navy px-2 py-0.5 rounded-full">
                 {totalItems}
               </span>
             )}
@@ -111,7 +111,7 @@ export default function CartDrawer() {
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
-            <button className="w-full py-3 rounded-lg bg-gold text-navy-deep font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors">
+            <button className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors">
               Checkout
             </button>
             <button
