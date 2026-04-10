@@ -72,7 +72,7 @@ export default function Header() {
             className="relative text-primary-foreground/80 hover:text-primary-foreground transition-colors"
           >
             <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -top-1.5 -right-1.5 bg-gold text-navy-deep text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-1.5 bg-gold text-navy text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
               {totalItems}
             </span>
           </button>
@@ -88,7 +88,7 @@ export default function Header() {
       </div>
 
       {/* Trust Ticker - pinned right under nav */}
-      <div className="bg-gradient-to-r from-navy-deep via-navy to-navy-deep border-y border-gold/20 overflow-hidden py-2.5">
+      <div className="bg-gradient-to-r from-navy via-navy to-navy border-y border-gold/20 overflow-hidden py-2.5">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
             <span key={i} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">

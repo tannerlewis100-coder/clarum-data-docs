@@ -17,7 +17,7 @@ export default function AgeGate() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-navy-deep/90 backdrop-blur-md">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-navy/90 backdrop-blur-md">
       <div className="relative mx-4 max-w-md w-full bg-card border border-gold/20 rounded-2xl p-8 text-center shadow-[0_30px_80px_-20px_hsl(40_50%_56%/0.15)]">
         {/* Gold accent line */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
@@ -38,7 +38,7 @@ export default function AgeGate() {
         <div className="flex flex-col gap-3">
           <button
             onClick={handleAccept}
-            className="w-full py-3 rounded-lg bg-gold text-navy-deep font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors"
+            className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors"
           >
             I Am 18 or Older — Enter
           </button>

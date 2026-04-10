@@ -155,7 +155,7 @@ export default function ProductDetail() {
                 </div>
 
                 {/* COA badge */}
-                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 bg-navy-deep/80 backdrop-blur-sm rounded-lg px-4 py-3 border border-gold/10">
+                <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 bg-navy/80 backdrop-blur-sm rounded-lg px-4 py-3 border border-gold/10">
                   <Shield className="h-4 w-4 text-gold shrink-0" />
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-gold font-body font-semibold">5-Panel COA Verified</p>
@@ -199,7 +199,7 @@ export default function ProductDetail() {
               {/* Add to cart */}
               <button
                 onClick={() => addItem(selected)}
-                className="inline-flex items-center gap-2 bg-gold text-navy-deep font-body font-semibold text-sm uppercase tracking-wider px-8 py-3.5 rounded-lg hover:bg-gold-light transition-colors mb-10"
+                className="inline-flex items-center gap-2 bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider px-8 py-3.5 rounded-lg hover:bg-gold-light transition-colors mb-10"
               >
                 <ShoppingCart className="h-4 w-4" />
                 Add to Cart
