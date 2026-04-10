@@ -256,13 +256,13 @@ export default function Index() {
         <div className="absolute top-20 right-0 w-[300px] h-[300px] rounded-full bg-gold/[0.03] blur-[100px]" />
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 items-center">
-            <div className="flex-1 reveal">
+            <div className="flex-1 max-w-2xl reveal">
               <div className="inline-flex items-center gap-2 mb-4">
                 <span className="h-px w-8 bg-gold/60" />
                 <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Why We Exist</span>
               </div>
-              <h2 className="text-3xl lg:text-[2.75rem] font-display text-foreground leading-[1.15] mb-8">
-                The Market Lost Its Most Trusted Vendors.{" "}
+              <h2 className="text-3xl lg:text-[2.75rem] font-display text-foreground leading-[1.05] text-balance mb-8">
+                The Market Lost Its Most Trusted Vendors.<br />
                 <span className="italic text-gold">We Built the Replacement.</span>
               </h2>
               <div className="space-y-5 mb-10">
