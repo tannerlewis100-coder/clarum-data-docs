@@ -1,25 +1,18 @@
 
 
-## Plan: Add 15% Discount Popup
+## Fix: Inner Content Wrappers Collapsing to 300px
 
-A modal popup that offers 15% off in exchange for email and phone number, with two playful CTA buttons.
+The homepage sections use Tailwind's `container` utility, which relies on the project's custom container config (only `2xl: 1400px` is defined in `tailwind.config.ts`). This can cause unexpected width behavior at certain breakpoints.
 
-### Design
-- Appears after a short delay (e.g., 5 seconds) on first visit
-- Uses existing Dialog component styled with the site's navy/gold theme
-- Stores dismissal in localStorage so it only shows once
-- Two buttons: gold "YES, I LOVE SAVING MONEY" and a muted "No, I'd rather pay full price"
+### Changes
 
-### Implementation
+**File: `src/pages/Index.tsx`** — Replace `container mx-auto px-4 lg:px-8` with `w-full max-w-7xl mx-auto px-6 lg:px-8` on all inner wrapper divs:
 
-**New file: `src/components/DiscountPopup.tsx`**
-- State managed with useState + useEffect (timer + localStorage check)
-- Form with email input and phone number input
-- Submit button: "YES, I LOVE SAVING MONEY" (gold variant)
-- Dismiss link: "No, I'd rather pay full price" (muted text)
-- On submit, stores `clarum-discount-shown` in localStorage and closes
-- On dismiss, same localStorage flag, closes popup
+1. **Hero** (line 37): `container mx-auto px-4 lg:px-8` → `w-full max-w-7xl mx-auto px-6 lg:px-8`
+2. **Testing Standards** (line 135): same swap
+3. **Brand Story** (line 257): same swap
+4. **Featured Products** (line 299): `container mx-auto px-4 lg:px-8` → `w-full max-w-7xl mx-auto px-6 lg:px-8`
+5. **Closing CTA** (line 330): same swap
 
-**Edit: `src/App.tsx`**
-- Import and render `<DiscountPopup />` alongside other global components
+This ensures every section's inner div explicitly fills its parent (`w-full`) and caps at a readable max width (`max-w-7xl` = 1280px).
 
