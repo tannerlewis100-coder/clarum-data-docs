@@ -21,8 +21,6 @@ export default function ProductCard({ product, variants }: Props) {
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
       <div className="relative bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-gold/30 group-hover:shadow-[0_20px_50px_-15px_hsl(40_50%_56%/0.2)]">
-        {/* COA Card as product image */}
-        <CoaCard name={selected.name} form={selected.coa.form} coa={selected.coa} compact />
 
         {/* Info */}
         <div className="p-5">
