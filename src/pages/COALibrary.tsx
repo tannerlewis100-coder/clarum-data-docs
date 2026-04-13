@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2 } from "lucide-react";
+import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
 
@@ -220,8 +220,8 @@ export default function COALibrary() {
                   }`}
                 >
                   <div className="px-5 pb-5" onClick={(e) => e.stopPropagation()}>
-                    {/* PDF iframe */}
-                    {embedUrl && (
+                    {/* PDF iframe or placeholder */}
+                    {embedUrl ? (
                       <div className="mt-2 rounded-xl bg-white overflow-hidden relative" style={{ height: 700 }}>
                         {!iframeLoaded[product.id] && (
                           <div className="absolute inset-0 flex items-center justify-center bg-white">
@@ -237,6 +237,25 @@ export default function COALibrary() {
                           onLoad={() => setIframeLoaded((prev) => ({ ...prev, [product.id]: true }))}
                           title={`COA for ${product.name}`}
                         />
+                      </div>
+                    ) : (
+                      <div className="mt-2 rounded-xl bg-white/[0.03] border border-white/[0.06] overflow-hidden flex flex-col items-center justify-center gap-4 py-12 px-6">
+                        <Shield className="h-10 w-10 text-gold/60" />
+                        <div className="text-center">
+                          <p className="text-white/50 text-sm font-body mb-1">Full lab report available on Google Drive</p>
+                          <p className="text-white/30 text-xs font-body">View the original certificate of analysis</p>
+                        </div>
+                        {product.coaUrl && (
+                          <a
+                            href={product.coaUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-gold/10 hover:bg-gold/20 text-gold text-xs font-body font-semibold uppercase tracking-wider px-5 py-2.5 rounded-lg border border-gold/20 transition-colors"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5" />
+                            Open Full Report
+                          </a>
+                        )}
                       </div>
                     )}
 
