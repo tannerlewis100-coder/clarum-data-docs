@@ -75,7 +75,6 @@ const descriptions: Record<string, string> = {
 };
 
 function getDescription(product: Product): string {
-  // Try exact id first, then strip variant suffixes
   const baseSlug = product.id.replace(/-\d+mg$|-\d+iu$|-\d+ml$|-01mg$|-5mg$|-10mg$|-r$|-s$/, "");
   return descriptions[product.id] || descriptions[baseSlug] || `${product.name} is a pharmaceutical-grade research compound. Every batch undergoes our mandatory 5-panel independent lab testing: HPLC purity, mass spectrometry identity, heavy metals, microbial screening, and endotoxin testing.`;
 }
@@ -85,7 +84,6 @@ export default function ProductDetail() {
   const revealRef = useScrollReveal();
   const { addItem } = useCart();
 
-  // Find all variants for this product
   const variants = useMemo(() => {
     if (!slug) return [];
     return getProductVariants(slug);
@@ -96,7 +94,7 @@ export default function ProductDetail() {
   if (variants.length === 0) {
     return (
       <div className="pt-32 pb-20 text-center">
-        <h1 className="font-display text-3xl text-foreground">Product Not Found</h1>
+        <h1 className="font-display text-3xl text-white">Product Not Found</h1>
         <Link to="/shop" className="text-gold font-body text-sm mt-4 inline-block hover:text-gold-light">
           ← Back to Shop
         </Link>
@@ -110,7 +108,7 @@ export default function ProductDetail() {
   return (
     <div ref={revealRef}>
       {/* Hero banner */}
-      <section className="bg-navy gold-line-texture pt-28 pb-12">
+      <section className="bg-navy gold-line-texture pt-28 pb-12 border-b border-white/[0.03]">
         <div className="container mx-auto px-4 lg:px-8">
           <Link
             to="/shop"
@@ -123,34 +121,34 @@ export default function ProductDetail() {
             <span className="text-[10px] uppercase tracking-[0.15em] text-gold font-body font-semibold bg-gold/10 border border-gold/20 px-3 py-1 rounded-full">
               {selected.category}
             </span>
-            <span className="text-[10px] uppercase tracking-[0.15em] text-primary-foreground/40 font-body">
+            <span className="text-[10px] uppercase tracking-[0.15em] text-white/40 font-body">
               Batch {selected.coaBatch}
             </span>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-display text-primary-foreground mt-3">
+          <h1 className="text-4xl lg:text-5xl font-display text-white mt-3">
             {selected.name}
           </h1>
         </div>
       </section>
 
       {/* Content */}
-      <section className="py-12 lg:py-20 bg-background">
+      <section className="py-12 lg:py-20 bg-navy-alt">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
 
             {/* Left: Image / Visual */}
             <div className="reveal">
-              <div className="relative aspect-square rounded-2xl bg-navy gold-grid-texture overflow-hidden border border-border">
+              <div className="relative aspect-square rounded-2xl bg-navy gold-grid-texture overflow-hidden border border-white/[0.06]">
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/[0.06] via-transparent to-gold/[0.03]" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-8">
                   <span className="text-[10px] uppercase tracking-[0.2em] text-gold/50 font-body font-semibold mb-3">
                     {selected.category}
                   </span>
-                  <span className="font-display text-4xl lg:text-5xl text-primary-foreground">
+                  <span className="font-display text-4xl lg:text-5xl text-white">
                     {selected.name}
                   </span>
                   {selected.dosage && (
-                    <span className="text-sm text-primary-foreground/40 font-body mt-2">{selected.dosage}</span>
+                    <span className="text-sm text-white/40 font-body mt-2">{selected.dosage}</span>
                   )}
                 </div>
 
@@ -159,7 +157,7 @@ export default function ProductDetail() {
                   <Shield className="h-4 w-4 text-gold shrink-0" />
                   <div>
                     <p className="text-[10px] uppercase tracking-wider text-gold font-body font-semibold">5-Panel COA Verified</p>
-                    <p className="text-[9px] text-primary-foreground/40 font-body">Batch {selected.coaBatch} · Full report available</p>
+                    <p className="text-[9px] text-white/40 font-body">Batch {selected.coaBatch} · Full report available</p>
                   </div>
                 </div>
               </div>
@@ -177,7 +175,7 @@ export default function ProductDetail() {
               {/* Variant selector */}
               {variants.length > 1 && (
                 <div className="mb-8">
-                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-body font-semibold mb-2">Select Size</p>
+                  <p className="text-[10px] uppercase tracking-wider text-white/30 font-body font-semibold mb-2">Select Size</p>
                   <div className="flex flex-wrap gap-2">
                     {variants.map((v, i) => (
                       <button
@@ -186,7 +184,7 @@ export default function ProductDetail() {
                         className={`text-xs font-body font-semibold px-4 py-2 rounded-full border transition-all ${
                           i === selectedIdx
                             ? "bg-gold/15 border-gold/40 text-gold"
-                            : "border-border text-muted-foreground hover:border-gold/20"
+                            : "border-white/[0.08] text-white/30 hover:border-gold/20"
                         }`}
                       >
                         {v.dosage} — ${v.price}
@@ -207,24 +205,24 @@ export default function ProductDetail() {
 
               {/* Description */}
               <div className="mb-10">
-                <h2 className="font-display text-xl text-foreground mb-3">About This Product</h2>
-                <p className="text-sm text-muted-foreground font-body leading-relaxed">{description}</p>
-                <p className="text-[10px] text-muted-foreground/50 font-body mt-4 uppercase tracking-wider">
+                <h2 className="font-display text-xl text-white mb-3">About This Product</h2>
+                <p className="text-sm text-white/50 font-body leading-relaxed">{description}</p>
+                <p className="text-[10px] text-white/25 font-body mt-4 uppercase tracking-wider">
                   For in vitro laboratory research use only. Not for human or veterinary consumption.
                 </p>
               </div>
 
               {/* 5-Panel COA */}
-              <div className="bg-card rounded-xl border border-border p-6">
+              <div className="bg-white/[0.03] rounded-2xl border border-white/[0.06] p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <FlaskConical className="h-4 w-4 text-gold" />
-                  <h3 className="font-display text-lg text-foreground">5-Panel COA Results</h3>
+                  <h3 className="font-display text-lg text-white">5-Panel COA Results</h3>
                 </div>
                 <div className="space-y-3">
                   {testPanels.map((panel) => (
                     <div key={panel.label} className="flex items-center justify-between text-sm font-body">
-                      <span className="text-muted-foreground">{panel.label}</span>
-                      <span className="flex items-center gap-1.5 font-semibold text-emerald-600">
+                      <span className="text-white/50">{panel.label}</span>
+                      <span className="flex items-center gap-1.5 font-semibold text-emerald-400">
                         <Check className="h-3.5 w-3.5" />
                         {panel.result}
                       </span>
