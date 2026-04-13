@@ -42,7 +42,7 @@ export default function COALibrary() {
           </div>
 
           {/* COA Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 reveal">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {filtered.map((product) => (
               <CoaCard
                 key={product.id}
