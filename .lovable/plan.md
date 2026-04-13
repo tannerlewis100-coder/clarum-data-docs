@@ -1,45 +1,104 @@
 
 
-## Redesign Expanded COA Card to Match Product Card Style
+## Full Dark Mode Redesign
 
-**Problem**: When clicking "View Certificate", the COA image expands to full width across 3 columns, making it overwhelmingly large. The user wants it to feel like a contained product card instead.
+Transform the entire site into a seamless dark experience with no white/light sections. Every page will use the navy color system with gold accents.
 
-**Solution**: Instead of spanning the full grid width, keep the card in its single column and show the COA image in a compact, styled card format — similar to the shop's product cards — with a constrained image preview, product info header, test results summary, and action buttons.
+### Color System
 
-### Changes to `src/pages/COALibrary.tsx`
+| Token | Value | Usage |
+|-------|-------|-------|
+| Primary BG | `#0F1A2E` | Main sections |
+| Alternate BG | `#0A1220` | Alternating sections |
+| Card surface | `rgba(255,255,255,0.03)` | All cards |
+| Card border | `rgba(255,255,255,0.06)` | All card borders |
+| Text primary | `rgba(255,255,255,0.90)` | Headings |
+| Text secondary | `rgba(255,255,255,0.50)` | Body text |
+| Text tertiary | `rgba(255,255,255,0.25)` | Small/muted text |
 
-1. **Remove full-width expansion** — delete the `sm:col-span-2 lg:col-span-3` class when expanded. The card stays in its single grid cell.
+### Files to Modify
 
-2. **Redesign expanded content** to look like a premium product card:
-   - COA image shown in a contained `aspect-[8.5/11]` container (letter-size ratio) with `max-h-[400px]` and `object-cover object-top`, rounded corners, inside a white background wrapper
-   - Below the image: a compact row of test result fields (Purity, Assay, Identity, Heavy Metals, TAMC, TYMC) in a 3×2 mini-grid using small labels and values with green check marks
-   - Action buttons styled like the shop cards: a primary "View Full COA" button (emerald) and a secondary "Google Drive" icon button, both compact and rounded
+**1. `src/index.css`** — Update `:root` CSS variables to dark values:
+- `--background` → dark navy (`218 55% 7%`)
+- `--foreground` → white 90% (`0 0% 100%`)
+- `--card` → near-black (`220 60% 5%`)
+- `--card-foreground` → white
+- `--border` → `white/6%`
+- `--input` → dark
+- `--muted` / `--secondary` → darker navy shades
+- `--muted-foreground` → white/50
+- Add `--navy-alt: 216 60% 6%` for `#0A1220`
 
-3. **Add click-to-enlarge modal** — clicking the COA image preview opens a fullscreen lightbox modal (reusing the pattern from `CoaCard.tsx`) so users can still see the full document when they want to.
+**2. `tailwind.config.ts`** — Add `navy-alt` color token for alternating sections.
 
-4. **Smooth expand/collapse** — use `max-height` + `overflow-hidden` with a 300ms transition for the reveal animation.
+**3. `src/pages/Index.tsx`** — Featured Products section:
+- Change `bg-offwhite` → `bg-[#0A1220]`
+- Add `border-t border-white/[0.03]` between sections
+- Update heading `text-foreground` → `text-white`
+- Update body `text-muted-foreground` → `text-white/50`
+- Add gold dot-grid texture to alternating sections
+- Add radial gold glow behind key sections
 
-### Visual Result
+**4. `src/components/ProductCard.tsx`**:
+- `bg-card` → `bg-white/[0.03]`
+- `border-border` → `border-white/[0.06]`
+- `text-foreground` → `text-white`
+- `text-muted-foreground` → `text-white/30`
+- `text-navy/40` (per-mg) → `text-white/20`
+- ADD button: `bg-white/[0.06] text-white/80 border border-white/[0.08]` with `hover:bg-gold hover:text-navy`
+- Arrow button: same glass style
 
-```text
-┌─────────────────────────┐
-│▌ BPC-157         [PASS] │  ← collapsed card (unchanged)
-│▌ 5mg Lyophilized...     │
-│▌ 99%+ | HM: ND | 6Panel│
-│▌ View Certificate →     │
-│                         │
-│  ┌───────────────────┐  │  ← expanded: contained image
-│  │   COA PDF Image   │  │     (click to enlarge)
-│  │   (aspect ratio   │  │
-│  │    constrained)    │  │
-│  └───────────────────┘  │
-│  Purity  Assay  Identity│  ← mini test results grid
-│  HM      TAMC   TYMC   │
-│                         │
-│  [View Full COA] [🔗]   │  ← action buttons
-└─────────────────────────┘
-```
+**5. `src/pages/Shop.tsx`**:
+- `bg-background` → `bg-[#0A1220]`
+- Search input: dark glass styling (`bg-white/[0.04] border-white/[0.08]`)
+- Select dropdown: same dark glass
+- Price slider area: dark styling
+- Count text: `text-white/50`
 
-### Files Modified
-- `src/pages/COALibrary.tsx` — restructure expanded state, add modal, remove col-span overrides
+**6. `src/pages/About.tsx`**:
+- Story section: `bg-background` → `bg-[#0A1220]`
+- `text-foreground` → `text-white`, `text-muted-foreground` → `text-white/50`
+- Values section: `bg-secondary` → `bg-[#0F1A2E]`
+- Value cards: glass card style
+- Divider: `border-white/[0.03]`
+
+**7. `src/pages/Contact.tsx`**:
+- Content section: `bg-background` → `bg-[#0A1220]`
+- Form card: `bg-white/[0.03] border-white/[0.06]`
+- Input fields: dark glass (`bg-white/[0.04] border-white/[0.08] text-white`)
+- Contact info icons: dark glass bg
+- Social/link pills: dark glass
+
+**8. `src/pages/FAQ.tsx`**:
+- Content section: `bg-background` → `bg-[#0A1220]`
+- Accordion items: `bg-white/[0.03] border-white/[0.06]`
+- Question text: `text-white`
+- Answer text: `text-white/50`
+
+**9. `src/pages/ProductDetail.tsx`**:
+- Content section: `bg-background` → `bg-[#0A1220]`
+- All `text-foreground` → `text-white`
+- All `text-muted-foreground` → `text-white/50`
+- COA results card: glass card style
+- Variant buttons: dark glass inactive state
+- `text-emerald-600` → `text-emerald-400`
+
+**10. `src/components/CartDrawer.tsx`**:
+- `bg-card` → `bg-[#0F1A2E]`
+- `bg-background` items → `bg-white/[0.03]`
+- All text: white/opacity variants
+- Borders: `border-white/[0.06]`
+
+**11. `src/pages/COALibrary.tsx`** — Already dark, minor consistency pass (ensure borders use `white/[0.06]`).
+
+**12. Section separators** — Add `border-t border-white/[0.03]` between each major section across all pages.
+
+**13. Subtle textures** — Add `gold-grid-texture` overlay on alternating `#0A1220` sections and radial `bg-gold/[0.02] blur-[100px]` glow accents behind key content areas.
+
+### What stays the same
+- Header (already dark)
+- Footer (already dark)
+- AgeGate and DiscountPopup (already dark navy)
+- COA Library (already dark-themed)
+- All existing COA data and Google Drive links
 
