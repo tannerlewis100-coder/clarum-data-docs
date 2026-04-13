@@ -283,14 +283,14 @@ export default function Index() {
               </Button>
             </div>
 
-            <div className="flex-1 grid grid-cols-2 gap-4 reveal">
+            <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 reveal">
               {brandStats.map((s) => (
-                <div key={s.num} className="group relative">
-                  <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative bg-white/[0.04] border border-white/10 rounded-2xl p-7 text-center h-full transition-all duration-300 group-hover:border-gold/30 group-hover:-translate-y-1">
-                    <p className="text-4xl lg:text-5xl font-display text-gold mb-3">{s.num}</p>
-                    <p className="text-xs text-white/40 font-body leading-relaxed">{s.label}</p>
-                  </div>
+                <div
+                  key={s.num}
+                  className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 text-center transition-all duration-300 hover:border-gold/30 hover:scale-[1.02]"
+                >
+                  <p className="text-5xl font-display text-gold leading-none">{s.num}</p>
+                  <p className="text-xs text-white/50 font-body mt-3 leading-relaxed">{s.label}</p>
                 </div>
               ))}
             </div>
