@@ -150,7 +150,7 @@ export const allProducts: Product[] = [
   // ── Supplies ──
   { id: "recon-water-3ml", name: "Reconstitution Water", price: 9, category: "Supplies", dosage: "3ml", categoryColor: CAT.Supplies, coaBatch: "2406-RW3", coa: coa("99.9%", "3ml", "YPB.297", "3ml Sterile Water") },
   { id: "recon-water-10ml", name: "Reconstitution Water", price: 15, category: "Supplies", dosage: "10ml", categoryColor: CAT.Supplies, coaBatch: "2406-RW10", coa: coa("99.8%", "10ml", "YPB.251", "10ml") },
-  { id: "b12", name: "B12", price: 29, category: "Supplies", dosage: "1ml", categoryColor: CAT.Supplies, coaBatch: "2406-B12", coa: coa("99.9%", "1ml", "YPB.298", "1ml Injectable"), coaUrl: "https://drive.google.com/drive/folders/1TSXHeho1FZ5zlZq_zBZpL8GhQupFfUET" },
+  
 ];
 
 /** Group products by name+category into variant sets. Returns [firstProduct, allVariants][] */
