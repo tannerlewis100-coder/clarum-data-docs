@@ -61,39 +61,36 @@ export default function Shop() {
             </div>
 
             {/* Category Dropdown */}
-            <div className="flex items-center gap-2">
-              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
+            <div className="relative">
               <select
                 value={activeCat}
                 onChange={(e) => setSearchParams(e.target.value === "All" ? {} : { cat: e.target.value })}
-                className="text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full px-4 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
+                className="appearance-none text-xs font-body font-semibold uppercase tracking-wider bg-background border border-border rounded-full pl-4 pr-8 py-2.5 text-foreground focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
               >
                 <option value="All">All Categories</option>
                 {categories.map((c) => (
                   <option key={c.slug} value={c.slug}>{c.name}</option>
                 ))}
               </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
             </div>
 
             {/* Price Range */}
-            <div className="flex items-center gap-4 min-w-[260px]">
-              <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <div className="flex-1">
-                <div className="flex justify-between mb-1.5">
-                  <span className="text-[10px] font-body font-semibold uppercase tracking-wider text-muted-foreground">Price</span>
-                  <span className="text-[10px] font-body font-semibold text-gold">
-                    ${priceRange[0]} — ${priceRange[1]}
-                  </span>
-                </div>
-                <Slider
-                  min={MIN_PRICE}
-                  max={MAX_PRICE}
-                  step={5}
-                  value={priceRange}
-                  onValueChange={(val) => setPriceRange(val as [number, number])}
-                  className="w-full"
-                />
+            <div className="min-w-[260px]">
+              <div className="flex justify-between mb-1.5">
+                <span className="text-[10px] font-body font-semibold uppercase tracking-wider text-muted-foreground">Price</span>
+                <span className="text-[10px] font-body font-semibold text-gold">
+                  ${priceRange[0]} — ${priceRange[1]}
+                </span>
               </div>
+              <Slider
+                min={MIN_PRICE}
+                max={MAX_PRICE}
+                step={5}
+                value={priceRange}
+                onValueChange={(val) => setPriceRange(val as [number, number])}
+                className="w-full"
+              />
             </div>
           </div>
 
