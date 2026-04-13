@@ -68,9 +68,14 @@ export default function ProductCard({ product, variants }: Props) {
           )}
 
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-            <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
-              ${selected.price}
-            </span>
+            <div>
+              <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                ${selected.price}
+              </span>
+              {perMg && (
+                <p className="text-xs text-navy/40">{perMg}</p>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => addItem(selected)}
