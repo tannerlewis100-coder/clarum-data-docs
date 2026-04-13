@@ -36,7 +36,7 @@ export default function ProductCard({ product, variants }: Props) {
     <div className="group relative">
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
-      <div className="relative bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 group-hover:-translate-y-1.5 group-hover:border-gold/30 group-hover:shadow-[0_20px_50px_-15px_hsl(40_50%_56%/0.2)]">
+      <div className="relative bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/30 group-hover:shadow-[0_8px_30px_rgba(196,160,90,0.12)]">
 
         {/* Info */}
         <div className="p-5">
@@ -79,7 +79,7 @@ export default function ProductCard({ product, variants }: Props) {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => addItem(selected)}
-                className="inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg hover:bg-navy transition-colors"
+                className="relative inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg overflow-hidden transition-colors duration-300 hover:bg-gold-light hover:text-navy"
               >
                 <ShoppingCart className="h-3 w-3" />
                 Add
