@@ -149,6 +149,7 @@ export const allProducts: Product[] = [
   { id: "4x-mic", name: "4X Blend (MIC)", price: 195, category: "Blends", dosage: "", categoryColor: CAT.Blends, coaBatch: "2406-4MIC", coa: coa("99.5%", "120mg", "YPB.268", "Methionine / Choline Chloride / Carnitine / Dexpanthenol"), coaUrl: "https://drive.google.com/drive/folders/1nXpoSziuWb8O-cw6IuM-DTnTMTeHKstO", coaImage: "/coa/4x-mic-1.jpg" },
 
   // ── Supplies ──
+  { id: "b12", name: "B12", price: 29, category: "Supplies", dosage: "1ml", categoryColor: CAT.Supplies, coaBatch: "2406-B12", coa: coa("99.9%", "1ml", "YPB.298", "1ml Injectable Solution"), coaUrl: "https://drive.google.com/file/d/1zuxpQTO-QBfLmed-E1i0_700Ya8oQCDu/preview", coaEmbed: "https://drive.google.com/file/d/1zuxpQTO-QBfLmed-E1i0_700Ya8oQCDu/preview" },
   { id: "recon-water-3ml", name: "Reconstitution Water", price: 9, category: "Supplies", dosage: "3ml", categoryColor: CAT.Supplies, coaBatch: "2406-RW3", coa: coa("99.9%", "3ml", "YPB.297", "3ml Sterile Water") },
   { id: "recon-water-10ml", name: "Reconstitution Water", price: 15, category: "Supplies", dosage: "10ml", categoryColor: CAT.Supplies, coaBatch: "2406-RW10", coa: coa("99.8%", "10ml", "YPB.251", "10ml") },
   
