@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { allProducts, categories, groupProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
