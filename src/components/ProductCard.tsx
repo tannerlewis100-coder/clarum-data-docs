@@ -30,6 +30,7 @@ export default function ProductCard({ product, variants }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const selected = items[selectedIdx];
   const { addItem } = useCart();
+  const perMg = useMemo(() => getPerMgPrice(selected), [selected]);
 
   return (
     <div className="group relative">
