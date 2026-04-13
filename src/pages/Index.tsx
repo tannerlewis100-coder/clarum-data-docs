@@ -83,7 +83,7 @@ export default function Index() {
                     <p className="text-lg font-display text-primary-foreground">BPC-157 <span className="text-sm text-primary-foreground/50">(10mg)</span></p>
                   </div>
                   <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
-                    ● PASS
+                    <span className="inline-block animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]">●</span> PASS
                   </span>
                 </div>
                 <div className="space-y-3.5">
@@ -93,7 +93,7 @@ export default function Index() {
                       <span className="text-sm font-body font-semibold text-primary-foreground tabular-nums">99.2%</span>
                     </div>
                     <div className="h-2 bg-primary-foreground/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-gold/80 to-gold rounded-full" style={{ width: "99.2%" }} />
+                      <div className="h-full bg-gradient-to-r from-gold/80 to-gold rounded-full animate-[grow-bar_1.5s_ease-out_forwards]" style={{ width: "99.2%" }} />
                     </div>
                   </div>
                   {[
@@ -101,8 +101,12 @@ export default function Index() {
                     { label: "Heavy Metals", value: "ND (Non-Detect)", icon: "✓" },
                     { label: "Microbial Count", value: "< 10 CFU/g", icon: "✓" },
                     { label: "Endotoxin (LAL)", value: "< 1 EU/mg", icon: "✓" },
-                  ].map((row) => (
-                    <div key={row.label} className="flex items-center justify-between py-2 border-t border-primary-foreground/5">
+                  ].map((row, i) => (
+                    <div
+                      key={row.label}
+                      className="flex items-center justify-between py-2 border-t border-primary-foreground/5 animate-[fade-in_0.4s_ease-out_both]"
+                      style={{ animationDelay: `${0.8 + i * 0.1}s` }}
+                    >
                       <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
                       <span className="flex items-center gap-1.5 text-xs font-body font-semibold text-emerald-400">
                         <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[9px]">{row.icon}</span>
