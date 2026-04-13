@@ -87,6 +87,27 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Trust Ticker */}
+      <div className="bg-gradient-to-r from-navy via-navy to-navy border-y border-gold/20 overflow-hidden py-2.5">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[
+            "HPLC ≥99% Purity Verified",
+            "Heavy Metals Tested — ND",
+            "Microbial & Yeast Screened",
+            "Endotoxin Tested (LAL Method)",
+            "Batch-Specific COA Included",
+            "Ships from USA",
+            "No Fillers. No Shortcuts.",
+          ].flatMap((item, i) => [
+            <span key={`a-${i}`} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+              {item} <span className="text-gold mx-3">✦</span>
+            </span>,
+            <span key={`b-${i}`} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+              {item} <span className="text-gold mx-3">✦</span>
+            </span>,
+          ])}
+        </div>
+      </div>
 
       {/* Mobile drawer */}
       {mobileOpen && (
