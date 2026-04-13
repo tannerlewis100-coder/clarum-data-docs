@@ -1,38 +1,32 @@
 
 
-## Fix COA Images: Remove Bad JPGs, Use Google Drive PDF Embeds
+## Show Real COA Images in Expanded Card View
 
-**The core problem**: The 48 JPG files in `/public/coa/` have overlapping text and look AI-generated. They are not usable as certificate previews.
+**Problem**: The expanded card currently shows either an iframe (B12 only) or a generic placeholder. You want the actual lab report scans (`/public/coa/*.jpg`) to display when clicking "View Certificate."
 
-**The constraint**: Most products link to Google Drive *folders* (not individual files), which cannot be embedded in an iframe. Only B12 has a direct file URL that works as an iframe embed.
+**Solution**: Add image display as the primary expanded content, using the `coaImage` path already stored on each product. Display it cleanly in a scrollable white container with a fullscreen modal on click.
 
-### What changes
+### Changes to `src/pages/COALibrary.tsx`
 
-**`src/pages/COALibrary.tsx`** — Reorder the expanded content priority:
+**Expanded content section (lines 222-260)** — replace the current placeholder fallback with a three-tier priority:
 
-1. **First priority: `coaEmbed` / direct file URL** — Show the iframe PDF preview (currently only B12). Keep the gold loading spinner.
+1. **If `coaImage` exists** (most products): Show the JPG in a white-background scrollable container (`max-h-[700px]`, `rounded-xl`, `overflow-auto`, `bg-white`). Add a click handler to open a fullscreen modal. Include a subtle "Click to enlarge" hint overlay.
 
-2. **Second priority: `coaUrl` folder link (most products)** — Show a styled placeholder with a prominent "View Full Report on Google Drive" button. No broken image. Clean dark container matching the card design.
+2. **If no `coaImage` but `embedUrl` exists** (B12): Keep the iframe with gold spinner as-is.
 
-3. **Remove `coaImage` from expanded view entirely** — The `product.coaImage` check on line 225 gets removed. The bad JPGs will no longer display when expanding a card.
+3. **If neither**: Show the current placeholder with "Open Full Report" button.
 
-4. **Remove the fullscreen image modal** — Since images are no longer shown in expansion, the `selectedImage` state and modal (lines 56, 360-397) are removed.
-
-**`src/data/products.ts`** — Add a comment explaining how to enable inline PDF preview for more products: change `coaUrl` from a folder link to a file link, or add a `coaEmbed` field with the direct `/file/d/{ID}/preview` URL.
-
-**No changes to `CoaCard.tsx`** — It's not used on the COA Library page.
-
-### How to get inline previews for more products
-
-For each Google Drive folder, you'd open it, find the PDF file inside, copy its file ID, and add it as `coaEmbed: "https://drive.google.com/file/d/{FILE_ID}/preview"` in `products.ts`. Each product you do this for will immediately show the real PDF inline instead of the placeholder. This is something you can do gradually, product by product.
+**Add fullscreen image modal** (new state + JSX at bottom of component):
+- `selectedImage` state tracking which product's image is open
+- Dark overlay (`bg-black/90 backdrop-blur-sm`) with scrollable full-size image
+- Close button (X) + "Open in Drive" link in a top bar
+- Click outside to dismiss
 
 ### Result
-- No more broken/overlapping-text images anywhere
-- B12 shows real inline PDF preview
-- All other products show a clean placeholder with a button to view on Drive
-- As you add `coaEmbed` file URLs to products, they automatically get inline previews
+- Click "View Certificate" → card expands → shows the real lab report JPG at full width in a clean white container
+- Click the image → fullscreen modal for detailed reading
+- No blurry/overlapping text — images displayed at native resolution with proper containment
 
-### Files modified
+### Files Modified
 - `src/pages/COALibrary.tsx`
-- `src/data/products.ts` (comment only)
 

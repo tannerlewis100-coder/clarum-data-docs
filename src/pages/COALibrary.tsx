@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, Shield } from "lucide-react";
+import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, Shield, X, ZoomIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
 
@@ -53,7 +53,7 @@ export default function COALibrary() {
   const [activeCat, setActiveCat] = useState("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [iframeLoaded, setIframeLoaded] = useState<Record<string, boolean>>({});
-  
+  const [selectedImage, setSelectedImage] = useState<{ src: string; name: string; coaUrl?: string } | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
@@ -221,8 +221,27 @@ export default function COALibrary() {
                   }`}
                 >
                   <div className="px-5 pb-5" onClick={(e) => e.stopPropagation()}>
-                    {/* PDF iframe or placeholder */}
-                    {embedUrl ? (
+                    {/* COA Image, PDF iframe, or placeholder */}
+                    {product.coaImage ? (
+                      <div
+                        className="mt-2 rounded-xl bg-white overflow-auto relative cursor-pointer group/img"
+                        style={{ maxHeight: 700 }}
+                        onClick={() => setSelectedImage({ src: product.coaImage!, name: product.name, coaUrl: product.coaUrl })}
+                      >
+                        <img
+                          src={product.coaImage}
+                          alt={`Certificate of Analysis for ${product.name}`}
+                          className="w-full h-auto"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 transition-colors duration-200 flex items-end justify-center pb-4 pointer-events-none">
+                          <span className="opacity-0 group-hover/img:opacity-100 transition-opacity duration-200 bg-black/70 text-white text-xs font-body font-medium px-4 py-2 rounded-lg backdrop-blur-sm flex items-center gap-1.5">
+                            <ZoomIn className="h-3.5 w-3.5" />
+                            Click to enlarge
+                          </span>
+                        </div>
+                      </div>
+                    ) : embedUrl ? (
                       <div className="mt-2 rounded-xl bg-white overflow-hidden relative" style={{ height: 700 }}>
                         {!iframeLoaded[product.id] && (
                           <div className="absolute inset-0 flex items-center justify-center bg-white">
@@ -338,6 +357,44 @@ export default function COALibrary() {
           </Link>
         </div>
       </section>
+      {/* Fullscreen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="flex items-center justify-between px-5 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-display text-white text-lg">{selectedImage.name}</h3>
+            <div className="flex items-center gap-3">
+              {selectedImage.coaUrl && (
+                <a
+                  href={selectedImage.coaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-gold transition-colors flex items-center gap-1.5 text-xs font-body"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Open in Drive
+                </a>
+              )}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-auto flex items-start justify-center p-4" onClick={() => setSelectedImage(null)}>
+            <img
+              src={selectedImage.src}
+              alt={`Certificate of Analysis for ${selectedImage.name}`}
+              className="max-w-4xl w-full h-auto rounded-xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

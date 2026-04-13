@@ -26,12 +26,6 @@ export interface Product {
   coaImage?: string;
 }
 
-/**
- * To enable inline PDF preview for a product on the COA Library page:
- * 1. Open the product's Google Drive folder (coaUrl)
- * 2. Find the PDF file inside and copy its file ID
- * 3. Add coaEmbed: "https://drive.google.com/file/d/{FILE_ID}/preview" to the product
- */
 /** Slug used for URL routing — groups variants under one base slug */
 export function getProductSlug(product: Product): string {
   return product.id.replace(/-\d+mg$|-\d+iu$|-\d+ml$|-01mg$/, "").replace(/-r$|-s$/, "");
