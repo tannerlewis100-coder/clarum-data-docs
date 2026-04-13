@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, ChevronDown } from "lucide-react";
 import { allProducts, categories, groupProducts } from "@/data/products";
@@ -15,6 +15,7 @@ export default function Shop() {
   const [query, setQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
   const revealRef = useScrollReveal();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const grouped = useMemo(() => {
     let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
@@ -28,6 +29,22 @@ export default function Shop() {
 
     return groupProducts(items);
   }, [activeCat, query, priceRange]);
+
+  // Stagger fade-in (matches COA Library)
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll("[data-product-card]");
+    cards.forEach((card, i) => {
+      const el = card as HTMLElement;
+      el.style.opacity = "0";
+      el.style.transform = "translateY(12px)";
+      setTimeout(() => {
+        el.style.transition = "opacity 0.4s ease-out, transform 0.4s ease-out";
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, i * 80);
+    });
+  }, [grouped]);
 
   return (
     <div ref={revealRef}>
@@ -100,7 +117,7 @@ export default function Shop() {
           </p>
 
           {/* ── Grid ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {grouped.map(([first, variants]) => (
               <ProductCard key={first.id} product={first} variants={variants} />
             ))}

@@ -32,7 +32,7 @@ export default function ProductCard({ product, variants }: Props) {
   const perMg = useMemo(() => getPerMgPrice(selected), [selected]);
 
   return (
-    <div className="group relative">
+    <div className="group relative" data-product-card>
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
       <div className="relative bg-white/[0.03] rounded-2xl border border-white/[0.06] overflow-hidden backdrop-blur-sm transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/20 group-hover:shadow-[0_8px_30px_rgba(196,160,90,0.08)]">
