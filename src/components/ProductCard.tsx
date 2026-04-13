@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { type Product, getProductSlug } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import CoaCard from "@/components/CoaCard";
+
+function getPerMgPrice(product: Product): string | null {
+  if (!product.dosage) return null;
+  const matches = product.dosage.match(/(\d+(?:\.\d+)?)\s*mg/gi);
+  if (!matches || matches.length === 0) return null;
+  // If 4+ components (like KLOW blend), omit
+  if (matches.length >= 4) return null;
+  const totalMg = matches.reduce((sum, m) => {
+    const val = parseFloat(m);
+    return sum + (isNaN(val) ? 0 : val);
+  }, 0);
+  if (totalMg <= 0) return null;
+  const perMg = product.price / totalMg;
+  return `$${perMg.toFixed(2)}/mg`;
+}
 
 interface Props {
   product: Product;
@@ -15,6 +30,7 @@ export default function ProductCard({ product, variants }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const selected = items[selectedIdx];
   const { addItem } = useCart();
+  const perMg = useMemo(() => getPerMgPrice(selected), [selected]);
 
   return (
     <div className="group relative">
@@ -52,9 +68,14 @@ export default function ProductCard({ product, variants }: Props) {
           )}
 
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-            <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
-              ${selected.price}
-            </span>
+            <div>
+              <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                ${selected.price}
+              </span>
+              {perMg && (
+                <p className="text-xs text-navy/40">{perMg}</p>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => addItem(selected)}
