@@ -1,9 +1,24 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { type Product, getProductSlug } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import CoaCard from "@/components/CoaCard";
+
+function getPerMgPrice(product: Product): string | null {
+  if (!product.dosage) return null;
+  const matches = product.dosage.match(/(\d+(?:\.\d+)?)\s*mg/gi);
+  if (!matches || matches.length === 0) return null;
+  // If 4+ components (like KLOW blend), omit
+  if (matches.length >= 4) return null;
+  const totalMg = matches.reduce((sum, m) => {
+    const val = parseFloat(m);
+    return sum + (isNaN(val) ? 0 : val);
+  }, 0);
+  if (totalMg <= 0) return null;
+  const perMg = product.price / totalMg;
+  return `$${perMg.toFixed(2)}/mg`;
+}
 
 interface Props {
   product: Product;
