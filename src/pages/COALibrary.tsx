@@ -50,6 +50,7 @@ export default function COALibrary() {
                 form={product.coa.form}
                 coa={product.coa}
                 coaUrl={product.coaUrl}
+                coaImage={product.coaImage}
               />
             ))}
           </div>
