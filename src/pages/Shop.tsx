@@ -15,6 +15,23 @@ export default function Shop() {
   const [query, setQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
   const revealRef = useScrollReveal();
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Stagger fade-in (matches COA Library)
+  useEffect(() => {
+    if (!gridRef.current) return;
+    const cards = gridRef.current.querySelectorAll("[data-product-card]");
+    cards.forEach((card, i) => {
+      const el = card as HTMLElement;
+      el.style.opacity = "0";
+      el.style.transform = "translateY(12px)";
+      setTimeout(() => {
+        el.style.transition = "opacity 0.4s ease-out, transform 0.4s ease-out";
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, i * 80);
+    });
+  }, [grouped]);
 
   const grouped = useMemo(() => {
     let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
