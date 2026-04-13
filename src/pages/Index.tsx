@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { featuredProducts, groupProducts } from "@/data/products";
@@ -25,35 +24,7 @@ const brandStats = [
 
 export default function Index() {
   const revealRef = useScrollReveal();
-  const featuredGridRef = useRef<HTMLDivElement>(null);
 
-  // Stagger fade-in for featured products (imperative, like COA Library)
-  useEffect(() => {
-    if (!featuredGridRef.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const cards = featuredGridRef.current!.querySelectorAll("[data-product-card]");
-            cards.forEach((card, i) => {
-              const el = card as HTMLElement;
-              el.style.opacity = "0";
-              el.style.transform = "translateY(12px)";
-              setTimeout(() => {
-                el.style.transition = "opacity 0.4s ease-out, transform 0.4s ease-out";
-                el.style.opacity = "1";
-                el.style.transform = "translateY(0)";
-              }, i * 80);
-            });
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(featuredGridRef.current);
-    return () => observer.disconnect();
-  }, []);
   return (
     <div ref={revealRef}>
       {/* ===== HERO ===== */}
