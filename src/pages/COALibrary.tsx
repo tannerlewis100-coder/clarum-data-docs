@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Search, ChevronRight, ExternalLink, Loader2 } from "lucide-react";
+import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
 
@@ -23,42 +23,25 @@ const COMING_SOON_IDS = new Set([
   "recon-water-3ml", "recon-water-10ml",
 ]);
 
+const TEST_FIELDS = [
+  { label: "Purity", key: "purity" },
+  { label: "Assay", key: "assay" },
+  { label: "Identity", key: "identity" },
+  { label: "Heavy Metals", key: "heavyMetals" },
+  { label: "TAMC", key: "tamc" },
+  { label: "TYMC", key: "tymc" },
+] as const;
+
 function hasCoa(product: { id: string; coaUrl?: string; coaImage?: string; coaEmbed?: string }) {
   if (COMING_SOON_IDS.has(product.id)) return false;
   return !!(product.coaUrl || product.coaImage || product.coaEmbed);
-}
-
-function CoaIframeEmbed({ url, name }: { url: string; name: string }) {
-  const [loading, setLoading] = useState(true);
-  // Convert folder URLs to embeddable format
-  let embedUrl = url;
-  if (url.includes("/drive/folders/")) {
-    const folderId = url.split("/drive/folders/")[1]?.split("?")[0];
-    if (folderId) embedUrl = `https://drive.google.com/embeddedfolderview?id=${folderId}#list`;
-  }
-
-  return (
-    <div className="mt-4 rounded-xl bg-white overflow-hidden relative" style={{ height: 700 }}>
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
-          <Loader2 className="h-8 w-8 text-gold animate-spin" />
-        </div>
-      )}
-      <iframe
-        src={embedUrl}
-        title={`COA for ${name}`}
-        className="w-full h-full border-0"
-        onLoad={() => setLoading(false)}
-        allow="autoplay"
-      />
-    </div>
-  );
 }
 
 export default function COALibrary() {
   const [search, setSearch] = useState("");
   const [activeCat, setActiveCat] = useState("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
@@ -89,6 +72,27 @@ export default function COALibrary() {
 
   return (
     <div className="bg-navy min-h-screen">
+      {/* Lightbox Modal */}
+      {lightboxSrc && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightboxSrc(null)}
+        >
+          <button
+            onClick={() => setLightboxSrc(null)}
+            className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors"
+          >
+            <X className="h-8 w-8" />
+          </button>
+          <img
+            src={lightboxSrc}
+            alt="COA Full View"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* Hero */}
       <section className="gold-line-texture pt-28 pb-14">
         <div className="container mx-auto px-4 lg:px-8 text-center">
@@ -106,7 +110,6 @@ export default function COALibrary() {
 
       {/* Search + Filters */}
       <section className="container mx-auto px-4 lg:px-8 -mt-4 relative z-10">
-        {/* Search */}
         <div className="relative max-w-xl mx-auto mb-6">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gold" />
           <input
@@ -118,7 +121,6 @@ export default function COALibrary() {
           />
         </div>
 
-        {/* Category Pills */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {COA_CATEGORIES.map((cat) => (
             <button
@@ -142,7 +144,6 @@ export default function COALibrary() {
           {filtered.map((product) => {
             const isComingSoon = !hasCoa(product);
             const isExpanded = expandedId === product.id;
-            const embedSource = product.coaEmbed || product.coaUrl;
 
             return (
               <div
@@ -154,7 +155,7 @@ export default function COALibrary() {
                     : isExpanded
                     ? "bg-white/[0.04] border-gold/30 shadow-[0_4px_20px_rgba(196,160,90,0.1)]"
                     : "bg-white/[0.03] border-white/[0.06] hover:border-gold/20 hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(196,160,90,0.08)] cursor-pointer"
-                } ${isExpanded ? "sm:col-span-2 lg:col-span-3" : ""}`}
+                }`}
                 onClick={() => {
                   if (isComingSoon) return;
                   setExpandedId(isExpanded ? null : product.id);
@@ -218,39 +219,77 @@ export default function COALibrary() {
                   </div>
                 </div>
 
-                {/* Expanded content */}
-                {isExpanded && embedSource && (
-                  <div
-                    className="px-5 pb-5"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {product.coaImage ? (
-                      <div className="mt-2 rounded-xl bg-white overflow-hidden">
+                {/* Expanded content — contained product card style */}
+                <div
+                  className={`transition-all duration-300 ease-out overflow-hidden ${
+                    isExpanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="px-5 pb-5" onClick={(e) => e.stopPropagation()}>
+                    {/* COA Image Preview */}
+                    {product.coaImage && (
+                      <div
+                        className="mt-2 rounded-xl bg-white overflow-hidden cursor-zoom-in max-h-[400px] relative group"
+                        onClick={() => setLightboxSrc(product.coaImage!)}
+                      >
                         <img
                           src={product.coaImage}
                           alt={`Certificate of Analysis for ${product.name}`}
-                          className="w-full h-auto"
+                          className="w-full h-full object-cover object-top aspect-[8.5/11] max-h-[400px]"
                         />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-body font-semibold uppercase tracking-wider bg-black/50 px-4 py-2 rounded-full">
+                            Click to enlarge
+                          </span>
+                        </div>
                       </div>
-                    ) : (
-                      <CoaIframeEmbed url={embedSource} name={product.name} />
                     )}
 
-                    <div className="mt-4 flex items-center gap-4">
+                    {/* Test Results Mini-Grid */}
+                    <div className="grid grid-cols-3 gap-2 mt-4">
+                      {TEST_FIELDS.map((field) => {
+                        const value = (product.coa as any)[field.key] || "N/A";
+                        return (
+                          <div
+                            key={field.key}
+                            className="bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2 text-center"
+                          >
+                            <p className="text-[9px] text-white/30 uppercase tracking-wider font-body mb-0.5">
+                              {field.label}
+                            </p>
+                            <div className="flex items-center justify-center gap-1">
+                              <CheckCircle2 className="h-3 w-3 text-emerald-400 shrink-0" />
+                              <span className="text-[11px] text-white/60 font-body font-medium">{value}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-3 mt-4">
+                      {product.coaImage && (
+                        <button
+                          onClick={() => setLightboxSrc(product.coaImage!)}
+                          className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-[11px] font-body font-semibold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors"
+                        >
+                          View Full COA
+                        </button>
+                      )}
                       {product.coaUrl && (
                         <a
                           href={product.coaUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gold text-xs uppercase tracking-wider font-body font-semibold flex items-center gap-1.5 hover:text-gold/80 transition-colors"
+                          className="inline-flex items-center justify-center gap-1.5 bg-white/[0.04] hover:bg-white/[0.08] text-gold text-[11px] font-body font-semibold uppercase tracking-wider px-4 py-2.5 rounded-lg border border-white/[0.06] transition-colors"
                         >
-                          Download Full Report
                           <ExternalLink className="h-3.5 w-3.5" />
+                          Google Drive
                         </a>
                       )}
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
