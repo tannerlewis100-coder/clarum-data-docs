@@ -283,7 +283,7 @@ export default function Index() {
               </Button>
             </div>
 
-            <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 reveal">
+            <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 reveal-stagger">
               {brandStats.map((s) => (
                 <div
                   key={s.num}
