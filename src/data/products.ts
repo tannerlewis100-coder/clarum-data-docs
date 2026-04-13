@@ -22,6 +22,7 @@ export interface Product {
   badge?: string;
   coa: CoaData;
   coaUrl?: string;
+  coaImage?: string;
 }
 
 /** Slug used for URL routing — groups variants under one base slug */
