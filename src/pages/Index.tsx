@@ -342,7 +342,7 @@ export default function Index() {
               Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
+          <div ref={featuredGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {groupProducts(featuredProducts).map(([first, variants]) => (
               <ProductCard key={first.id} product={first} variants={variants} />
             ))}
