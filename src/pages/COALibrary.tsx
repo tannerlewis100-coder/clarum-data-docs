@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, X } from "lucide-react";
+import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
 
@@ -37,11 +37,22 @@ function hasCoa(product: { id: string; coaUrl?: string; coaImage?: string; coaEm
   return !!(product.coaUrl || product.coaImage || product.coaEmbed);
 }
 
+/** Convert a Google Drive folder or file URL to a /preview iframe URL if possible */
+function getEmbedUrl(product: { coaEmbed?: string; coaUrl?: string }): string | null {
+  if (product.coaEmbed) return product.coaEmbed;
+  if (product.coaUrl) {
+    // Match /file/d/{ID}/ pattern
+    const fileMatch = product.coaUrl.match(/\/file\/d\/([^/]+)/);
+    if (fileMatch) return `https://drive.google.com/file/d/${fileMatch[1]}/preview`;
+  }
+  return null;
+}
+
 export default function COALibrary() {
   const [search, setSearch] = useState("");
   const [activeCat, setActiveCat] = useState("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+  const [iframeLoaded, setIframeLoaded] = useState<Record<string, boolean>>({});
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
@@ -72,37 +83,16 @@ export default function COALibrary() {
 
   return (
     <div className="bg-navy min-h-screen">
-      {/* Lightbox Modal */}
-      {lightboxSrc && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setLightboxSrc(null)}
-        >
-          <button
-            onClick={() => setLightboxSrc(null)}
-            className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors"
-          >
-            <X className="h-8 w-8" />
-          </button>
-          <img
-            src={lightboxSrc}
-            alt="COA Full View"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
-
       {/* Hero */}
       <section className="gold-line-texture pt-28 pb-14">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">
             Transparency
           </span>
-          <h1 className="text-4xl lg:text-5xl font-display text-primary-foreground mt-2 mb-3">
+          <h1 className="text-4xl lg:text-5xl font-display text-white mt-2 mb-3">
             COA Library
           </h1>
-          <p className="text-primary-foreground/50 font-body max-w-lg mx-auto">
+          <p className="text-white/50 font-body max-w-lg mx-auto">
             Every batch. Every test. Publicly available.
           </p>
         </div>
@@ -117,7 +107,7 @@ export default function COALibrary() {
             placeholder="Search by product name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-primary-foreground font-body text-sm placeholder:text-white/25 focus:outline-none focus:border-gold/30 transition-colors"
+            className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white font-body text-sm placeholder:text-white/25 focus:outline-none focus:border-gold/30 transition-colors"
           />
         </div>
 
@@ -144,6 +134,7 @@ export default function COALibrary() {
           {filtered.map((product) => {
             const isComingSoon = !hasCoa(product);
             const isExpanded = expandedId === product.id;
+            const embedUrl = getEmbedUrl(product);
 
             return (
               <div
@@ -158,6 +149,9 @@ export default function COALibrary() {
                 }`}
                 onClick={() => {
                   if (isComingSoon) return;
+                  if (!isExpanded) {
+                    setIframeLoaded((prev) => ({ ...prev, [product.id]: false }));
+                  }
                   setExpandedId(isExpanded ? null : product.id);
                 }}
               >
@@ -169,10 +163,10 @@ export default function COALibrary() {
                   <div className="flex-1 p-5">
                     {/* Top row */}
                     <div className="flex items-start justify-between gap-3 mb-1">
-                      <h3 className="font-display text-xl text-primary-foreground leading-tight">
+                      <h3 className="font-display text-xl text-white leading-tight">
                         {product.name}
                         {product.dosage && (
-                          <span className="text-primary-foreground/30 text-base ml-2">{product.dosage}</span>
+                          <span className="text-white/30 text-base ml-2">{product.dosage}</span>
                         )}
                       </h3>
                       {isComingSoon ? (
@@ -219,29 +213,30 @@ export default function COALibrary() {
                   </div>
                 </div>
 
-                {/* Expanded content — contained product card style */}
+                {/* Expanded content — iframe embed */}
                 <div
                   className={`transition-all duration-300 ease-out overflow-hidden ${
-                    isExpanded ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+                    isExpanded ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="px-5 pb-5" onClick={(e) => e.stopPropagation()}>
-                    {/* COA Image Preview */}
-                    {product.coaImage && (
-                      <div
-                        className="mt-2 rounded-xl bg-white overflow-hidden cursor-zoom-in max-h-[400px] relative group"
-                        onClick={() => setLightboxSrc(product.coaImage!)}
-                      >
-                        <img
-                          src={product.coaImage}
-                          alt={`Certificate of Analysis for ${product.name}`}
-                          className="w-full h-full object-cover object-top aspect-[8.5/11] max-h-[400px]"
+                    {/* PDF iframe */}
+                    {embedUrl && (
+                      <div className="mt-2 rounded-xl bg-white overflow-hidden relative" style={{ height: 700 }}>
+                        {!iframeLoaded[product.id] && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-white">
+                            <Loader2 className="h-8 w-8 text-gold animate-spin" />
+                          </div>
+                        )}
+                        <iframe
+                          src={embedUrl}
+                          width="100%"
+                          height="700"
+                          style={{ border: "none", borderRadius: 12 }}
+                          allow="autoplay"
+                          onLoad={() => setIframeLoaded((prev) => ({ ...prev, [product.id]: true }))}
+                          title={`COA for ${product.name}`}
                         />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                          <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-body font-semibold uppercase tracking-wider bg-black/50 px-4 py-2 rounded-full">
-                            Click to enlarge
-                          </span>
-                        </div>
                       </div>
                     )}
 
@@ -268,23 +263,15 @@ export default function COALibrary() {
 
                     {/* Action Buttons */}
                     <div className="flex items-center gap-3 mt-4">
-                      {product.coaImage && (
-                        <button
-                          onClick={() => setLightboxSrc(product.coaImage!)}
-                          className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-[11px] font-body font-semibold uppercase tracking-wider px-4 py-2.5 rounded-lg transition-colors"
-                        >
-                          View Full COA
-                        </button>
-                      )}
                       {product.coaUrl && (
                         <a
                           href={product.coaUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-1.5 bg-white/[0.04] hover:bg-white/[0.08] text-gold text-[11px] font-body font-semibold uppercase tracking-wider px-4 py-2.5 rounded-lg border border-white/[0.06] transition-colors"
+                          className="flex-1 inline-flex items-center justify-center gap-2 bg-white/[0.04] hover:bg-white/[0.08] text-gold text-[11px] font-body font-semibold uppercase tracking-wider px-4 py-2.5 rounded-lg border border-white/[0.06] transition-colors"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
-                          Google Drive
+                          Download Full Report →
                         </a>
                       )}
                     </div>
@@ -308,17 +295,17 @@ export default function COALibrary() {
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">
             Quality Assurance
           </span>
-          <h2 className="text-3xl lg:text-4xl font-display text-primary-foreground mt-2 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-display text-white mt-2 mb-4">
             Independent Third-Party Verified
           </h2>
-          <p className="text-primary-foreground/40 font-body leading-relaxed mb-3">
+          <p className="text-white/40 font-body leading-relaxed mb-3">
             Every product is tested by{" "}
-            <span className="text-primary-foreground/60 font-semibold">
+            <span className="text-white/60 font-semibold">
               Analytical Formulations, Inc. (AFI)
             </span>
             , a DEA-licensed, ISO 17025-accredited analytical laboratory.
           </p>
-          <p className="text-primary-foreground/40 font-body leading-relaxed mb-8">
+          <p className="text-white/40 font-body leading-relaxed mb-8">
             All products undergo comprehensive 6-panel testing including purity, assay, identity confirmation,
             heavy metals screening, and microbial limits (TAMC &amp; TYMC).
           </p>
