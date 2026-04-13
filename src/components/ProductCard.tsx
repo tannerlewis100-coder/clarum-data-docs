@@ -79,7 +79,7 @@ export default function ProductCard({ product, variants }: Props) {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => addItem(selected)}
-                className="inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg hover:bg-navy transition-colors"
+                className="relative inline-flex items-center gap-1.5 bg-navy text-primary-foreground text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg overflow-hidden transition-colors duration-300 hover:bg-gold-light hover:text-navy"
               >
                 <ShoppingCart className="h-3 w-3" />
                 Add
