@@ -19,6 +19,7 @@ export interface Product {
   categoryColor: string;
   coaBatch: string;
   description?: string;
+  badge?: string;
   coa: CoaData;
 }
 
