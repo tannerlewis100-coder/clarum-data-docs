@@ -87,16 +87,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Trust Ticker - pinned right under nav */}
-      <div className="bg-gradient-to-r from-navy via-navy to-navy border-y border-gold/20 overflow-hidden py-2.5">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
-              {item} <span className="text-gold mx-3">✦</span>
-            </span>
-          ))}
-        </div>
-      </div>
 
       {/* Mobile drawer */}
       {mobileOpen && (
