@@ -38,6 +38,13 @@ export default function ProductCard({ product, variants }: Props) {
 
       <div className="relative bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/30 group-hover:shadow-[0_8px_30px_rgba(196,160,90,0.12)]">
 
+        {/* Badge */}
+        {selected.badge && (
+          <span className="absolute top-3 right-3 z-10 bg-gold/10 border border-gold/30 text-gold text-[9px] font-semibold uppercase tracking-[0.15em] px-2 py-1 rounded-sm">
+            {selected.badge}
+          </span>
+        )}
+
         {/* Info */}
         <div className="p-5">
           <h3 className="font-display text-xl text-foreground group-hover:text-gold transition-colors duration-300">
