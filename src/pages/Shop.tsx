@@ -17,6 +17,19 @@ export default function Shop() {
   const revealRef = useScrollReveal();
   const gridRef = useRef<HTMLDivElement>(null);
 
+  const grouped = useMemo(() => {
+    let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
+
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      items = items.filter((p) => p.name.toLowerCase().includes(q));
+    }
+
+    items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
+
+    return groupProducts(items);
+  }, [activeCat, query, priceRange]);
+
   // Stagger fade-in (matches COA Library)
   useEffect(() => {
     if (!gridRef.current) return;
@@ -32,19 +45,6 @@ export default function Shop() {
       }, i * 80);
     });
   }, [grouped]);
-
-  const grouped = useMemo(() => {
-    let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
-
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      items = items.filter((p) => p.name.toLowerCase().includes(q));
-    }
-
-    items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
-
-    return groupProducts(items);
-  }, [activeCat, query, priceRange]);
 
   return (
     <div ref={revealRef}>
