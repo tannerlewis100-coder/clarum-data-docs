@@ -125,6 +125,28 @@ export default function Index() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy to-transparent" />
       </section>
 
+      {/* ===== TRUST TICKER ===== */}
+      <div className="bg-gradient-to-r from-navy via-navy to-navy border-y border-gold/20 overflow-hidden py-2.5">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[
+            "HPLC ≥99% Purity Verified",
+            "Heavy Metals Tested — ND",
+            "Microbial & Yeast Screened",
+            "Endotoxin Tested (LAL Method)",
+            "Batch-Specific COA Included",
+            "Ships from USA",
+            "No Fillers. No Shortcuts.",
+          ].flatMap((item, i, arr) => [
+            <span key={`a-${i}`} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+              {item} <span className="text-gold mx-3">✦</span>
+            </span>,
+            <span key={`b-${i}`} className="mx-6 text-[11px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+              {item} <span className="text-gold mx-3">✦</span>
+            </span>,
+          ])}
+        </div>
+      </div>
+
       {/* ===== TESTING & COA TRANSPARENCY (Combined) ===== */}
       <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
         <div className="absolute inset-0 gold-grid-texture" />
