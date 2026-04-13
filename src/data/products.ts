@@ -13,6 +13,7 @@ export interface CoaData {
 export interface Product {
   id: string;
   name: string;
+  coaEmbed?: string;
   price: number;
   category: string;
   dosage: string;
