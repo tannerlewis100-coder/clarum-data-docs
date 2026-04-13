@@ -13,8 +13,29 @@ export default function DiscountPopup() {
 
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY)) return;
-    const timer = setTimeout(() => setOpen(true), 5000);
-    return () => clearTimeout(timer);
+
+    // Wait until age gate is dismissed before starting the timer
+    const checkAgeGate = () => {
+      if (localStorage.getItem("clarum-age-verified")) {
+        const timer = setTimeout(() => setOpen(true), 5000);
+        return () => clearTimeout(timer);
+      }
+      return undefined;
+    };
+
+    // Check immediately in case already verified
+    const cleanup = checkAgeGate();
+    if (cleanup) return cleanup;
+
+    // Poll for age gate dismissal
+    const interval = setInterval(() => {
+      if (localStorage.getItem("clarum-age-verified")) {
+        clearInterval(interval);
+        setTimeout(() => setOpen(true), 5000);
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   const dismiss = () => {
