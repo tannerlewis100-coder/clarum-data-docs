@@ -53,6 +53,7 @@ export default function COALibrary() {
   const [activeCat, setActiveCat] = useState("All");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [iframeLoaded, setIframeLoaded] = useState<Record<string, boolean>>({});
+  const [selectedImage, setSelectedImage] = useState<{ src: string; name: string; coaUrl?: string } | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
