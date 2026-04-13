@@ -224,7 +224,7 @@ export default function COALibrary() {
                     {/* COA Image, PDF iframe, or placeholder */}
                     {product.coaImage ? (
                       <div
-                        className="mt-2 rounded-xl bg-white overflow-auto relative cursor-pointer group/img"
+                        className="mt-2 rounded-xl bg-white overflow-hidden border border-white/10 relative cursor-pointer group/img"
                         style={{ maxHeight: 700 }}
                         onClick={() => setSelectedImage({ src: product.coaImage!, name: product.name, coaUrl: product.coaUrl })}
                       >
