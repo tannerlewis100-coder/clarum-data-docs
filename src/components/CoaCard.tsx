@@ -1,4 +1,5 @@
-import { Check } from "lucide-react";
+import { useState } from "react";
+import { Check, ExternalLink, X } from "lucide-react";
 import type { CoaData } from "@/data/products";
 
 interface CoaCardProps {
@@ -7,6 +8,7 @@ interface CoaCardProps {
   coa: CoaData;
   compact?: boolean;
   coaUrl?: string;
+  coaImage?: string;
 }
 
 function CoaField({ label, value, pass }: { label: string; value: string; pass?: boolean }) {
@@ -21,7 +23,9 @@ function CoaField({ label, value, pass }: { label: string; value: string; pass?:
   );
 }
 
-export default function CoaCard({ name, coa, compact, coaUrl }: CoaCardProps) {
+export default function CoaCard({ name, coa, compact, coaUrl, coaImage }: CoaCardProps) {
+  const [showModal, setShowModal] = useState(false);
+
   if (compact) {
     return (
       <div className="h-full flex flex-col bg-navy rounded-t-2xl overflow-hidden">
@@ -44,46 +48,128 @@ export default function CoaCard({ name, coa, compact, coaUrl }: CoaCardProps) {
   }
 
   return (
-    <div className="bg-card rounded-card border border-border overflow-hidden hover:border-gold/30 hover:shadow-[0_8px_30px_-8px_hsl(38_55%_52%/0.15)] transition-all duration-300">
-      {/* Header */}
-      <div className="bg-navy p-5">
-        <h3 className="font-display text-lg text-primary-foreground">{name}</h3>
-        <p className="text-[11px] text-primary-foreground/40 font-body mt-0.5">{coa.form}</p>
-      </div>
+    <>
+      <div className="bg-card rounded-2xl border border-border overflow-hidden hover:border-gold/30 hover:shadow-[0_8px_30px_-8px_hsl(38_55%_52%/0.15)] transition-all duration-300 group">
+        {/* COA Image Preview */}
+        {coaImage && (
+          <button
+            onClick={() => setShowModal(true)}
+            className="w-full aspect-[8.5/11] overflow-hidden bg-white cursor-pointer relative"
+          >
+            <img
+              src={coaImage}
+              alt={`Certificate of Analysis for ${name}`}
+              className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/10 transition-colors duration-300 flex items-center justify-center">
+              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-navy/80 text-white text-xs font-body font-semibold px-4 py-2 rounded-lg backdrop-blur-sm">
+                Click to View
+              </span>
+            </div>
+          </button>
+        )}
 
-      {/* Test Results Grid */}
-      <div className="p-5">
-        <div className="grid grid-cols-3 gap-4 mb-4">
-          <CoaField label="Purity" value={coa.purity} pass />
-          <CoaField label="Assay" value={coa.assay} pass />
-          <CoaField label="Identity" value={coa.identity} pass />
+        {/* Header */}
+        <div className="bg-navy p-4">
+          <h3 className="font-display text-base text-primary-foreground">{name}</h3>
+          <p className="text-[10px] text-primary-foreground/40 font-body mt-0.5">{coa.form}</p>
         </div>
-        <div className="grid grid-cols-3 gap-4">
-          <CoaField label="Heavy Metals" value={coa.heavyMetals} pass />
-          <CoaField label="TAMC" value={coa.tamc} pass />
-          <CoaField label="TYMC" value={coa.tymc} pass />
+
+        {/* Compact Test Results */}
+        <div className="p-4">
+          <div className="grid grid-cols-3 gap-3 mb-3">
+            <CoaField label="Purity" value={coa.purity} pass />
+            <CoaField label="Assay" value={coa.assay} pass />
+            <CoaField label="Identity" value={coa.identity} pass />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <CoaField label="Heavy Metals" value={coa.heavyMetals} pass />
+            <CoaField label="TAMC" value={coa.tamc} pass />
+            <CoaField label="TYMC" value={coa.tymc} pass />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-border px-4 py-2.5 flex items-center justify-between">
+          <span className="text-[10px] text-muted-foreground font-body">Sku: {coa.sku}</span>
+          <span className="text-[10px] text-muted-foreground font-body">{coa.date}</span>
+        </div>
+
+        {/* Actions */}
+        <div className="px-4 pb-4 flex gap-2">
+          {coaImage && (
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-primary-foreground text-xs font-body font-semibold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 uppercase tracking-wider"
+            >
+              View COA
+            </button>
+          )}
+          {coaUrl && (
+            <a
+              href={coaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${coaImage ? 'w-10 flex items-center justify-center' : 'flex-1 flex items-center justify-center gap-2'} border border-border text-muted-foreground hover:text-gold hover:border-gold/30 text-xs font-body font-semibold py-2.5 rounded-lg transition-colors uppercase tracking-wider`}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              {!coaImage && <span>View on Drive</span>}
+            </a>
+          )}
+          {!coaImage && !coaUrl && (
+            <span className="flex-1 bg-muted-foreground/20 text-muted-foreground text-xs font-body font-semibold py-2.5 rounded-lg flex items-center justify-center uppercase tracking-wider cursor-not-allowed">
+              COA Coming Soon
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="border-t border-border px-5 py-3 flex items-center justify-between">
-        <span className="text-[10px] text-muted-foreground font-body">Sku: {coa.sku}</span>
-        <span className="text-[10px] text-muted-foreground font-body">{coa.date}</span>
-      </div>
-
-      <div className="px-5 pb-5">
-        <a
-          href={coaUrl || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`w-full text-primary-foreground text-xs font-body font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 uppercase tracking-wider ${coaUrl ? "bg-emerald-500 hover:bg-emerald-600" : "bg-muted-foreground/30 cursor-not-allowed pointer-events-none"}`}
+      {/* Fullscreen Modal */}
+      {showModal && coaImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={() => setShowModal(false)}
         >
-          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          {coaUrl ? "View COA" : "COA Coming Soon"}
-        </a>
-      </div>
-    </div>
+          <div
+            className="relative max-w-4xl max-h-[90vh] w-full bg-white rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between bg-navy px-5 py-3">
+              <div>
+                <h3 className="font-display text-primary-foreground text-lg">{name}</h3>
+                <p className="text-[11px] text-primary-foreground/40 font-body">{coa.form}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                {coaUrl && (
+                  <a
+                    href={coaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-foreground/60 hover:text-gold transition-colors flex items-center gap-1.5 text-xs font-body"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    Download
+                  </a>
+                )}
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-primary-foreground transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+            <div className="overflow-auto max-h-[calc(90vh-60px)]">
+              <img
+                src={coaImage}
+                alt={`Certificate of Analysis for ${name}`}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
