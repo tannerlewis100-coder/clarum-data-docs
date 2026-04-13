@@ -6,6 +6,7 @@ interface CoaCardProps {
   form: string;
   coa: CoaData;
   compact?: boolean;
+  coaUrl?: string;
 }
 
 function CoaField({ label, value, pass }: { label: string; value: string; pass?: boolean }) {
