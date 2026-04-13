@@ -334,6 +334,11 @@ export default function Index() {
 
         <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 text-center">
           <div className="max-w-2xl mx-auto reveal">
+            <div className="inline-flex items-center gap-2 justify-center mb-3">
+              <span className="h-px w-8 bg-gold/40" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Get Started</span>
+              <span className="h-px w-8 bg-gold/40" />
+            </div>
             <Sparkles className="h-8 w-8 text-gold/50 mx-auto mb-6" />
             <h2 className="text-3xl lg:text-5xl font-display text-primary-foreground leading-tight mb-6">
               Ready to Source{" "}
