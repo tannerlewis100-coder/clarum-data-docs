@@ -131,7 +131,7 @@ export default function Index() {
 
 
       {/* ===== TESTING & COA TRANSPARENCY (Combined) ===== */}
-      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden border-t border-white/[0.03]">
         <div className="absolute inset-0 gold-grid-texture" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/10 to-transparent" />
@@ -257,7 +257,7 @@ export default function Index() {
       </section>
 
       {/* ===== BRAND STORY ===== */}
-      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden">
+      <section className="relative py-24 lg:py-32 bg-navy overflow-hidden border-t border-white/[0.03]">
         <div className="absolute top-20 right-0 w-[300px] h-[300px] rounded-full bg-gold/[0.03] blur-[100px]" />
         <div className="w-full max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 items-center">
@@ -327,7 +327,7 @@ export default function Index() {
       </section>
 
       {/* ===== CLOSING CTA ===== */}
-      <section className="relative py-20 lg:py-28 bg-navy overflow-hidden">
+      <section className="relative py-20 lg:py-28 bg-navy overflow-hidden border-t border-white/[0.03]">
         <div className="absolute inset-0 gold-line-texture" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-gold/[0.04] blur-[120px]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
