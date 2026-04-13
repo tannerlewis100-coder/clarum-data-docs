@@ -117,7 +117,7 @@ export default function Shop() {
           </p>
 
           {/* ── Grid ── */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {grouped.map(([first, variants]) => (
               <ProductCard key={first.id} product={first} variants={variants} />
             ))}
