@@ -85,6 +85,10 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "grow-bar": {
+          from: { transform: "scaleX(0)", transformOrigin: "left" },
+          to: { transform: "scaleX(1)", transformOrigin: "left" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
