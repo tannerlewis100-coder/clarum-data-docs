@@ -56,9 +56,9 @@ function coa(purity: string, assay: string, sku: string, form: string, date = D)
 
 export const allProducts: Product[] = [
   // ── Recovery & Repair ──
-  { id: "bpc-157-5mg", name: "BPC-157", price: 59, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC5", coa: coa("99.5%", "5.00mg", "YPB.212", "5mg Lyophilized Powder") },
-  { id: "bpc-157-10mg", name: "BPC-157", price: 119, category: "Recovery", dosage: "10mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC10", coa: coa("99.9%", "10.02mg", "YPB.213", "10mg Lyophilized Powder") },
-  { id: "bpc-157-20mg", name: "BPC-157", price: 179, category: "Recovery", dosage: "20mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC20", coa: coa("99.8%", "20.04mg", "YPB.237", "20mg Lyophilized Powder") },
+  { id: "bpc-157-5mg", name: "BPC-157", price: 59, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC5", badge: "BEST SELLER", coa: coa("99.5%", "5.00mg", "YPB.212", "5mg Lyophilized Powder") },
+  { id: "bpc-157-10mg", name: "BPC-157", price: 119, category: "Recovery", dosage: "10mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC10", badge: "BEST SELLER", coa: coa("99.9%", "10.02mg", "YPB.213", "10mg Lyophilized Powder") },
+  { id: "bpc-157-20mg", name: "BPC-157", price: 179, category: "Recovery", dosage: "20mg", categoryColor: CAT.Recovery, coaBatch: "2406-BPC20", badge: "BEST SELLER", coa: coa("99.8%", "20.04mg", "YPB.237", "20mg Lyophilized Powder") },
   { id: "tb-500-5mg", name: "TB-500", price: 89, category: "Recovery", dosage: "5mg", categoryColor: CAT.Recovery, coaBatch: "2406-TB5", coa: coa("99.9%", "5.08mg", "YPB.214", "5mg Lyophilized Powder") },
   { id: "tb-500-10mg", name: "TB-500", price: 159, category: "Recovery", dosage: "10mg", categoryColor: CAT.Recovery, coaBatch: "2406-TB10", coa: coa("99.8%", "10.28mg", "YPB.215", "10mg Lyophilized Powder") },
   { id: "wolverine-5mg-r", name: "Wolverine Blend", price: 109, category: "Recovery", dosage: "5mg/5mg", categoryColor: CAT.Recovery, coaBatch: "2406-WLV5", coa: coa("99.7%", "10.06mg", "YPB.216", "BPC-157 (5mg) / TB500 (5mg)") },
