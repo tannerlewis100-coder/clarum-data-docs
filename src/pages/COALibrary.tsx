@@ -357,6 +357,44 @@ export default function COALibrary() {
           </Link>
         </div>
       </section>
+      {/* Fullscreen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex flex-col"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="flex items-center justify-between px-5 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-display text-white text-lg">{selectedImage.name}</h3>
+            <div className="flex items-center gap-3">
+              {selectedImage.coaUrl && (
+                <a
+                  href={selectedImage.coaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-gold transition-colors flex items-center gap-1.5 text-xs font-body"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Open in Drive
+                </a>
+              )}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-auto flex items-start justify-center p-4" onClick={() => setSelectedImage(null)}>
+            <img
+              src={selectedImage.src}
+              alt={`Certificate of Analysis for ${selectedImage.name}`}
+              className="max-w-4xl w-full h-auto rounded-xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
