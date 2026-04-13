@@ -154,7 +154,7 @@ export default function Index() {
           </div>
 
           {/* 5-Panel Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 reveal">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 reveal-stagger">
             {testingCards.map((card) => (
               <div key={card.title} className="group relative">
                 <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
@@ -313,7 +313,7 @@ export default function Index() {
               Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
             {groupProducts(featuredProducts).map(([first, variants]) => (
               <ProductCard key={first.id} product={first} variants={variants} />
             ))}
