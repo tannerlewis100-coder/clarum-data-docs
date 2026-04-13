@@ -1,29 +1,20 @@
 
 
-## Add 10 More COA PNG Images
+## Crop All 45 COA Images
 
-Copy the 10 newly uploaded COA screenshots to `public/coa/` and update `coaImage` paths in `src/data/products.ts`.
+**What's happening**: Every COA image (1000x1300) has dark gray borders — about 97px on the left, 16px on the right, and 16px on the bottom. The actual lab report document sits in a consistent region across all 45 images. We'll auto-crop all of them to remove these borders cleanly.
 
-### Step 1: Copy files to `public/coa/`
+### Step 1: Batch crop all 45 PNGs in `public/coa/`
 
-| Upload | Destination |
-|---|---|
-| `BPC-157-_20mg.png` | `public/coa/BPC-157-(20mg).png` |
-| `Cagrilintide.png` | `public/coa/Cagrilintide.png` |
-| `CJC-1295-With-DAC.png` | `public/coa/CJC-1295-With-DAC.png` |
-| `CJC-1295-Without-DAC.png` | `public/coa/CJC-1295-Without-DAC.png` |
-| `DSIP-_5mg.png` | `public/coa/DSIP-(5mg).png` |
-| `DSIP-_15mg.png` | `public/coa/DSIP-(15mg).png` |
-| `Epitalon-_10mg.png` | `public/coa/Epitalon-(10mg).png` |
-| `FOXO4.png` | `public/coa/FOXO4.png` |
-| `GDF-8.png` | `public/coa/GDF-8.png` |
-| `GHK-Cu-_50mg.png` | `public/coa/GHK-Cu-(50mg).png` |
+Write a Python script that:
+1. Iterates all `.png` files in `public/coa/`
+2. For each image, detects the content region by finding where pixels differ from the dark border color `rgb(30, 30, 31)`
+3. Crops to the content bounds with a small uniform padding (2-4px)
+4. Overwrites the original file with the cropped version
+5. Reports before/after dimensions
 
-### Step 2: Update `src/data/products.ts`
-
-Update `coaImage` for these 10 products to point to the new PNG files. Most paths should already match from the earlier bulk update -- just verify and fix any mismatches.
+Based on analysis, all 45 images share the same content bounds (top=0, bottom=1284, left=97, right=984), so cropping will produce clean ~887x1284 documents showing just the lab report with no surrounding dark chrome.
 
 ### Files Modified
-- `public/coa/` -- 10 new PNG files
-- `src/data/products.ts` -- verify/fix `coaImage` paths for 10 products
+- All 45 PNG files in `public/coa/` — cropped in-place
 
