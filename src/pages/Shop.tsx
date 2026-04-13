@@ -47,7 +47,7 @@ export default function Shop() {
         <div className="container mx-auto px-4 lg:px-8">
 
           {/* ── Toolbar ── */}
-          <div className="flex flex-col lg:flex-row gap-4 lg:items-end mb-8 reveal">
+          <div className="flex flex-col lg:flex-row gap-4 lg:items-center mb-8 reveal">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
