@@ -15,7 +15,7 @@ export function useScrollReveal() {
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px 0px 0px" }
     );
 
     const children = el.querySelectorAll(".reveal, .reveal-stagger");
