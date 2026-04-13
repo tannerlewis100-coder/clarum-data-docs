@@ -1,30 +1,32 @@
 
 
-## Remove Bad COA Images, Use Clean Placeholders
+## Show Real COA Images in Expanded Card View
 
-The static JPG images in `/public/coa/` have overlapping text and look unprofessional. We'll stop using them entirely and replace the expanded view with either a real PDF iframe (when available) or a clean placeholder pointing users to Google Drive.
+**Problem**: The expanded card currently shows either an iframe (B12 only) or a generic placeholder. You want the actual lab report scans (`/public/coa/*.jpg`) to display when clicking "View Certificate."
 
-### Changes
+**Solution**: Add image display as the primary expanded content, using the `coaImage` path already stored on each product. Display it cleanly in a scrollable white container with a fullscreen modal on click.
 
-**`src/pages/COALibrary.tsx`** (expanded content section, lines 216-279):
+### Changes to `src/pages/COALibrary.tsx`
 
-1. **Keep iframe for direct file URLs** (currently only B12) -- works as-is with the loading spinner.
+**Expanded content section (lines 222-260)** — replace the current placeholder fallback with a three-tier priority:
 
-2. **Add placeholder fallback** when there's no embed URL but there is a `coaUrl` (folder link):
-   - A styled container matching the card design (`bg-white/[0.03]`, `border-white/[0.06]`, `rounded-xl`)
-   - Icon (FileText or Shield) centered with a message: "Full lab report available on Google Drive"
-   - A gold-styled "Open Full Report" button that opens the Drive folder in a new tab
-   - Height ~200px, clean and minimal
+1. **If `coaImage` exists** (most products): Show the JPG in a white-background scrollable container (`max-h-[700px]`, `rounded-xl`, `overflow-auto`, `bg-white`). Add a click handler to open a fullscreen modal. Include a subtle "Click to enlarge" hint overlay.
 
-3. **Remove static image display** -- the expanded section currently only shows iframes, so no image code to remove there. The card thumbnails (coaImage on the non-expanded card in `CoaCard.tsx`) are not used on this page, so no changes needed there.
+2. **If no `coaImage` but `embedUrl` exists** (B12): Keep the iframe with gold spinner as-is.
 
-4. **Keep everything else** -- test result chips, action buttons, animation, gold accent bar all stay the same.
+3. **If neither**: Show the current placeholder with "Open Full Report" button.
+
+**Add fullscreen image modal** (new state + JSX at bottom of component):
+- `selectedImage` state tracking which product's image is open
+- Dark overlay (`bg-black/90 backdrop-blur-sm`) with scrollable full-size image
+- Close button (X) + "Open in Drive" link in a top bar
+- Click outside to dismiss
 
 ### Result
-- Click "View Certificate" on B12 -> expands with real PDF iframe
-- Click "View Certificate" on any other product -> expands with a clean dark placeholder + "Open Full Report" button linking to Drive folder
-- No more blurry/overlapping images anywhere
+- Click "View Certificate" → card expands → shows the real lab report JPG at full width in a clean white container
+- Click the image → fullscreen modal for detailed reading
+- No blurry/overlapping text — images displayed at native resolution with proper containment
 
 ### Files Modified
-- `src/pages/COALibrary.tsx` -- add placeholder block in expanded content
+- `src/pages/COALibrary.tsx`
 
