@@ -50,28 +50,28 @@ export default function FAQ() {
 
   return (
     <div ref={revealRef}>
-      <section className="bg-navy gold-line-texture pt-28 pb-16">
+      <section className="bg-navy gold-line-texture pt-28 pb-16 border-b border-white/[0.03]">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">Support</span>
-          <h1 className="text-4xl lg:text-5xl font-display text-primary-foreground mt-2">
+          <h1 className="text-4xl lg:text-5xl font-display text-white mt-2">
             Frequently Asked Questions
           </h1>
         </div>
       </section>
 
-      <section className="py-12 lg:py-20 bg-background">
+      <section className="py-12 lg:py-20 bg-navy-alt">
         <div className="container mx-auto px-4 lg:px-8 max-w-3xl reveal">
           <Accordion type="single" collapsible className="space-y-3">
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="bg-card rounded-card border border-border px-6 data-[state=open]:border-gold/30 transition-colors"
+                className="bg-white/[0.03] rounded-2xl border border-white/[0.06] px-6 data-[state=open]:border-gold/30 transition-colors"
               >
-                <AccordionTrigger className="font-display text-lg text-foreground hover:no-underline py-5">
+                <AccordionTrigger className="font-display text-lg text-white hover:no-underline py-5">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground font-body leading-relaxed pb-5">
+                <AccordionContent className="text-white/50 font-body leading-relaxed pb-5">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
