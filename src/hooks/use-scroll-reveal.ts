@@ -7,6 +7,16 @@ export function useScrollReveal() {
     const el = ref.current;
     if (!el) return;
 
+    const children = el.querySelectorAll(".reveal, .reveal-stagger");
+
+    // Immediately mark any elements already in the viewport as visible
+    children.forEach((child) => {
+      const rect = child.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        child.classList.add("visible");
+      }
+    });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,8 +28,11 @@ export function useScrollReveal() {
       { threshold: 0.01, rootMargin: "50px 0px 50px 0px" }
     );
 
-    const children = el.querySelectorAll(".reveal, .reveal-stagger");
-    children.forEach((child) => observer.observe(child));
+    children.forEach((child) => {
+      if (!child.classList.contains("visible")) {
+        observer.observe(child);
+      }
+    });
 
     return () => observer.disconnect();
   }, []);
