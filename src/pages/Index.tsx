@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { featuredProducts, groupProducts } from "@/data/products";
+import { useWcFeaturedProducts } from "@/hooks/use-wc-products";
 import ProductCard from "@/components/ProductCard";
-import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles } from "lucide-react";
+import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles, Loader2 } from "lucide-react";
 
 const stats = ["61 Compounds", "5 Tests Per Batch", "100% COA Documented", "≥99% HPLC Purity"];
 
@@ -299,32 +299,7 @@ export default function Index() {
       </section>
 
       {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="relative py-24 lg:py-32 bg-navy-alt gold-grid-texture overflow-hidden border-t border-white/[0.03]">
-        <div className="absolute top-0 right-1/4 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
-        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-14 reveal">
-            <div className="inline-flex items-center gap-2 justify-center mb-4">
-              <span className="h-px w-8 bg-gold/40" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Catalog</span>
-              <span className="h-px w-8 bg-gold/40" />
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-display text-white">Featured Compounds</h2>
-            <p className="text-white/50 font-body mt-4 max-w-md mx-auto">
-              Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {groupProducts(featuredProducts).map(([first, variants]) => (
-              <ProductCard key={first.id} product={first} variants={variants} />
-            ))}
-          </div>
-          <div className="text-center mt-12 reveal">
-            <Button variant="goldOutline" size="lg" asChild>
-              <Link to="/shop" className="text-gold">View All 61 Compounds <ArrowRight className="ml-1 h-4 w-4" /></Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <FeaturedSection />
 
       {/* ===== CLOSING CTA ===== */}
       <section className="relative py-20 lg:py-28 bg-navy overflow-hidden border-t border-white/[0.03]">
