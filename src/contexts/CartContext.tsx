@@ -1,9 +1,14 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Product } from "@/data/products";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 
 export interface CartItem {
-  product: Product;
+  wcProductId: number;
+  wcVariationId?: number;
+  name: string;
+  price: number;
   quantity: number;
+  size?: string;
+  slug: string;
+  category: string;
 }
 
 interface CartContextType {
@@ -12,57 +17,71 @@ interface CartContextType {
   openCart: () => void;
   closeCart: () => void;
   toggleCart: () => void;
-  addItem: (product: Product) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  addItem: (item: Omit<CartItem, "quantity">) => void;
+  removeItem: (key: string) => void;
+  updateQuantity: (key: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
 }
 
+function cartKey(item: { wcProductId: number; wcVariationId?: number }): string {
+  return item.wcVariationId ? `${item.wcProductId}-${item.wcVariationId}` : `${item.wcProductId}`;
+}
+
+const STORAGE_KEY = "clarum-cart";
+
+function loadCart(): CartItem[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadCart);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }, [items]);
 
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
   const toggleCart = useCallback(() => setIsOpen((o) => !o), []);
 
-  const addItem = useCallback((product: Product) => {
+  const addItem = useCallback((item: Omit<CartItem, "quantity">) => {
+    const key = cartKey(item);
     setItems((prev) => {
-      const existing = prev.find((i) => i.product.id === product.id);
+      const existing = prev.find((i) => cartKey(i) === key);
       if (existing) {
-        return prev.map((i) =>
-          i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
+        return prev.map((i) => cartKey(i) === key ? { ...i, quantity: i.quantity + 1 } : i);
       }
-      return [...prev, { product, quantity: 1 }];
+      return [...prev, { ...item, quantity: 1 }];
     });
     setIsOpen(true);
   }, []);
 
-  const removeItem = useCallback((productId: string) => {
-    setItems((prev) => prev.filter((i) => i.product.id !== productId));
+  const removeItem = useCallback((key: string) => {
+    setItems((prev) => prev.filter((i) => cartKey(i) !== key));
   }, []);
 
-  const updateQuantity = useCallback((productId: string, quantity: number) => {
+  const updateQuantity = useCallback((key: string, quantity: number) => {
     if (quantity <= 0) {
-      setItems((prev) => prev.filter((i) => i.product.id !== productId));
+      setItems((prev) => prev.filter((i) => cartKey(i) !== key));
       return;
     }
-    setItems((prev) =>
-      prev.map((i) => (i.product.id === productId ? { ...i, quantity } : i))
-    );
+    setItems((prev) => prev.map((i) => cartKey(i) === key ? { ...i, quantity } : i));
   }, []);
 
-  const clearCart = useCallback(() => {
-    setItems([]);
-  }, []);
+  const clearCart = useCallback(() => setItems([]), []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+  const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -78,3 +97,5 @@ export function useCart() {
   if (!ctx) throw new Error("useCart must be used within CartProvider");
   return ctx;
 }
+
+export { cartKey };

@@ -1,8 +1,13 @@
-import { Minus, Plus, X, ShoppingBag, Trash2 } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
+import { Minus, Plus, X, ShoppingBag, Trash2, ExternalLink } from "lucide-react";
+import { useCart, cartKey } from "@/contexts/CartContext";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
+
+  const handleCheckout = () => {
+    // Redirect to WooCommerce shop where users can complete purchase
+    window.open("https://clarumpeptides.com/shop/", "_blank");
+  };
 
   return (
     <>
@@ -49,55 +54,58 @@ export default function CartDrawer() {
             </div>
           ) : (
             <div className="space-y-4">
-              {items.map((item) => (
-                <div
-                  key={item.product.id}
-                  className="flex gap-4 p-3 rounded-xl border border-white/[0.06] bg-white/[0.03] hover:border-gold/20 transition-colors"
-                >
-                  {/* Color swatch */}
-                  <div className="w-16 h-16 rounded-lg bg-navy gold-grid-texture shrink-0 flex items-center justify-center">
-                    <span className="text-[9px] uppercase tracking-wider text-gold/60 font-body font-semibold">
-                      {item.product.category.slice(0, 3)}
-                    </span>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display text-sm text-white truncate">{item.product.name}</h3>
-                    {item.product.dosage && (
-                      <p className="text-[10px] text-white/30 font-body">{item.product.dosage}</p>
-                    )}
-                    <p className="text-sm font-display text-gold mt-1">${item.product.price}</p>
-                  </div>
-
-                  {/* Quantity + Remove */}
-                  <div className="flex flex-col items-end justify-between">
-                    <button
-                      onClick={() => removeItem(item.product.id)}
-                      className="text-white/25 hover:text-destructive transition-colors"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                        className="w-6 h-6 rounded-full border border-white/[0.06] flex items-center justify-center text-white/50 hover:border-gold/30 hover:text-white transition-all"
-                      >
-                        <Minus className="h-3 w-3" />
-                      </button>
-                      <span className="text-xs font-body font-semibold w-5 text-center text-white">
-                        {item.quantity}
+              {items.map((item) => {
+                const key = cartKey(item);
+                return (
+                  <div
+                    key={key}
+                    className="flex gap-4 p-3 rounded-xl border border-white/[0.06] bg-white/[0.03] hover:border-gold/20 transition-colors"
+                  >
+                    {/* Color swatch */}
+                    <div className="w-16 h-16 rounded-lg bg-navy gold-grid-texture shrink-0 flex items-center justify-center">
+                      <span className="text-[9px] uppercase tracking-wider text-gold/60 font-body font-semibold">
+                        {item.category.slice(0, 3)}
                       </span>
+                    </div>
+
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display text-sm text-white truncate">{item.name}</h3>
+                      {item.size && (
+                        <p className="text-[10px] text-white/30 font-body">{item.size}</p>
+                      )}
+                      <p className="text-sm font-display text-gold mt-1">${item.price}</p>
+                    </div>
+
+                    {/* Quantity + Remove */}
+                    <div className="flex flex-col items-end justify-between">
                       <button
-                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                        className="w-6 h-6 rounded-full border border-white/[0.06] flex items-center justify-center text-white/50 hover:border-gold/30 hover:text-white transition-all"
+                        onClick={() => removeItem(key)}
+                        className="text-white/25 hover:text-destructive transition-colors"
                       >
-                        <Plus className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => updateQuantity(key, item.quantity - 1)}
+                          className="w-6 h-6 rounded-full border border-white/[0.06] flex items-center justify-center text-white/50 hover:border-gold/30 hover:text-white transition-all"
+                        >
+                          <Minus className="h-3 w-3" />
+                        </button>
+                        <span className="text-xs font-body font-semibold w-5 text-center text-white">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => updateQuantity(key, item.quantity + 1)}
+                          className="w-6 h-6 rounded-full border border-white/[0.06] flex items-center justify-center text-white/50 hover:border-gold/30 hover:text-white transition-all"
+                        >
+                          <Plus className="h-3 w-3" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -111,8 +119,12 @@ export default function CartDrawer() {
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
-            <button className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors">
-              Checkout
+            <button
+              onClick={handleCheckout}
+              className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
+            >
+              Proceed to Checkout
+              <ExternalLink className="h-3.5 w-3.5" />
             </button>
             <button
               onClick={clearCart}
