@@ -20,9 +20,9 @@ const qualityLinks = [
 const companyLinks = [
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
-  { label: "Privacy Policy", to: "#" },
-  { label: "Terms of Service", to: "#" },
-  { label: "Disclaimer", to: "#" },
+  { label: "Privacy Policy", to: "/privacy" },
+  { label: "Terms of Service", to: "/terms" },
+  { label: "Disclaimer", to: "/disclaimer" },
 ];
 
 export default function Footer() {
