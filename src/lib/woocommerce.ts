@@ -1,4 +1,4 @@
-const WC_BASE = "https://clarumpeptides.com/wp-json/wc/v3";
+const WC_BASE = "https://admin.clarumpeptides.com/wp-json/wc/v3";
 const WC_CK = "ck_609f33e322a5b5105c7dd3544c12219c4b907a4b";
 const WC_CS = "cs_dcdbda79718ccf0223743aaed503676d61f7edd1";
 

@@ -6,7 +6,7 @@ export default function CartDrawer() {
 
   const handleCheckout = () => {
     // Redirect to WooCommerce shop where users can complete purchase
-    window.open("https://clarumpeptides.com/shop/", "_blank");
+    window.open("https://admin.clarumpeptides.com/shop/", "_blank");
   };
 
   return (
