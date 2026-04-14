@@ -233,6 +233,11 @@ export default function COALibrary() {
                           alt={`Certificate of Analysis for ${product.name}`}
                           className="w-full h-auto"
                           loading="lazy"
+                          style={
+                            product.coaImage?.includes("Glutathione") || product.coaImage?.includes("DSIP")
+                              ? { filter: "brightness(1.05) contrast(1.08)" }
+                              : undefined
+                          }
                         />
                         <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/10 transition-colors duration-200 flex items-end justify-center pb-4 pointer-events-none">
                           <span className="opacity-0 group-hover/img:opacity-100 transition-opacity duration-200 bg-black/70 text-white text-xs font-body font-medium px-4 py-2 rounded-lg backdrop-blur-sm flex items-center gap-1.5">

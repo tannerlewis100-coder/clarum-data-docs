@@ -17,6 +17,9 @@ import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Disclaimer from "./pages/Disclaimer";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +43,9 @@ const App = () => (
               <Route path="/coa-library" element={<COALibrary />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/disclaimer" element={<Disclaimer />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
