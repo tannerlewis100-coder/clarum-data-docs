@@ -57,7 +57,15 @@ const descriptions: Record<string, string> = {
 };
 
 export function getProductDescription(slug: string, wcDescription?: string): string {
+  // Direct match
   if (descriptions[slug]) return descriptions[slug];
+
+  // Try partial match — some WC slugs may have extra suffixes
+  const match = Object.keys(descriptions).find((key) => slug.startsWith(key) || key.startsWith(slug));
+  if (match) return descriptions[match];
+
+  // Fall back to WC description
   if (wcDescription && wcDescription.trim()) return wcDescription;
+
   return "A pharmaceutical-grade research compound. Every batch undergoes our mandatory 5-panel independent lab testing: HPLC purity, mass spectrometry identity, heavy metals, microbial screening, and endotoxin testing.";
 }
