@@ -4,6 +4,7 @@ import { ArrowLeft, ShoppingCart, Shield, FlaskConical, Check, Loader2 } from "l
 import { useWcProductBySlug } from "@/hooks/use-wc-products";
 import { useCart } from "@/contexts/CartContext";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { getProductDescription } from "@/data/descriptions";
 
 const testPanels = [
   { label: "HPLC Purity", result: "≥99%" },
@@ -161,7 +162,7 @@ export default function ProductDetail() {
               <div className="mb-10">
                 <h2 className="font-display text-xl text-white mb-3">About This Product</h2>
                 <p className="text-sm text-white/50 font-body leading-relaxed">
-                  {product.description || product.shortDescription || `${product.name} is a pharmaceutical-grade research compound. Every batch undergoes our mandatory 5-panel independent lab testing.`}
+                  {getProductDescription(product.slug, product.description)}
                 </p>
                 <p className="text-[10px] text-white/25 font-body mt-4 uppercase tracking-wider">
                   For in vitro laboratory research use only. Not for human or veterinary consumption.
