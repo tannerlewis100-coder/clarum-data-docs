@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
+
 
 const STORAGE_KEY = "clarum-discount-shown";
 
@@ -54,14 +54,6 @@ export default function DiscountPopup() {
 
       {/* Modal */}
       <div className="relative w-full max-w-sm mx-4 bg-navy rounded-2xl border border-gold/20 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] overflow-hidden">
-        {/* Close button */}
-        <button
-          onClick={dismiss}
-          className="absolute right-4 top-4 z-10 text-white/30 hover:text-white/60 transition-colors"
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </button>
 
         {/* Gold accent line */}
         <div className="h-1 bg-gradient-to-r from-gold/0 via-gold to-gold/0" />
