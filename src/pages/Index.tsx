@@ -22,7 +22,44 @@ const brandStats = [
   { num: "100%", label: "Batch COA documentation, publicly available" },
 ];
 
-export default function Index() {
+function FeaturedSection() {
+  const { data: featured, isLoading } = useWcFeaturedProducts();
+  return (
+    <section className="relative py-24 lg:py-32 bg-navy-alt gold-grid-texture overflow-hidden border-t border-white/[0.03]">
+      <div className="absolute top-0 right-1/4 w-[300px] h-[300px] rounded-full bg-gold/[0.02] blur-[100px]" />
+      <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-14 reveal">
+          <div className="inline-flex items-center gap-2 justify-center mb-4">
+            <span className="h-px w-8 bg-gold/40" />
+            <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">Catalog</span>
+            <span className="h-px w-8 bg-gold/40" />
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-display text-white">Featured Compounds</h2>
+          <p className="text-white/50 font-body mt-4 max-w-md mx-auto">
+            Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
+          </p>
+        </div>
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 text-gold animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {featured?.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+        <div className="text-center mt-12 reveal">
+          <Button variant="goldOutline" size="lg" asChild>
+            <Link to="/shop" className="text-gold">View Full Catalog <ArrowRight className="ml-1 h-4 w-4" /></Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
   const revealRef = useScrollReveal();
 
   return (
