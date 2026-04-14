@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, ChevronDown } from "lucide-react";
-import { allProducts, categories, groupProducts } from "@/data/products";
+import { Search, ChevronDown, Loader2 } from "lucide-react";
+import { useWcProducts, useWcCategories } from "@/hooks/use-wc-products";
 import ProductCard from "@/components/ProductCard";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Slider } from "@/components/ui/slider";
@@ -17,8 +17,12 @@ export default function Shop() {
   const revealRef = useScrollReveal();
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const grouped = useMemo(() => {
-    let items = activeCat === "All" ? allProducts : allProducts.filter((p) => p.category === activeCat);
+  const { data: products, isLoading, error } = useWcProducts();
+  const { data: categories } = useWcCategories();
+
+  const filtered = useMemo(() => {
+    if (!products) return [];
+    let items = activeCat === "All" ? products : products.filter((p) => p.categorySlug === activeCat);
 
     if (query.trim()) {
       const q = query.trim().toLowerCase();
@@ -26,11 +30,10 @@ export default function Shop() {
     }
 
     items = items.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    return items;
+  }, [products, activeCat, query, priceRange]);
 
-    return groupProducts(items);
-  }, [activeCat, query, priceRange]);
-
-  // Stagger fade-in (matches COA Library)
+  // Stagger fade-in
   useEffect(() => {
     if (!gridRef.current) return;
     const cards = gridRef.current.querySelectorAll("[data-product-card]");
@@ -44,7 +47,7 @@ export default function Shop() {
         el.style.transform = "translateY(0)";
       }, i * 80);
     });
-  }, [grouped]);
+  }, [filtered]);
 
   return (
     <div ref={revealRef}>
@@ -85,7 +88,7 @@ export default function Shop() {
                 className="appearance-none text-xs font-body font-semibold uppercase tracking-wider bg-white/[0.04] border border-white/[0.08] rounded-full pl-4 pr-8 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/50 cursor-pointer transition-all"
               >
                 <option value="All">All Categories</option>
-                {categories.map((c) => (
+                {categories?.map((c) => (
                   <option key={c.slug} value={c.slug}>{c.name}</option>
                 ))}
               </select>
@@ -111,20 +114,38 @@ export default function Shop() {
             </div>
           </div>
 
-          {/* ── Product Count ── */}
-          <p className="text-xs text-white/50 font-body mb-6 reveal">
-            Showing <span className="text-white font-semibold">{grouped.length}</span> product{grouped.length !== 1 ? "s" : ""}
-          </p>
+          {/* ── Loading / Error ── */}
+          {isLoading && (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="h-8 w-8 text-gold animate-spin" />
+              <span className="ml-3 text-white/50 font-body">Loading products...</span>
+            </div>
+          )}
 
-          {/* ── Grid ── */}
-          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {grouped.map(([first, variants]) => (
-              <ProductCard key={first.id} product={first} variants={variants} />
-            ))}
-          </div>
+          {error && (
+            <div className="text-center py-20">
+              <p className="text-white/50 font-body">Unable to load products. Please try again later.</p>
+            </div>
+          )}
 
-          {grouped.length === 0 && (
-            <p className="text-center text-white/50 font-body py-20">No products found matching your filters.</p>
+          {!isLoading && !error && (
+            <>
+              {/* ── Product Count ── */}
+              <p className="text-xs text-white/50 font-body mb-6 reveal">
+                Showing <span className="text-white font-semibold">{filtered.length}</span> product{filtered.length !== 1 ? "s" : ""}
+              </p>
+
+              {/* ── Grid ── */}
+              <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {filtered.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {filtered.length === 0 && (
+                <p className="text-center text-white/50 font-body py-20">No products found matching your filters.</p>
+              )}
+            </>
           )}
         </div>
       </section>
