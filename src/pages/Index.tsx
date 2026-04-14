@@ -60,6 +60,7 @@ function FeaturedSection() {
   );
 }
 
+export default function Index() {
   const revealRef = useScrollReveal();
 
   return (
