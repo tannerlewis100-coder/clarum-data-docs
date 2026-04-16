@@ -65,6 +65,7 @@ export interface WcVariation {
   id: number;
   price: number;
   size: string;          // e.g. "10mg", "5mg/5mg"
+  inStock: boolean;
 }
 
 export interface WcProduct {
@@ -80,6 +81,7 @@ export interface WcProduct {
   image?: string;
   featured: boolean;
   variations: WcVariation[];
+  inStock: boolean;
 }
 
 function decodeHtml(s: string): string {
