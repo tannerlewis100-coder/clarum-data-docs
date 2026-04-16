@@ -47,6 +47,7 @@ export interface WcRawProduct {
   images: WcImage[];
   featured: boolean;
   variations: number[];
+  stock_status?: "instock" | "outofstock" | "onbackorder";
 }
 
 export interface WcRawVariation {
@@ -55,6 +56,7 @@ export interface WcRawVariation {
   regular_price: string;
   attributes: WcAttribute[];
   name: string;
+  stock_status?: "instock" | "outofstock" | "onbackorder";
 }
 
 // ── Normalised types the UI consumes ──
