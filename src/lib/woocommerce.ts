@@ -47,6 +47,7 @@ export interface WcRawProduct {
   images: WcImage[];
   featured: boolean;
   variations: number[];
+  stock_status?: "instock" | "outofstock" | "onbackorder";
 }
 
 export interface WcRawVariation {
@@ -55,6 +56,7 @@ export interface WcRawVariation {
   regular_price: string;
   attributes: WcAttribute[];
   name: string;
+  stock_status?: "instock" | "outofstock" | "onbackorder";
 }
 
 // ── Normalised types the UI consumes ──
@@ -63,6 +65,7 @@ export interface WcVariation {
   id: number;
   price: number;
   size: string;          // e.g. "10mg", "5mg/5mg"
+  inStock: boolean;
 }
 
 export interface WcProduct {
@@ -78,6 +81,7 @@ export interface WcProduct {
   image?: string;
   featured: boolean;
   variations: WcVariation[];
+  inStock: boolean;
 }
 
 function decodeHtml(s: string): string {
@@ -97,6 +101,7 @@ function mapProduct(raw: WcRawProduct, rawVars: WcRawVariation[] = []): WcProduc
     id: v.id,
     price: parseFloat(v.price) || 0,
     size: v.attributes.map((a) => a.option).join("/") || v.name,
+    inStock: v.stock_status !== "outofstock",
   }));
 
   return {
@@ -112,6 +117,7 @@ function mapProduct(raw: WcRawProduct, rawVars: WcRawVariation[] = []): WcProduc
     image: raw.images[0]?.src,
     featured: raw.featured,
     variations,
+    inStock: raw.stock_status !== "outofstock",
   };
 }
 
