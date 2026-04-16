@@ -1,12 +1,44 @@
-import { Minus, Plus, X, ShoppingBag, Trash2, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Minus, Plus, X, ShoppingBag, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCart, cartKey } from "@/contexts/CartContext";
+
+const WC_BASE = "https://admin.clarumpeptides.com";
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
-  const handleCheckout = () => {
-    // Redirect to WooCommerce shop where users can complete purchase
-    window.open("https://admin.clarumpeptides.com/shop/", "_blank");
+  const handleCheckout = async () => {
+    if (items.length === 0) return;
+    setIsCheckingOut(true);
+    try {
+      const initRes = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart`, {
+        credentials: "include",
+      });
+      const cartToken = initRes.headers.get("Cart-Token") || initRes.headers.get("cart-token");
+      const nonce = initRes.headers.get("Nonce") || initRes.headers.get("nonce");
+
+      for (const item of items) {
+        await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart/add-item`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            ...(cartToken ? { "Cart-Token": cartToken } : {}),
+            ...(nonce ? { Nonce: nonce } : {}),
+          },
+          body: JSON.stringify({
+            id: item.wcVariationId || item.wcProductId,
+            quantity: item.quantity,
+          }),
+        });
+      }
+    } catch (err) {
+      console.warn("Cart handoff failed, falling back to checkout:", err);
+    } finally {
+      window.open(`${WC_BASE}/checkout/`, "_blank");
+      setIsCheckingOut(false);
+    }
   };
 
   return (
