@@ -101,6 +101,7 @@ function mapProduct(raw: WcRawProduct, rawVars: WcRawVariation[] = []): WcProduc
     id: v.id,
     price: parseFloat(v.price) || 0,
     size: v.attributes.map((a) => a.option).join("/") || v.name,
+    inStock: v.stock_status !== "outofstock",
   }));
 
   return {
@@ -116,6 +117,7 @@ function mapProduct(raw: WcRawProduct, rawVars: WcRawVariation[] = []): WcProduc
     image: raw.images[0]?.src,
     featured: raw.featured,
     variations,
+    inStock: raw.stock_status !== "outofstock",
   };
 }
 
