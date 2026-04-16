@@ -121,10 +121,20 @@ export default function CartDrawer() {
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
+              disabled={isCheckingOut}
+              className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Proceed to Checkout
-              <ExternalLink className="h-3.5 w-3.5" />
+              {isCheckingOut ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Transferring Cart...
+                </>
+              ) : (
+                <>
+                  Proceed to Checkout
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </>
+              )}
             </button>
             <button
               onClick={clearCart}
