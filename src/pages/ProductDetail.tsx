@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { ArrowLeft, ShoppingCart, Shield, FlaskConical, Check, Loader2 } from "lucide-react";
-import { useWcProductBySlug } from "@/hooks/use-wc-products";
+import { useWcProductBySlug, useWcProducts } from "@/hooks/use-wc-products";
 import { useCart } from "@/contexts/CartContext";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { getProductDescription } from "@/data/descriptions";
+import ProductCard from "@/components/ProductCard";
 
 const testPanels = [
   { label: "HPLC Purity", result: "≥99%" },
@@ -19,6 +21,7 @@ export default function ProductDetail() {
   const revealRef = useScrollReveal();
   const { addItem } = useCart();
   const { data: product, isLoading, error } = useWcProductBySlug(slug);
+  const { data: allProducts } = useWcProducts();
 
   const hasVariations = product?.type === "variable" && (product?.variations?.length ?? 0) > 0;
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -47,7 +50,42 @@ export default function ProductDetail() {
   const displayPrice = selectedVariation ? selectedVariation.price : product.price;
   const displaySize = selectedVariation?.size;
 
+  const variantInStock = selectedVariation ? selectedVariation.inStock : product.inStock;
+  const anyInStock = hasVariations
+    ? product.variations.some((v) => v.inStock)
+    : product.inStock;
+  const soldOut = !variantInStock || !anyInStock;
+
+  const description = getProductDescription(product.slug, product.description);
+  const metaDescription = description.slice(0, 155).replace(/\s+\S*$/, "") + "…";
+  const canonicalUrl = `https://clarumpeptides.com/product/${product.slug}`;
+
+  const related = (allProducts ?? [])
+    .filter((p) => p.slug !== product.slug && p.category === product.category)
+    .slice(0, 4);
+
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    name: product.name,
+    description: metaDescription,
+    sku: String(product.id),
+    category: product.category,
+    image: product.image ? [product.image] : undefined,
+    brand: { "@type": "Brand", name: "Clarum Peptides" },
+    offers: {
+      "@type": "Offer",
+      url: canonicalUrl,
+      priceCurrency: "USD",
+      price: displayPrice,
+      availability: anyInStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+
   const handleAdd = () => {
+    if (soldOut) return;
     addItem({
       wcProductId: product.id,
       wcVariationId: selectedVariation?.id,
@@ -61,6 +99,22 @@ export default function ProductDetail() {
 
   return (
     <div ref={revealRef}>
+      <Helmet>
+        <title>{`${product.name} — Clarum Peptides Research Catalog`}</title>
+        <meta name="description" content={metaDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={`${product.name} — Clarum Peptides`} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        {product.image && <meta property="og:image" content={product.image} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product.name} — Clarum Peptides`} />
+        <meta name="twitter:description" content={metaDescription} />
+        {product.image && <meta name="twitter:image" content={product.image} />}
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
+
       {/* Hero banner */}
       <section className="bg-navy gold-line-texture pt-28 pb-12 border-b border-white/[0.03]">
         <div className="container mx-auto px-4 lg:px-8">
@@ -75,6 +129,11 @@ export default function ProductDetail() {
             <span className="text-[10px] uppercase tracking-[0.15em] text-gold font-body font-semibold bg-gold/10 border border-gold/20 px-3 py-1 rounded-full">
               {product.category}
             </span>
+            {!anyInStock && (
+              <span className="text-[10px] uppercase tracking-[0.15em] text-destructive font-body font-semibold bg-destructive/10 border border-destructive/30 px-3 py-1 rounded-full">
+                Sold Out
+              </span>
+            )}
           </div>
           <h1 className="text-4xl lg:text-5xl font-display text-white mt-3">
             {product.name}
@@ -135,14 +194,18 @@ export default function ProductDetail() {
                     {product.variations.map((v, i) => (
                       <button
                         key={v.id}
-                        onClick={() => setSelectedIdx(i)}
+                        onClick={() => v.inStock && setSelectedIdx(i)}
+                        disabled={!v.inStock}
                         className={`text-xs font-body font-semibold px-4 py-2 rounded-full border transition-all ${
-                          i === selectedIdx
+                          !v.inStock
+                            ? "border-white/[0.04] text-white/15 line-through cursor-not-allowed"
+                            : i === selectedIdx
                             ? "bg-gold/15 border-gold/40 text-gold"
                             : "border-white/[0.08] text-white/30 hover:border-gold/20"
                         }`}
                       >
                         {v.size} — ${v.price}
+                        {!v.inStock && " (Sold Out)"}
                       </button>
                     ))}
                   </div>
@@ -152,17 +215,18 @@ export default function ProductDetail() {
               {/* Add to cart */}
               <button
                 onClick={handleAdd}
-                className="inline-flex items-center gap-2 bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider px-8 py-3.5 rounded-lg hover:bg-gold-light transition-colors mb-10"
+                disabled={soldOut}
+                className="inline-flex items-center gap-2 bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider px-8 py-3.5 rounded-lg hover:bg-gold-light transition-colors mb-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gold"
               >
                 <ShoppingCart className="h-4 w-4" />
-                Add to Cart
+                {soldOut ? "Sold Out" : "Add to Cart"}
               </button>
 
               {/* Description */}
               <div className="mb-10">
                 <h2 className="font-display text-xl text-white mb-3">About This Product</h2>
                 <p className="text-sm text-white/50 font-body leading-relaxed">
-                  {getProductDescription(product.slug, product.description)}
+                  {description}
                 </p>
                 <p className="text-[10px] text-white/25 font-body mt-4 uppercase tracking-wider">
                   For in vitro laboratory research use only. Not for human or veterinary consumption.
@@ -195,6 +259,31 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
+
+          {/* Related products */}
+          {related.length > 0 && (
+            <div className="mt-20 reveal">
+              <div className="flex items-end justify-between mb-8">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+                    Continue Exploring
+                  </span>
+                  <h2 className="font-display text-3xl text-white mt-1">Related Compounds</h2>
+                </div>
+                <Link
+                  to="/shop"
+                  className="hidden md:inline-flex items-center gap-1 text-xs text-gold font-body font-semibold hover:text-gold-light transition-colors"
+                >
+                  View All →
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {related.map((p) => (
+                  <ProductCard key={p.id} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>
