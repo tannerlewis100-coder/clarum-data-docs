@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { Search, ChevronRight, ExternalLink, Loader2, CheckCircle2, Shield, X, ZoomIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
+import Seo from "@/components/Seo";
 
 const COA_CATEGORIES = [
   { label: "All", slug: "All" },

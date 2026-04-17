@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin, Clock, ArrowRight, Send } from "lucide-react";
 

@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 
 const faqs = [
   {
