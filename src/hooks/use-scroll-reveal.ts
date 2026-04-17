@@ -7,34 +7,43 @@ export function useScrollReveal() {
     const el = ref.current;
     if (!el) return;
 
-    const children = el.querySelectorAll(".reveal, .reveal-stagger");
-
-    // Immediately mark any elements already in the viewport as visible
-    children.forEach((child) => {
-      const rect = child.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        child.classList.add("visible");
-      }
-    });
+    const reveal = (target: Element) => target.classList.add("visible");
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            reveal(entry.target);
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.01, rootMargin: "50px 0px 50px 0px" }
     );
 
-    children.forEach((child) => {
-      if (!child.classList.contains("visible")) {
-        observer.observe(child);
-      }
-    });
+    const attach = () => {
+      const children = el.querySelectorAll(".reveal, .reveal-stagger");
+      children.forEach((child) => {
+        if (child.classList.contains("visible")) return;
+        const rect = child.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          reveal(child);
+        } else {
+          observer.observe(child);
+        }
+      });
+    };
 
-    return () => observer.disconnect();
+    attach();
+
+    // Re-attach when async children appear later (e.g. after data loads).
+    const mutation = new MutationObserver(() => attach());
+    mutation.observe(el, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutation.disconnect();
+    };
   }, []);
 
   return ref;
