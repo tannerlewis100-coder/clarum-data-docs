@@ -28,20 +28,24 @@ export default function ProductDetail() {
 
   if (isLoading) {
     return (
-      <div className="pt-32 pb-20 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-gold animate-spin" />
-        <span className="ml-3 text-white/50 font-body">Loading product...</span>
+      <div ref={revealRef}>
+        <div className="pt-32 pb-20 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 text-gold animate-spin" />
+          <span className="ml-3 text-white/50 font-body">Loading product...</span>
+        </div>
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="pt-32 pb-20 text-center">
-        <h1 className="font-display text-3xl text-white">Product Not Found</h1>
-        <Link to="/shop" className="text-gold font-body text-sm mt-4 inline-block hover:text-gold-light">
-          ← Back to Shop
-        </Link>
+      <div ref={revealRef}>
+        <div className="pt-32 pb-20 text-center">
+          <h1 className="font-display text-3xl text-white">Product Not Found</h1>
+          <Link to="/shop" className="text-gold font-body text-sm mt-4 inline-block hover:text-gold-light">
+            ← Back to Shop
+          </Link>
+        </div>
       </div>
     );
   }
