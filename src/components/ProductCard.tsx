@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShoppingCart } from "lucide-react";
+import { ShoppingCart, ShieldCheck, MapPin } from "lucide-react";
 import type { WcProduct } from "@/lib/woocommerce";
 import { useCart } from "@/contexts/CartContext";
 
 interface Props {
   product: WcProduct;
+}
+
+function getInitials(name: string): string {
+  const cleaned = name.replace(/[^a-zA-Z0-9 -]/g, "").trim();
+  const parts = cleaned.split(/[\s-]+/).filter(Boolean);
+  if (parts.length === 0) return "·";
+  if (parts.length === 1) return parts[0].slice(0, 3).toUpperCase();
+  return (parts[0][0] + parts[1][0] + (parts[2]?.[0] ?? "")).toUpperCase();
 }
 
 export default function ProductCard({ product }: Props) {
@@ -23,7 +31,13 @@ export default function ProductCard({ product }: Props) {
     : product.inStock;
   const soldOut = !variantInStock || !anyInStock;
 
-  const handleAdd = () => {
+  const variantSummary = hasVariations
+    ? product.variations.map((v) => v.size).filter(Boolean).join(" / ")
+    : displaySize;
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (soldOut) return;
     addItem({
       wcProductId: product.id,
@@ -41,19 +55,50 @@ export default function ProductCard({ product }: Props) {
       <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-gold/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
       <div className="relative bg-white/[0.03] rounded-2xl border border-white/[0.06] overflow-hidden backdrop-blur-sm transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:border-gold/20 group-hover:shadow-[0_8px_30px_rgba(196,160,90,0.08)]">
-        {!anyInStock && (
-          <div className="absolute top-3 right-3 z-10 text-[9px] uppercase tracking-wider font-body font-bold bg-destructive/15 border border-destructive/40 text-destructive px-2.5 py-1 rounded-full">
-            Sold Out
-          </div>
-        )}
-        <div className="p-5">
-          <h3 className="font-display text-xl text-white group-hover:text-gold transition-colors duration-300">
-            {product.name}
-          </h3>
 
-          {/* Variant selector */}
-          {hasVariations && product.variations.length > 1 ? (
-            <div className="flex flex-wrap gap-1.5 mt-2">
+        {/* ── Product art ── */}
+        <Link to={`/product/${product.slug}`} className="block relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-navy-alt via-navy to-navy-alt border-b border-white/[0.05]">
+          {/* Subtle gold radial */}
+          <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_30%_30%,rgba(196,160,90,0.18),transparent_60%)]" />
+          {/* Monogram */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="font-display text-5xl text-gold/30 group-hover:text-gold/50 transition-colors duration-500 tracking-wide">
+              {getInitials(product.name)}
+            </span>
+          </div>
+
+          {/* Category pill — top-left */}
+          <span className="absolute top-3 left-3 text-[9px] uppercase tracking-wider font-body font-bold bg-gold/15 border border-gold/40 text-gold px-2.5 py-1 rounded-full backdrop-blur-sm">
+            {product.category}
+          </span>
+
+          {/* Sold out overlay */}
+          {!anyInStock && (
+            <span className="absolute top-3 right-3 text-[9px] uppercase tracking-wider font-body font-bold bg-destructive/15 border border-destructive/40 text-destructive px-2.5 py-1 rounded-full backdrop-blur-sm">
+              Sold Out
+            </span>
+          )}
+        </Link>
+
+        <div className="p-5">
+          {/* Name */}
+          <Link to={`/product/${product.slug}`}>
+            <h3 className="font-display text-xl text-white group-hover:text-gold transition-colors duration-300">
+              {product.name}
+            </h3>
+          </Link>
+
+          {/* Dose variants line */}
+          {variantSummary && (
+            <p className="text-[11px] text-white/40 font-body mt-1">{variantSummary}</p>
+          )}
+
+          {/* Purity stat */}
+          <p className="text-[10px] font-mono text-gold/80 tracking-wider mt-2">≥99.5% HPLC</p>
+
+          {/* Variant selector chips */}
+          {hasVariations && product.variations.length > 1 && (
+            <div className="flex flex-wrap gap-1.5 mt-3">
               {product.variations.map((v, i) => (
                 <button
                   key={v.id}
@@ -71,40 +116,51 @@ export default function ProductCard({ product }: Props) {
                 </button>
               ))}
             </div>
-          ) : (
-            displaySize && (
-              <p className="text-[11px] text-white/30 font-body mt-0.5">{displaySize}</p>
-            )
           )}
 
+          {/* Trust badges row */}
+          <div className="flex items-center gap-2 mt-3 flex-wrap">
+            <Link
+              to={`/coa-library?product=${encodeURIComponent(product.slug)}`}
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-gold/15 border border-gold/40 text-gold px-2 py-0.5 rounded-full hover:bg-gold/25 transition-colors"
+            >
+              <ShieldCheck className="h-2.5 w-2.5" />
+              COA
+            </Link>
+            {anyInStock && (
+              <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-semibold text-white/40">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                In Stock
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-semibold text-white/40">
+              <MapPin className="h-2.5 w-2.5" />
+              Ships USA
+            </span>
+          </div>
+
+          {/* Price + ADD */}
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.06]">
             <div>
               {hasVariations && product.variations.length > 1 ? (
-                <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                <span className="text-2xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
                   ${displayPrice}
                 </span>
               ) : (
-                <span className="text-xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                <span className="text-2xl font-display bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
                   {product.type === "variable" ? `From $${product.price}` : `$${displayPrice}`}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleAdd}
-                disabled={soldOut}
-                className="relative inline-flex items-center gap-1.5 bg-white/[0.06] text-white/80 border border-white/[0.08] text-[10px] uppercase tracking-wider font-semibold px-4 py-2.5 rounded-lg overflow-hidden transition-all duration-300 hover:bg-gold hover:text-navy hover:border-gold disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/[0.06] disabled:hover:text-white/80 disabled:hover:border-white/[0.08]"
-              >
-                <ShoppingCart className="h-3 w-3" />
-                {soldOut ? "Sold Out" : "Add"}
-              </button>
-              <Link
-                to={`/product/${product.slug}`}
-                className="w-9 h-9 rounded-full border border-white/[0.08] bg-white/[0.06] flex items-center justify-center text-white/50 hover:text-gold hover:border-gold hover:bg-gold/5 transition-all duration-300"
-              >
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
+            <button
+              onClick={handleAdd}
+              disabled={soldOut}
+              className="inline-flex items-center gap-1.5 bg-gold text-navy border border-gold text-[11px] uppercase tracking-wider font-bold px-5 py-2.5 rounded-lg shadow-[0_4px_12px_rgba(196,160,90,0.25)] hover:bg-gold-light hover:shadow-[0_6px_18px_rgba(196,160,90,0.4)] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gold disabled:shadow-none"
+            >
+              <ShoppingCart className="h-3.5 w-3.5" />
+              {soldOut ? "Sold Out" : "Add"}
+            </button>
           </div>
         </div>
       </div>
