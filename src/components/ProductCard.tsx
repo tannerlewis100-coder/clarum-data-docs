@@ -123,14 +123,14 @@ export default function ProductCard({ product }: Props) {
             <Link
               to={`/coa-library?product=${encodeURIComponent(product.slug)}`}
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 border border-emerald-400/40 text-emerald-300 px-2 py-0.5 rounded-full hover:bg-emerald-500/25 transition-colors"
+              className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-gold/15 border border-gold/40 text-gold px-2 py-0.5 rounded-full hover:bg-gold/25 transition-colors"
             >
               <ShieldCheck className="h-2.5 w-2.5" />
               COA
             </Link>
             {anyInStock && (
               <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-semibold text-white/40">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-gold" />
                 In Stock
               </span>
             )}
