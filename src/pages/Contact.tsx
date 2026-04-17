@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin, Clock, ArrowRight, Send } from "lucide-react";
 
@@ -40,6 +41,11 @@ export default function Contact() {
 
   return (
     <div ref={revealRef}>
+      <Seo
+        title="Contact Clarum — Support, COAs & Bulk Inquiries | CLARUM"
+        description="Get in touch with Clarum for product questions, COA requests, bulk research orders, or compliance inquiries. Mon–Fri 9–5 EST."
+        path="/contact"
+      />
       {/* Hero */}
       <section className="relative bg-navy overflow-hidden pt-32 pb-20 border-b border-white/[0.03]">
         <div className="absolute inset-0 gold-line-texture" />

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useWcFeaturedProducts } from "@/hooks/use-wc-products";
 import ProductCard from "@/components/ProductCard";
+import Seo from "@/components/Seo";
 import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles, Loader2 } from "lucide-react";
 
 const stats = ["61 Compounds", "5 Tests Per Batch", "100% COA Documented", "≥99% HPLC Purity"];
@@ -65,6 +66,11 @@ export default function Index() {
 
   return (
     <div ref={revealRef}>
+      <Seo
+        title="CLARUM — Pharmaceutical Grade Peptides | Nothing Hidden. Everything Tested."
+        description="Pharmaceutical-grade research peptides with full 5-panel independent lab testing — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch documented."
+        path="/"
+      />
       {/* ===== HERO ===== */}
       <section className="relative min-h-[88vh] flex items-center bg-navy overflow-hidden">
         <div className="absolute inset-0 gold-line-texture" />

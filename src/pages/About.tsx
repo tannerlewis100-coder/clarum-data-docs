@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 import { Check, FlaskConical, Atom, Shield, Bug, Syringe, ArrowRight } from "lucide-react";
 
 const values = [
@@ -15,6 +16,11 @@ export default function About() {
 
   return (
     <div ref={revealRef}>
+      <Seo
+        title="About Clarum — Built on Transparency After the Vendor Exodus | CLARUM"
+        description="Why we started Clarum: an industry built on shortcuts, vague claims, and unverifiable purity. We publish every COA, test every batch, and hide nothing."
+        path="/about"
+      />
       {/* Hero */}
       <section className="relative bg-navy overflow-hidden pt-32 pb-24 border-b border-white/[0.03]">
         <div className="absolute inset-0 gold-line-texture" />

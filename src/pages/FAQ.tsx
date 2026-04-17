@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 
 const faqs = [
   {
@@ -50,6 +51,11 @@ export default function FAQ() {
 
   return (
     <div ref={revealRef}>
+      <Seo
+        title="FAQ — Research Peptides, COAs & Testing Explained | CLARUM"
+        description="Answers to common questions about research peptides, our 5-panel COA process, shipping, storage, and Research Use Only compliance."
+        path="/faq"
+      />
       <section className="bg-navy gold-line-texture pt-28 pb-16 border-b border-white/[0.03]">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">Support</span>
