@@ -85,6 +85,11 @@ export default function COALibrary() {
 
   return (
     <div className="bg-navy min-h-screen">
+      <Seo
+        title="COA Library — Batch-Specific Test Results | CLARUM"
+        description="Browse every Certificate of Analysis from Clarum. HPLC purity, mass spec identity, heavy metals, microbial, and endotoxin results — published per batch."
+        path="/coa-library"
+      />
       {/* Hero */}
       <section className="gold-line-texture pt-28 pb-14">
         <div className="container mx-auto px-4 lg:px-8 text-center">
