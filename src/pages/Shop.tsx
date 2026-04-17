@@ -37,16 +37,27 @@ export default function Shop() {
   useEffect(() => {
     if (!gridRef.current) return;
     const cards = gridRef.current.querySelectorAll("[data-product-card]");
+    const timers: number[] = [];
     cards.forEach((card, i) => {
       const el = card as HTMLElement;
       el.style.opacity = "0";
       el.style.transform = "translateY(12px)";
-      setTimeout(() => {
+      const t = window.setTimeout(() => {
         el.style.transition = "opacity 0.4s ease-out, transform 0.4s ease-out";
         el.style.opacity = "1";
         el.style.transform = "translateY(0)";
       }, i * 80);
+      timers.push(t);
     });
+    return () => {
+      timers.forEach(clearTimeout);
+      // Ensure cards stay visible if effect re-runs / unmounts mid-animation
+      cards.forEach((card) => {
+        const el = card as HTMLElement;
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      });
+    };
   }, [filtered]);
 
   return (
