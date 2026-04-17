@@ -104,18 +104,19 @@ export default function ProductDetail() {
   return (
     <div ref={revealRef}>
       <Helmet>
-        <title>{`${product.name} — Clarum Peptides Research Catalog`}</title>
+        <title>{`${product.name}${displaySize ? ` ${displaySize}` : ""} — ≥99% HPLC Verified | CLARUM`}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonicalUrl} />
         <meta property="og:type" content="product" />
-        <meta property="og:title" content={`${product.name} — Clarum Peptides`} />
+        <meta property="og:title" content={`${product.name}${displaySize ? ` ${displaySize}` : ""} — Clarum Peptides`} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />
-        {product.image && <meta property="og:image" content={product.image} />}
+        <meta property="og:site_name" content="Clarum Peptides" />
+        <meta property="og:image" content={product.image || "https://clarumpeptides.com/clarum-og.png"} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${product.name} — Clarum Peptides`} />
+        <meta name="twitter:title" content={`${product.name}${displaySize ? ` ${displaySize}` : ""} — Clarum Peptides`} />
         <meta name="twitter:description" content={metaDescription} />
-        {product.image && <meta name="twitter:image" content={product.image} />}
+        <meta name="twitter:image" content={product.image || "https://clarumpeptides.com/clarum-og.png"} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
