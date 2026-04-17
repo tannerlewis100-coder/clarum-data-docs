@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import Seo from "@/components/Seo";
 import { Check, FlaskConical, Atom, Shield, Bug, Syringe, ArrowRight } from "lucide-react";
 
 const values = [

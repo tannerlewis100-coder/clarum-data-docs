@@ -4,6 +4,7 @@ import { Search, ChevronDown } from "lucide-react";
 import { useWcProducts, useWcCategories } from "@/hooks/use-wc-products";
 import ProductCard from "@/components/ProductCard";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import Seo from "@/components/Seo";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Slider } from "@/components/ui/slider";
 
