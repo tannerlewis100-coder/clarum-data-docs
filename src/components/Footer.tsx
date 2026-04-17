@@ -38,13 +38,6 @@ export default function Footer() {
             <p className="text-[13px] text-white/40 font-body leading-relaxed mb-6">
               Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
             </p>
-            <div className="flex items-center gap-4">
-              {["Instagram", "X", "Reddit"].map((s) => (
-                <a key={s} href="#" className="text-xs uppercase tracking-wider text-white/40 hover:text-gold transition-colors">
-                  {s}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Col 2 */}
