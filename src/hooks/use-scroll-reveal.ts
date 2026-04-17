@@ -40,9 +40,22 @@ export function useScrollReveal() {
     const mutation = new MutationObserver(() => attach());
     mutation.observe(el, { childList: true, subtree: true });
 
+    // Safety fallback: force-reveal anything still hidden after 500ms.
+    const fallback = window.setTimeout(() => {
+      const hidden = el.querySelectorAll(".reveal, .reveal-stagger");
+      hidden.forEach((child) => {
+        if (!child.classList.contains("visible")) {
+          (child as HTMLElement).classList.add("visible");
+          (child as HTMLElement).style.opacity = "1";
+          (child as HTMLElement).style.transform = "none";
+        }
+      });
+    }, 500);
+
     return () => {
       observer.disconnect();
       mutation.disconnect();
+      window.clearTimeout(fallback);
     };
   }, []);
 
