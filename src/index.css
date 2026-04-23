@@ -96,6 +96,13 @@
   animation: marquee 30s linear infinite;
 }
 
+/* Gold gradient shimmer for headline italic */
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
