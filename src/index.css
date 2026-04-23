@@ -76,14 +76,14 @@
 
 /* Gold dot grid texture overlay */
 .gold-grid-texture {
-  background-image: radial-gradient(circle, hsl(38 55% 52% / 0.035) 1px, transparent 1px);
+  background-image: radial-gradient(circle, hsl(43 65% 52% / 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
 .gold-line-texture {
   background-image:
-    linear-gradient(hsl(38 55% 52% / 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(38 55% 52% / 0.03) 1px, transparent 1px);
+    linear-gradient(hsl(43 65% 52% / 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(43 65% 52% / 0.035) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
