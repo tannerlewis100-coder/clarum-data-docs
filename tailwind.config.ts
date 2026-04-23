@@ -52,8 +52,8 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         navy: {
-          DEFAULT: "#0F1A2E",
-          alt: "#0A1220",
+          DEFAULT: "hsl(0 0% 6%)",
+          alt: "hsl(0 0% 0%)",
         },
         offwhite: "#F4F5F7",
         gold: {
