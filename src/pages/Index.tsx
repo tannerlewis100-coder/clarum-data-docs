@@ -1,229 +1,10 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion, type Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { useWcFeaturedProducts } from "@/hooks/use-wc-products";
-import { useIsMobile } from "@/hooks/use-mobile";
 import ProductCard from "@/components/ProductCard";
 import Seo from "@/components/Seo";
 import { ArrowRight, Check, FlaskConical, Atom, Shield, Bug, Syringe, Sparkles, Loader2 } from "lucide-react";
-
-const HEADLINE_LINE_1 = ["Nothing", "Hidden."];
-const HEADLINE_LINE_2 = ["Everything", "Tested."];
-
-const wordContainer: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.15 } },
-};
-const wordChild: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-};
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 16, filter: "blur(6px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } },
-};
-
-function CinematicHero() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const isMobile = useIsMobile();
-  const enableScrollFx = !reduced && !isMobile;
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Scroll-driven transforms (desktop, motion-on)
-  const headlineY = useTransform(scrollYProgress, [0, 0.5, 1], [0, -20, -60]);
-  const headlineOpacity = useTransform(scrollYProgress, [0, 0.5, 0.95], [1, 0.85, 0.25]);
-  const headlineScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.02, 1.06]);
-
-  const subY = useTransform(scrollYProgress, [0, 0.5, 1], [0, -10, -40]);
-  const subOpacity = useTransform(scrollYProgress, [0, 0.6, 0.95], [1, 0.7, 0.2]);
-
-  const cardRotate = useTransform(scrollYProgress, [0, 0.25, 0.6, 1], [8, 0, -1, -3]);
-  const cardY = useTransform(scrollYProgress, [0, 0.25, 1], [40, 0, -100]);
-  const cardScale = useTransform(scrollYProgress, [0, 0.25, 1], [0.92, 1, 1.03]);
-  const cardX = useTransform(scrollYProgress, [0, 0.25], [30, 0]);
-
-  const orbAX = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const orbAY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-  const orbBX = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const orbBY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-
-  // Outer wrapper: 180vh on desktop to give a viewport of pinned scroll-through; auto on mobile.
-  return (
-    <section
-      ref={heroRef}
-      className="relative bg-navy lg:h-[180vh]"
-      aria-label="Hero"
-    >
-      <div className="lg:sticky lg:top-0 lg:h-screen relative overflow-hidden flex items-center min-h-[88vh] lg:min-h-0">
-        {/* Background layers */}
-        <motion.div
-          className="absolute inset-0 gold-line-texture pointer-events-none"
-          style={enableScrollFx ? { y: gridY } : undefined}
-        />
-        <motion.div
-          className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-gold/[0.03] blur-[120px] pointer-events-none"
-          style={enableScrollFx ? { x: orbAX, y: orbAY } : undefined}
-        />
-        <motion.div
-          className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.04] blur-[100px] pointer-events-none"
-          style={enableScrollFx ? { x: orbBX, y: orbBY } : undefined}
-        />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-
-        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-36 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          <motion.div
-            className="flex-1 max-w-2xl"
-            initial="hidden"
-            animate="visible"
-            style={enableScrollFx ? { y: headlineY, opacity: headlineOpacity } : undefined}
-          >
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 mb-8">
-              <span className="h-px w-8 bg-gold/60" />
-              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">
-                Pharmaceutical Grade Peptides
-              </span>
-            </motion.div>
-
-            <motion.h1
-              className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-normal text-primary-foreground leading-[1.05] mb-8"
-              variants={wordContainer}
-              style={enableScrollFx ? { scale: headlineScale } : undefined}
-            >
-              <span className="block">
-                {HEADLINE_LINE_1.map((w, i) => (
-                  <motion.span key={w + i} variants={wordChild} className="inline-block mr-[0.25em]">
-                    {w}
-                  </motion.span>
-                ))}
-              </span>
-              <span
-                className="block italic bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite]"
-              >
-                {HEADLINE_LINE_2.map((w, i) => (
-                  <motion.span key={w + i} variants={wordChild} className="inline-block mr-[0.25em]">
-                    {w}
-                  </motion.span>
-                ))}
-              </span>
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUp}
-              className="text-base lg:text-lg text-primary-foreground/50 font-body leading-relaxed max-w-xl mb-10"
-              style={enableScrollFx ? { y: subY, opacity: subOpacity } : undefined}
-            >
-              Full-panel tested peptides — HPLC purity, mass spec identity, heavy metals, microbial, and endotoxin. The only research peptide brand that shows you the data.
-            </motion.p>
-
-            <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-4 mb-12">
-              <Button variant="gold" size="xl" className="shadow-[0_0_30px_-5px_hsl(40_50%_56%/0.4)] hover:shadow-[0_0_40px_-5px_hsl(40_50%_56%/0.6)] transition-shadow" asChild>
-                <Link to="/shop">Shop the Catalog</Link>
-              </Button>
-              <Button variant="goldOutline" size="xl" asChild>
-                <Link to="/coa-library">View COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
-              </Button>
-            </motion.div>
-
-            <motion.div
-              variants={wordContainer}
-              className="flex flex-wrap gap-3"
-            >
-              {stats.map((s) => (
-                <motion.span
-                  key={s}
-                  variants={wordChild}
-                  className="text-[11px] font-body font-medium text-primary-foreground/40 border border-primary-foreground/10 rounded-full px-5 py-2 backdrop-blur-sm bg-primary-foreground/[0.02]"
-                >
-                  {s}
-                </motion.span>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="hidden lg:block flex-1 max-w-md w-full"
-            initial={{ opacity: 0, y: 60, rotate: 8, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            style={
-              enableScrollFx
-                ? { rotate: cardRotate, y: cardY, scale: cardScale, x: cardX }
-                : undefined
-            }
-          >
-            <div className="relative group">
-              <div className="absolute -inset-1 rounded-card bg-gradient-to-br from-gold/20 via-gold/5 to-transparent blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="relative frosted-glass rounded-card p-7 border border-gold/10">
-                <div className="flex items-center justify-between mb-5 pb-4 border-b border-primary-foreground/10">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/30 font-body mb-1">Batch 2406-BPC</p>
-                    <p className="text-lg font-display text-primary-foreground">BPC-157 <span className="text-sm text-primary-foreground/50">(10mg)</span></p>
-                  </div>
-                  <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
-                    <span className="inline-block animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]">●</span> PASS
-                  </span>
-                </div>
-                <div className="space-y-3.5">
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs text-primary-foreground/50 font-body">HPLC Purity</span>
-                      <span className="text-sm font-body font-semibold text-primary-foreground tabular-nums">99.2%</span>
-                    </div>
-                    <div className="h-2 bg-primary-foreground/5 rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-gradient-to-r from-gold/80 to-gold rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: "99.2%" }}
-                        transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
-                      />
-                    </div>
-                  </div>
-                  {[
-                    { label: "Mass Spec ID", value: "Confirmed", icon: "✓" },
-                    { label: "Heavy Metals", value: "ND (Non-Detect)", icon: "✓" },
-                    { label: "Microbial Count", value: "< 10 CFU/g", icon: "✓" },
-                    { label: "Endotoxin (LAL)", value: "< 1 EU/mg", icon: "✓" },
-                  ].map((row, i) => (
-                    <motion.div
-                      key={row.label}
-                      className="flex items-center justify-between py-2 border-t border-primary-foreground/5"
-                      initial={{ opacity: 0, x: 12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 1.0 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
-                      <span className="flex items-center gap-1.5 text-xs font-body font-semibold text-emerald-400">
-                        <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[9px]">{row.icon}</span>
-                        {row.value}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="mt-6 pt-4 border-t border-primary-foreground/10 flex items-center justify-between">
-                  <span className="text-[10px] text-primary-foreground/25 font-body">Independent 3rd-party lab verified</span>
-                  <Link to="/coa-library" className="text-[10px] text-gold font-body font-semibold hover:text-gold-light transition-colors flex items-center gap-1">
-                    View All COAs <ArrowRight className="h-3 w-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy to-transparent pointer-events-none" />
-      </div>
-    </section>
-  );
-}
 
 const stats = ["61 Compounds", "5 Tests Per Batch", "100% COA Documented", "≥99% HPLC Purity"];
 
@@ -291,7 +72,106 @@ export default function Index() {
         path="/"
       />
       {/* ===== HERO ===== */}
-      <CinematicHero />
+      <section className="relative min-h-[88vh] flex items-center bg-navy overflow-hidden">
+        <div className="absolute inset-0 gold-line-texture" />
+        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] rounded-full bg-gold/[0.03] blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full bg-gold/[0.04] blur-[100px]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+
+        <div className="relative w-full max-w-7xl mx-auto px-6 lg:px-8 pt-36 pb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          <div className="flex-1 max-w-2xl">
+            <div className="inline-flex items-center gap-2 mb-8">
+              <span className="h-px w-8 bg-gold/60" />
+              <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">
+                Pharmaceutical Grade Peptides
+              </span>
+            </div>
+
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-display font-normal text-primary-foreground leading-[1.05] mb-8">
+              Nothing Hidden.
+              <br />
+              <span className="italic bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
+                Everything Tested.
+              </span>
+            </h1>
+
+            <p className="text-base lg:text-lg text-primary-foreground/50 font-body leading-relaxed max-w-xl mb-10">
+              Full-panel tested peptides — HPLC purity, mass spec identity, heavy metals, microbial, and endotoxin. The only research peptide brand that shows you the data.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 mb-12">
+              <Button variant="gold" size="xl" className="shadow-[0_0_30px_-5px_hsl(40_50%_56%/0.4)] hover:shadow-[0_0_40px_-5px_hsl(40_50%_56%/0.6)] transition-shadow" asChild>
+                <Link to="/shop">Shop the Catalog</Link>
+              </Button>
+              <Button variant="goldOutline" size="xl" asChild>
+                <Link to="/coa-library">View COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              </Button>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {stats.map((s) => (
+                <span key={s} className="text-[11px] font-body font-medium text-primary-foreground/40 border border-primary-foreground/10 rounded-full px-5 py-2 backdrop-blur-sm bg-primary-foreground/[0.02]">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden lg:block flex-1 max-w-md w-full">
+            <div className="relative group">
+              <div className="absolute -inset-1 rounded-card bg-gradient-to-br from-gold/20 via-gold/5 to-transparent blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative frosted-glass rounded-card p-7 border border-gold/10">
+                <div className="flex items-center justify-between mb-5 pb-4 border-b border-primary-foreground/10">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-primary-foreground/30 font-body mb-1">Batch 2406-BPC</p>
+                    <p className="text-lg font-display text-primary-foreground">BPC-157 <span className="text-sm text-primary-foreground/50">(10mg)</span></p>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 text-emerald-400 px-4 py-1.5 rounded-full border border-emerald-500/20">
+                    <span className="inline-block animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite]">●</span> PASS
+                  </span>
+                </div>
+                <div className="space-y-3.5">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs text-primary-foreground/50 font-body">HPLC Purity</span>
+                      <span className="text-sm font-body font-semibold text-primary-foreground tabular-nums">99.2%</span>
+                    </div>
+                    <div className="h-2 bg-primary-foreground/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-gold/80 to-gold rounded-full animate-[grow-bar_1.5s_ease-out_forwards]" style={{ width: "99.2%" }} />
+                    </div>
+                  </div>
+                  {[
+                    { label: "Mass Spec ID", value: "Confirmed", icon: "✓" },
+                    { label: "Heavy Metals", value: "ND (Non-Detect)", icon: "✓" },
+                    { label: "Microbial Count", value: "< 10 CFU/g", icon: "✓" },
+                    { label: "Endotoxin (LAL)", value: "< 1 EU/mg", icon: "✓" },
+                  ].map((row, i) => (
+                    <div
+                      key={row.label}
+                      className="flex items-center justify-between py-2 border-t border-primary-foreground/5 animate-[fade-in_0.4s_ease-out_both]"
+                      style={{ animationDelay: `${0.8 + i * 0.1}s` }}
+                    >
+                      <span className="text-xs text-primary-foreground/40 font-body">{row.label}</span>
+                      <span className="flex items-center gap-1.5 text-xs font-body font-semibold text-emerald-400">
+                        <span className="w-4 h-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-[9px]">{row.icon}</span>
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 pt-4 border-t border-primary-foreground/10 flex items-center justify-between">
+                  <span className="text-[10px] text-primary-foreground/25 font-body">Independent 3rd-party lab verified</span>
+                  <Link to="/coa-library" className="text-[10px] text-gold font-body font-semibold hover:text-gold-light transition-colors flex items-center gap-1">
+                    View All COAs <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy to-transparent" />
+      </section>
 
 
       {/* ===== TESTING & COA TRANSPARENCY (Combined) ===== */}

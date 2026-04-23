@@ -1,67 +1,35 @@
 
+The user is asking for my recommendations on what to improve in the store. This is an open-ended advisory question, not a specific implementation request. Let me think about what I know about the current state of the store and what gaps/improvements would make the biggest impact.
 
-## Cinematic Hero Scroll Animation
+Current state recap:
+- Live WooCommerce integration (admin.clarumpeptides.com)
+- Local description overrides
+- Cart in localStorage, checkout redirects to external WC shop
+- Static COA library, About, FAQ, Contact, legal pages
+- Dark navy + gold design system
 
-Transform the hero into an Apple-style "scroll-driven" sequence where the headline, COA card, and proof points choreograph as the user scrolls — instead of everything appearing static on load.
+Key gaps I can see from the code:
+1. **Checkout UX is broken/weak** — Currently the "Proceed to Checkout" just dumps users on the external `/shop/` page. They lose their cart entirely. This is the biggest revenue leak.
+2. **No product images** — The WC fetch pulls `images[0].src` but if WC doesn't have them, cards show placeholder. Worth confirming and addressing.
+3. **No search** on the shop page — only category filter.
+4. **No stock status** — `stock_status` isn't fetched; out-of-stock items can be added to cart.
+5. **No SEO** — no meta tags per product, no structured data, no sitemap.
+6. **No analytics** — can't see what's converting.
+7. **Loading states** — likely just spinners; skeleton cards would feel faster.
+8. **Mobile cart** — worth verifying drawer behavior.
+9. **Trust signals** — COA badges on product cards linking to the COA library would tie the two together.
+10. **Email capture** — DiscountPopup exists but not sure it's wired to anything.
+11. **Related products** on PDP.
+12. **Reviews/testimonials** — none.
+13. **Shipping/returns info** visible at checkout time.
 
-### The experience (what the user will see)
+Let me prioritize the highest-impact ones for a small research peptides store. Top picks:
 
-```text
-SCROLL 0%  ──────────────────────────────────────────────
-   "Pharmaceutical Grade Peptides" eyebrow fades up
-   Headline "Nothing Hidden." types/reveals word by word
-   "Everything Tested." gold gradient sweeps across italic
-   COA card sits small + tilted at 8°, slightly offset right
+1. **Real checkout via Store API** — cart actually transfers to WC checkout (was offered as fallback originally; the fallback ships today and loses carts)
+2. **Stock status + sold-out badges** — prevents bad UX
+3. **Search bar on shop page**
+4. **Related products on PDP** — increases AOV
+5. **SEO meta tags per product** — Google traffic
+6. **COA badge on product cards** linking to that compound's COA — unique trust angle
 
-SCROLL 15% ──────────────────────────────────────────────
-   Subhead + CTAs fade up from below with slight blur clear
-   COA card untilts to 0°, scales 0.9 → 1.0
-   Gold blur-orbs drift outward (parallax)
-
-SCROLL 30% ──────────────────────────────────────────────
-   COA card "fills in" — HPLC bar grows, check rows
-   stagger in one by one (already animated, now driven
-   by scroll position not autoplay)
-   Stat pills fade in left-to-right as they enter view
-
-SCROLL 50–80% ───────────────────────────────────────────
-   Hero becomes "sticky" for ~1 viewport height.
-   Headline subtly scales up + fades, COA card lifts
-   and drifts upward with parallax depth
-   Gold line-texture background scrolls slower (parallax)
-
-SCROLL 100% ─────────────────────────────────────────────
-   Hero releases, next section "We Test What Others Skip"
-   slides up underneath with its own reveal cascade
-```
-
-Three signature touches that make it feel premium:
-1. **Scroll-linked parallax** — COA card, blur orbs, and grid texture move at different speeds creating depth.
-2. **Sticky hero with progress-driven animation** — the hero "holds" for one extra viewport while elements animate, then releases.
-3. **Word-by-word headline reveal** on initial mount with a gold gradient sweep across the italic line (Awwwards staple).
-
-### Technical approach
-
-- **Library:** `framer-motion` (already aligns with React/Vite, ~30kb gzipped, no build changes). Uses `useScroll` + `useTransform` for scroll-linked values and `motion.div` for declarative animation.
-- **Sticky container:** Wrap hero in a `relative h-[180vh]` outer with an inner `sticky top-0 h-screen` so the hero pins for one extra viewport of scroll while animations play out.
-- **Scroll progress:** `useScroll({ target: heroRef, offset: ["start start", "end end"] })` gives 0→1 progress. Map to:
-  - Headline: `y: [0, -40]`, `opacity: [1, 0.3]`, `scale: [1, 1.05]` (progress 0.5→1)
-  - COA card: `rotate: [8, 0, -2]`, `y: [0, -80]`, `scale: [0.92, 1, 1.02]`
-  - Blur orbs: `x` parallax at different multipliers (0.3x, 0.6x)
-  - Grid texture: `y: [0, 100]` for slow background drift
-- **Mount entrance:** `motion.span` per word in headline with `staggerChildren: 0.08`, `y: 20 → 0`, `opacity: 0 → 1`, `filter: blur(8px) → blur(0)`. Gold gradient sweep via animated `background-position` on the italic span.
-- **Reduced motion:** Wrap all transforms in `useReducedMotion()` check — falls back to current static layout.
-- **Mobile:** Disable sticky/parallax below `lg` breakpoint (keeps the existing layout intact, only adds the mount entrance).
-
-### Files to change
-
-- `src/pages/Index.tsx` — restructure the hero `<section>` into sticky wrapper + motion children. Other sections untouched.
-- `package.json` — add `framer-motion` dependency.
-- `src/hooks/use-scroll-reveal.ts` — unchanged; remaining sections still use it.
-
-### Out of scope
-
-- Other sections (Featured, Testing, COA, Footer) keep current reveal behavior.
-- No changes to colors, copy, or COA card data.
-- No video/canvas/WebGL — pure CSS transforms via framer-motion for performance.
-
+I'll present these as a prioritized menu so the user can pick. Keep it concise.
