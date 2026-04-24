@@ -123,14 +123,22 @@ export default function ProductCard({ product }: Props) {
 
           {/* Trust badges row */}
           <div className="flex items-center gap-2 mt-3 flex-wrap">
-            <Link
-              to={`/coa-library?product=${encodeURIComponent(product.slug)}`}
-              onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-gold/15 border border-gold/40 text-gold px-2 py-0.5 rounded-full hover:bg-gold/25 transition-colors"
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setCoaOpen(true);
+              }}
+              className={`inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold px-2 py-0.5 rounded-full transition-colors ${
+                coaAvailable
+                  ? "bg-gold/15 border border-gold/40 text-gold hover:bg-gold/25"
+                  : "bg-white/[0.04] border border-white/[0.08] text-white/40 hover:bg-white/[0.08]"
+              }`}
             >
               <ShieldCheck className="h-2.5 w-2.5" />
-              COA
-            </Link>
+              {coaAvailable ? "View COA" : "COA Pending"}
+            </button>
             {anyInStock && (
               <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-semibold text-white/40">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold" />
@@ -167,6 +175,12 @@ export default function ProductCard({ product }: Props) {
           </div>
         </div>
       </div>
+      <ProductCoaModal
+        open={coaOpen}
+        onOpenChange={setCoaOpen}
+        productSlug={product.slug}
+        productName={product.name}
+      />
     </div>
   );
 }
