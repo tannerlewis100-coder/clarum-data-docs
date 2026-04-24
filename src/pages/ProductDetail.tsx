@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, ShoppingCart, Shield, FlaskConical, Check, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Shield,
+  FlaskConical,
+  Loader2,
+  Atom,
+  Bug,
+  Syringe,
+  ExternalLink,
+  Download,
+  Hash,
+  Calendar,
+} from "lucide-react";
 import { useWcProductBySlug, useWcProducts } from "@/hooks/use-wc-products";
 import { useCart } from "@/contexts/CartContext";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { getProductDescription } from "@/data/descriptions";
+import { allProducts as localProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
+const PLACEHOLDER = "Available upon batch release";
+
 const testPanels = [
-  { label: "HPLC Purity", result: "≥99%" },
-  { label: "Mass Spectrometry", result: "Identity Confirmed" },
-  { label: "Heavy Metals (ICP-MS)", result: "ND" },
-  { label: "Microbial & Yeast", result: "Pass" },
-  { label: "Endotoxin (LAL)", result: "Pass" },
+  { icon: FlaskConical, label: "Purity Testing", method: "HPLC", spec: "≥99% specification" },
+  { icon: Atom, label: "Identity Verification", method: "Mass Spectrometry (LC-MS)", spec: "Molecular identity confirmed" },
+  { icon: Shield, label: "Heavy Metals", method: "ICP-MS", spec: "As, Pb, Hg, Cd screened" },
+  { icon: Bug, label: "Microbial Testing", method: "Total Aerobic / Yeast & Mold", spec: "Per USP standards" },
+  { icon: Syringe, label: "Endotoxin Testing", method: "LAL Assay", spec: "Bacterial endotoxin screen" },
 ];
 
 export default function ProductDetail() {
