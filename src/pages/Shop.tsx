@@ -106,10 +106,10 @@ export default function Shop() {
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-body font-semibold">Catalog</span>
           <h1 className="text-4xl lg:text-5xl font-display text-white mt-2">
-            Pharmaceutical Peptide Catalog
+            Research Peptide Catalog
           </h1>
           <p className="text-white/50 font-body mt-3 max-w-lg mx-auto">
-            Every batch tested with full 5-panel COA. Nothing hidden.
+            Analytically tested research compounds — every batch ships with a 5-panel COA. For in vitro laboratory research use only.
           </p>
         </div>
       </section>

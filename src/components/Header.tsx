@@ -62,7 +62,7 @@ export default function Header() {
 
         {/* Logo - Centered */}
         <Link to="/" className="absolute left-1/2 -translate-x-1/2 flex items-center">
-          <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-36" />
+          <img src={clarumLogo} alt="Clarum - Batch-Tested Research Peptides" className="h-36" />
         </Link>
 
         {/* Right side */}

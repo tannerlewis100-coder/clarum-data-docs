@@ -12,7 +12,7 @@ const testingCards = [
   { icon: FlaskConical, title: "HPLC Purity", desc: "Confirms ≥99% purity. You see the exact percentage, not a range.", num: "01" },
   { icon: Atom, title: "Mass Spectrometry", desc: "LC-MS confirms molecular identity down to the atomic level. No substitutions.", num: "02" },
   { icon: Shield, title: "Heavy Metals", desc: "ICP-MS screens arsenic, lead, mercury, cadmium. Every batch reported as ND or flagged.", num: "03" },
-  { icon: Bug, title: "Microbial & Yeast", desc: "Total aerobic count, yeast, and mold screened for pharmaceutical-grade cleanliness.", num: "04" },
+  { icon: Bug, title: "Microbial & Yeast", desc: "Total aerobic count, yeast, and mold screened to laboratory cleanliness standards.", num: "04" },
   { icon: Syringe, title: "Endotoxin (LAL)", desc: "The test most peptide brands skip entirely. We run it on every batch.", num: "05" },
 ];
 
@@ -37,7 +37,7 @@ function FeaturedSection() {
           </div>
           <h2 className="text-4xl lg:text-5xl font-display text-white">Featured Compounds</h2>
           <p className="text-white/50 font-body mt-4 max-w-md mx-auto">
-            Pharmaceutical-grade peptides, rigorously tested. Every product ships with a batch-specific COA.
+            High-purity research peptides, analytically tested. Every product ships with a batch-specific COA.
           </p>
         </div>
         {isLoading ? (
@@ -67,8 +67,8 @@ export default function Index() {
   return (
     <div ref={revealRef}>
       <Seo
-        title="CLARUM — Pharmaceutical Grade Peptides | Nothing Hidden. Everything Tested."
-        description="Pharmaceutical-grade research peptides with full 5-panel independent lab testing — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch documented."
+        title="CLARUM — Batch-Tested Research Peptides | Nothing Hidden. Everything Tested."
+        description="Analytically tested research peptides with full 5-panel independent lab testing — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch documented. For in vitro laboratory research use only."
         path="/"
       />
       {/* ===== HERO ===== */}
@@ -83,7 +83,7 @@ export default function Index() {
             <div className="inline-flex items-center gap-2 mb-8">
               <span className="h-px w-8 bg-gold/60" />
               <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-body font-semibold">
-                Pharmaceutical Grade Peptides
+                Batch-Tested Research Peptides
               </span>
             </div>
 
@@ -362,11 +362,11 @@ export default function Index() {
             <h2 className="text-3xl lg:text-5xl font-display text-primary-foreground leading-tight mb-6">
               Ready to Source{" "}
               <span className="italic bg-gradient-to-r from-gold to-gold-light bg-clip-text text-transparent">
-                Pharmaceutical-Grade?
+                High-Purity Research Compounds?
               </span>
             </h2>
             <p className="text-primary-foreground/40 font-body text-lg mb-10 max-w-lg mx-auto">
-              61 compounds. 5 tests per batch. Every COA published. No shortcuts.
+              61 research compounds. 5 tests per batch. Every COA published. Research use only.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Button variant="gold" size="xl" className="shadow-[0_0_30px_-5px_hsl(40_50%_56%/0.4)] hover:shadow-[0_0_40px_-5px_hsl(40_50%_56%/0.6)] transition-shadow" asChild>
