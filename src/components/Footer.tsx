@@ -3,7 +3,7 @@ import clarumLogo from "@/assets/clarum-logo-transparent.png";
 
 const catalogLinks = [
   { label: "All Peptides", to: "/shop" },
-  { label: "Recovery", to: "/shop?cat=Recovery" },
+  { label: "Repair Compounds", to: "/shop?cat=Recovery" },
   { label: "Longevity", to: "/shop?cat=Longevity" },
   { label: "GHK-Cu", to: "/shop?cat=GHK-Cu" },
   { label: "Cognitive", to: "/shop?cat=Cognitive" },
@@ -33,10 +33,10 @@ export default function Footer() {
           {/* Col 1 */}
           <div className="lg:col-span-1">
             <div className="mb-4">
-              <img src={clarumLogo} alt="Clarum - Pharmaceutical Peptide Research" className="h-36" />
+              <img src={clarumLogo} alt="Clarum - Batch-Tested Research Peptides" className="h-36" />
             </div>
             <p className="text-[13px] text-white/40 font-body leading-relaxed mb-6">
-              Pharmaceutical-grade peptides tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time.
+              High-purity research peptides analytically tested beyond purity — HPLC, mass spec, heavy metals, microbial, and endotoxin. Every batch. Every time. For in vitro laboratory research use only.
             </p>
           </div>
 

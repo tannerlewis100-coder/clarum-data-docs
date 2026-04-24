@@ -53,7 +53,7 @@ const descriptions: Record<string, string> = {
   "igf-des": "IGF-DES (Des(1-3) IGF-1) lacks the first three amino acids of IGF-1, resulting in reduced binding to IGF binding proteins and increased potency in cell culture research.",
   "ace-031": "ACE-031 is a soluble form of the activin receptor type IIB (ActRIIB) that acts as a myostatin/activin trap, studied for its effects on muscle mass regulation in animal models.",
   "pnc-27": "PNC-27 is a synthetic peptide that combines a p53 residue with a cell membrane-penetrating sequence, studied for its selective interaction with HDM-2 protein in research models.",
-  "reconstitution-water": "Pharmaceutical-grade bacteriostatic water for peptide reconstitution. Contains 0.9% benzyl alcohol as a preservative. Sterile filtered.",
+  "reconstitution-water": "Laboratory-grade bacteriostatic water for peptide reconstitution in research workflows. Contains 0.9% benzyl alcohol as a preservative. Sterile filtered.",
 };
 
 export function getProductDescription(slug: string, wcDescription?: string): string {
@@ -67,5 +67,5 @@ export function getProductDescription(slug: string, wcDescription?: string): str
   // Fall back to WC description
   if (wcDescription && wcDescription.trim()) return wcDescription;
 
-  return "A pharmaceutical-grade research compound. Every batch undergoes our mandatory 5-panel independent lab testing: HPLC purity, mass spectrometry identity, heavy metals, microbial screening, and endotoxin testing.";
+  return "A high-purity research compound for in vitro laboratory use only. Every batch undergoes our mandatory 5-panel independent lab testing: HPLC purity, mass spectrometry identity, heavy metals, microbial screening, and endotoxin testing.";
 }
