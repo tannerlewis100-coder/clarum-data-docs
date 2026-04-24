@@ -80,6 +80,18 @@ export default function ProductDetail() {
   const metaDescription = description.slice(0, 155).replace(/\s+\S*$/, "") + "…";
   const canonicalUrl = `https://clarumpeptides.com/product/${product.slug}`;
 
+  // Try to surface real COA assets from local catalog when available; otherwise show placeholders.
+  const localMatch = localProducts.find(
+    (p) =>
+      p.id === product.slug ||
+      (selectedVariation && `${p.id}` === product.slug && p.dosage === displaySize),
+  );
+  const coaUrl = localMatch?.coaUrl;
+  const coaImage = localMatch?.coaImage;
+  const batchNumber = localMatch?.coaBatch || PLACEHOLDER;
+  const testDate = localMatch?.coa?.date || PLACEHOLDER;
+  const hasCoa = Boolean(coaUrl || coaImage);
+
   const related = (allProducts ?? [])
     .filter((p) => p.slug !== product.slug && p.category === product.category)
     .slice(0, 4);
