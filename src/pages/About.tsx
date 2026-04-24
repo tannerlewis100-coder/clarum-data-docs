@@ -146,7 +146,7 @@ export default function About() {
           </div>
           <div className="text-center mt-10 reveal">
             <Button variant="goldOutline" size="lg" asChild>
-              <Link to="/shop">Browse Tested Compounds <ArrowRight className="ml-1 h-4 w-4" /></Link>
+              <Link to="/coa-library">View the COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
             </Button>
           </div>
         </div>

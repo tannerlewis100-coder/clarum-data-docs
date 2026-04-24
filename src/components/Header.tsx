@@ -10,6 +10,7 @@ const navLinks = [
   { label: "About", to: "/about" },
   { label: "FAQ", to: "/faq" },
   { label: "Contact", to: "/contact" },
+  { label: "COA Library", to: "/coa-library", accent: true },
 ];
 
 const marqueeItems = [
@@ -50,7 +51,9 @@ export default function Header() {
             <Link
               key={link.label}
               to={link.to}
-              className="text-sm font-medium tracking-wide transition-colors text-primary-foreground/80 hover:text-primary-foreground"
+              className={`text-sm font-medium tracking-wide transition-colors ${
+                link.accent ? "text-gold hover:text-gold-light" : "text-primary-foreground/80 hover:text-primary-foreground"
+              }`}
             >
               {link.label}
             </Link>
@@ -114,7 +117,9 @@ export default function Header() {
               <Link
                 key={link.label}
                 to={link.to}
-                className="text-base font-medium text-primary-foreground/80"
+                className={`text-base font-medium ${
+                  link.accent ? "text-gold" : "text-primary-foreground/80"
+                }`}
               >
                 {link.label}
               </Link>

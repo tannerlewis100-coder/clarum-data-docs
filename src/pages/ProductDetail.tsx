@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, ShoppingCart, Shield, FlaskConical, Check, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Shield,
+  FlaskConical,
+  Loader2,
+  Atom,
+  Bug,
+  Syringe,
+  ExternalLink,
+  Download,
+  Hash,
+  Calendar,
+} from "lucide-react";
 import { useWcProductBySlug, useWcProducts } from "@/hooks/use-wc-products";
 import { useCart } from "@/contexts/CartContext";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { getProductDescription } from "@/data/descriptions";
+import { allProducts as localProducts } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
+const PLACEHOLDER = "Available upon batch release";
+
 const testPanels = [
-  { label: "HPLC Purity", result: "≥99%" },
-  { label: "Mass Spectrometry", result: "Identity Confirmed" },
-  { label: "Heavy Metals (ICP-MS)", result: "ND" },
-  { label: "Microbial & Yeast", result: "Pass" },
-  { label: "Endotoxin (LAL)", result: "Pass" },
+  { icon: FlaskConical, label: "Purity Testing", method: "HPLC", spec: "≥99% specification" },
+  { icon: Atom, label: "Identity Verification", method: "Mass Spectrometry (LC-MS)", spec: "Molecular identity confirmed" },
+  { icon: Shield, label: "Heavy Metals", method: "ICP-MS", spec: "As, Pb, Hg, Cd screened" },
+  { icon: Bug, label: "Microbial Testing", method: "Total Aerobic / Yeast & Mold", spec: "Per USP standards" },
+  { icon: Syringe, label: "Endotoxin Testing", method: "LAL Assay", spec: "Bacterial endotoxin screen" },
 ];
 
 export default function ProductDetail() {
@@ -63,6 +79,18 @@ export default function ProductDetail() {
   const description = getProductDescription(product.slug, product.description);
   const metaDescription = description.slice(0, 155).replace(/\s+\S*$/, "") + "…";
   const canonicalUrl = `https://clarumpeptides.com/product/${product.slug}`;
+
+  // Try to surface real COA assets from local catalog when available; otherwise show placeholders.
+  const localMatch = localProducts.find(
+    (p) =>
+      p.id === product.slug ||
+      (selectedVariation && `${p.id}` === product.slug && p.dosage === displaySize),
+  );
+  const coaUrl = localMatch?.coaUrl;
+  const coaImage = localMatch?.coaImage;
+  const batchNumber = localMatch?.coaBatch || PLACEHOLDER;
+  const testDate = localMatch?.coa?.date || PLACEHOLDER;
+  const hasCoa = Boolean(coaUrl || coaImage);
 
   const related = (allProducts ?? [])
     .filter((p) => p.slug !== product.slug && p.category === product.category)
@@ -238,26 +266,139 @@ export default function ProductDetail() {
                 </p>
               </div>
 
-              {/* 5-Panel COA */}
-              <div className="bg-white/[0.03] rounded-2xl border border-white/[0.06] p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <FlaskConical className="h-4 w-4 text-gold" />
-                  <h3 className="font-display text-lg text-white">5-Panel COA Results</h3>
+              {/* Testing & COA */}
+              <div className="relative rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.015] p-6 lg:p-7 overflow-hidden">
+                <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-gold/[0.05] blur-3xl pointer-events-none" />
+
+                {/* Header */}
+                <div className="relative flex items-start justify-between mb-6 pb-5 border-b border-white/[0.06]">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center shrink-0">
+                      <FlaskConical className="h-4 w-4 text-gold" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-gold/70 font-body font-semibold">
+                        5-Panel Independent Lab
+                      </span>
+                      <h3 className="font-display text-lg text-white mt-0.5">Testing & COA</h3>
+                    </div>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-wider font-body font-bold bg-gold/10 text-gold px-3 py-1 rounded-full border border-gold/20 whitespace-nowrap">
+                    Verified
+                  </span>
                 </div>
-                <div className="space-y-3">
-                  {testPanels.map((panel) => (
-                    <div key={panel.label} className="flex items-center justify-between text-sm font-body">
-                      <span className="text-white/50">{panel.label}</span>
-                      <span className="flex items-center gap-1.5 font-semibold text-emerald-400">
-                        <Check className="h-3.5 w-3.5" />
-                        {panel.result}
+
+                {/* Test panels */}
+                <ul className="relative space-y-3 mb-6">
+                  {testPanels.map((panel) => {
+                    const Icon = panel.icon;
+                    return (
+                      <li
+                        key={panel.label}
+                        className="flex items-start gap-3 py-1"
+                      >
+                        <div className="w-7 h-7 rounded-md border border-white/[0.08] bg-white/[0.02] flex items-center justify-center shrink-0 mt-0.5">
+                          <Icon className="h-3.5 w-3.5 text-gold/80" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-body font-semibold text-white leading-tight">
+                            {panel.label}
+                          </p>
+                          <p className="text-[11px] text-white/40 font-body mt-0.5">
+                            {panel.method} · {panel.spec}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                {/* Batch + Date metadata */}
+                <div className="relative grid grid-cols-2 gap-3 mb-6">
+                  <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Hash className="h-3 w-3 text-gold/60" />
+                      <span className="text-[9px] uppercase tracking-wider text-white/40 font-body font-semibold">
+                        Batch Number
                       </span>
                     </div>
-                  ))}
+                    <p className={`text-xs font-body ${batchNumber === PLACEHOLDER ? "text-white/35 italic" : "text-white font-semibold tabular-nums"}`}>
+                      {batchNumber}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Calendar className="h-3 w-3 text-gold/60" />
+                      <span className="text-[9px] uppercase tracking-wider text-white/40 font-body font-semibold">
+                        Test Date
+                      </span>
+                    </div>
+                    <p className={`text-xs font-body ${testDate === PLACEHOLDER ? "text-white/35 italic" : "text-white font-semibold"}`}>
+                      {testDate}
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-4 text-[10px] text-white/30 font-body uppercase tracking-wider">
-                  Full COA available on each product card
-                </p>
+
+                {/* Action buttons */}
+                <div className="relative flex flex-col sm:flex-row gap-2.5">
+                  {hasCoa ? (
+                    <>
+                      <a
+                        href={coaUrl || coaImage}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center gap-2 bg-gold text-navy font-body font-semibold text-xs uppercase tracking-wider px-4 py-2.5 rounded-lg hover:bg-gold-light transition-colors"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        View COA
+                      </a>
+                      <a
+                        href={coaImage || coaUrl}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 inline-flex items-center justify-center gap-2 border border-gold/40 text-gold font-body font-semibold text-xs uppercase tracking-wider px-4 py-2.5 rounded-lg hover:bg-gold/10 transition-colors"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        Download COA
+                      </a>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        disabled
+                        className="flex-1 inline-flex items-center justify-center gap-2 bg-white/[0.04] text-white/30 font-body font-semibold text-xs uppercase tracking-wider px-4 py-2.5 rounded-lg cursor-not-allowed border border-white/[0.06]"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        View COA
+                      </button>
+                      <button
+                        type="button"
+                        disabled
+                        className="flex-1 inline-flex items-center justify-center gap-2 bg-white/[0.04] text-white/30 font-body font-semibold text-xs uppercase tracking-wider px-4 py-2.5 rounded-lg cursor-not-allowed border border-white/[0.06]"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        Download COA
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {!hasCoa && (
+                  <p className="relative mt-4 text-[11px] text-white/35 font-body italic text-center">
+                    COA documents publish with each batch release.
+                  </p>
+                )}
+
+                <div className="relative mt-5 pt-4 border-t border-white/[0.06] text-center">
+                  <Link
+                    to="/coa-library"
+                    className="inline-flex items-center gap-1 text-[11px] text-gold/80 font-body font-semibold hover:text-gold transition-colors uppercase tracking-wider"
+                  >
+                    Browse Full COA Library →
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

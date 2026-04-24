@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ShoppingCart, ShieldCheck, MapPin } from "lucide-react";
 import type { WcProduct } from "@/lib/woocommerce";
 import { useCart } from "@/contexts/CartContext";
-import ProductCoaModal, { getLocalCoa, hasCoa } from "@/components/ProductCoaModal";
 
 interface Props {
   product: WcProduct;
@@ -21,8 +20,6 @@ export default function ProductCard({ product }: Props) {
   const { addItem } = useCart();
   const hasVariations = product.type === "variable" && product.variations.length > 0;
   const [selectedIdx, setSelectedIdx] = useState(0);
-  const [coaOpen, setCoaOpen] = useState(false);
-  const coaAvailable = hasCoa(getLocalCoa(product.slug));
 
   const selectedVariation = hasVariations ? product.variations[selectedIdx] : null;
   const displayPrice = selectedVariation ? selectedVariation.price : product.price;
@@ -76,16 +73,11 @@ export default function ProductCard({ product }: Props) {
           </span>
 
           {/* Sold out overlay */}
-          {!anyInStock ? (
+          {!anyInStock && (
             <span className="absolute top-3 right-3 text-[9px] uppercase tracking-wider font-body font-bold bg-destructive/15 border border-destructive/40 text-destructive px-2.5 py-1 rounded-full backdrop-blur-sm">
               Sold Out
             </span>
-          ) : coaAvailable ? (
-            <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 px-2.5 py-1 rounded-full backdrop-blur-sm">
-              <ShieldCheck className="h-2.5 w-2.5" />
-              COA
-            </span>
-          ) : null}
+          )}
         </Link>
 
         <div className="p-5">
@@ -128,22 +120,14 @@ export default function ProductCard({ product }: Props) {
 
           {/* Trust badges row */}
           <div className="flex items-center gap-2 mt-3 flex-wrap">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setCoaOpen(true);
-              }}
-              className={`inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold px-2 py-0.5 rounded-full transition-colors ${
-                coaAvailable
-                  ? "bg-gold/15 border border-gold/40 text-gold hover:bg-gold/25"
-                  : "bg-white/[0.04] border border-white/[0.08] text-white/40 hover:bg-white/[0.08]"
-              }`}
+            <Link
+              to={`/coa-library?product=${encodeURIComponent(product.slug)}`}
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-gold/15 border border-gold/40 text-gold px-2 py-0.5 rounded-full hover:bg-gold/25 transition-colors"
             >
               <ShieldCheck className="h-2.5 w-2.5" />
-              {coaAvailable ? "View COA" : "COA Pending"}
-            </button>
+              COA
+            </Link>
             {anyInStock && (
               <span className="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-semibold text-white/40">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold" />
@@ -180,12 +164,6 @@ export default function ProductCard({ product }: Props) {
           </div>
         </div>
       </div>
-      <ProductCoaModal
-        open={coaOpen}
-        onOpenChange={setCoaOpen}
-        productSlug={product.slug}
-        productName={product.name}
-      />
     </div>
   );
 }
