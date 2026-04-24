@@ -198,15 +198,25 @@ export default function CartDrawer() {
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
+            {checkoutError && (
+              <div
+                role="alert"
+                className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2.5 text-xs font-body text-destructive-foreground"
+              >
+                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-destructive" />
+                <span className="text-white/80 leading-relaxed">{checkoutError}</span>
+              </div>
+            )}
             <button
               onClick={handleCheckout}
               disabled={isCheckingOut}
+              aria-busy={isCheckingOut}
               className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isCheckingOut ? (
                 <>
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  Transferring Cart...
+                  Preparing Checkout...
                 </>
               ) : (
                 <>
