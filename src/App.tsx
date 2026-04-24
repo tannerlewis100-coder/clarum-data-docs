@@ -13,7 +13,7 @@ import Footer from "@/components/Footer";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
-import COALibrary from "./pages/COALibrary";
+
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import ProductDetail from "./pages/ProductDetail";
@@ -42,7 +42,7 @@ const App = () => (
                 <Route path="/product/:slug" element={<ProductDetail />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/coa-library" element={<COALibrary />} />
+                
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />

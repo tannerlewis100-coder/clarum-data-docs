@@ -12,7 +12,6 @@ const catalogLinks = [
 ];
 
 const qualityLinks = [
-  { label: "COA Library", to: "/coa-library" },
   { label: "Testing Standards", to: "/about#testing" },
   { label: "FAQ", to: "/faq" },
 ];
