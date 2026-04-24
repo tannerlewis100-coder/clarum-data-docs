@@ -76,11 +76,16 @@ export default function ProductCard({ product }: Props) {
           </span>
 
           {/* Sold out overlay */}
-          {!anyInStock && (
+          {!anyInStock ? (
             <span className="absolute top-3 right-3 text-[9px] uppercase tracking-wider font-body font-bold bg-destructive/15 border border-destructive/40 text-destructive px-2.5 py-1 rounded-full backdrop-blur-sm">
               Sold Out
             </span>
-          )}
+          ) : coaAvailable ? (
+            <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-body font-bold bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 px-2.5 py-1 rounded-full backdrop-blur-sm">
+              <ShieldCheck className="h-2.5 w-2.5" />
+              COA
+            </span>
+          ) : null}
         </Link>
 
         <div className="p-5">
