@@ -255,12 +255,9 @@ export default function ProductDetail() {
                     </div>
                   ))}
                 </div>
-                <Link
-                  to="/coa-library"
-                  className="mt-4 inline-flex items-center gap-1 text-xs text-gold font-body font-semibold hover:text-gold-light transition-colors"
-                >
-                  View Full COA Library →
-                </Link>
+                <p className="mt-4 text-[10px] text-white/30 font-body uppercase tracking-wider">
+                  Full COA available on each product card
+                </p>
               </div>
             </div>
           </div>
