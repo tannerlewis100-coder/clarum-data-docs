@@ -126,7 +126,7 @@ export default function ProductCoaModal({ open, onOpenChange, productSlug, produ
           {local && (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {TEST_FIELDS.map((field) => {
-                const value = (local.coa as Record<string, string>)[field.key] || "—";
+                const value = (local.coa as unknown as Record<string, string>)[field.key] || "—";
                 return (
                   <div
                     key={field.key}
