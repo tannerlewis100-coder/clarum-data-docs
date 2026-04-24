@@ -104,7 +104,7 @@ export default function Index() {
                 <Link to="/shop">Shop the Catalog</Link>
               </Button>
               <Button variant="goldOutline" size="xl" asChild>
-                <Link to="/coa-library">View COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <Link to="/shop">Browse Tested Compounds <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
             </div>
 
@@ -161,8 +161,8 @@ export default function Index() {
                 </div>
                 <div className="mt-6 pt-4 border-t border-primary-foreground/10 flex items-center justify-between">
                   <span className="text-[10px] text-primary-foreground/25 font-body">Independent 3rd-party lab verified</span>
-                  <Link to="/coa-library" className="text-[10px] text-gold font-body font-semibold hover:text-gold-light transition-colors flex items-center gap-1">
-                    View All COAs <ArrowRight className="h-3 w-3" />
+                  <Link to="/shop" className="text-[10px] text-gold font-body font-semibold hover:text-gold-light transition-colors flex items-center gap-1">
+                    See COAs in Catalog <ArrowRight className="h-3 w-3" />
                   </Link>
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function Index() {
                 ))}
               </ul>
               <Button variant="gold" size="lg" className="shadow-[0_0_25px_-5px_hsl(40_50%_56%/0.3)]" asChild>
-                <Link to="/coa-library">View the COA Library</Link>
+                <Link to="/shop">See COAs in the Catalog</Link>
               </Button>
             </div>
 
@@ -373,7 +373,7 @@ export default function Index() {
                 <Link to="/shop">Shop the Catalog</Link>
               </Button>
               <Button variant="goldOutline" size="xl" asChild>
-                <Link to="/coa-library">View COA Library <ArrowRight className="ml-1 h-4 w-4" /></Link>
+                <Link to="/shop">Browse Tested Compounds <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
             </div>
           </div>

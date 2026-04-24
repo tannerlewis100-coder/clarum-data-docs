@@ -1,89 +1,42 @@
 import { useState } from "react";
-import { Minus, Plus, X, ShoppingBag, Trash2, ExternalLink, Loader2, AlertCircle } from "lucide-react";
+import { Minus, Plus, X, ShoppingBag, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCart, cartKey } from "@/contexts/CartContext";
-import { toast } from "sonner";
 
 const WC_BASE = "https://admin.clarumpeptides.com";
-const STORE_API = `${WC_BASE}/wp-json/wc/store/v1`;
-const CHECKOUT_URL = `${WC_BASE}/checkout/`;
-const ERROR_MESSAGE = "We couldn't prepare checkout. Please try again or contact support.";
-
-interface WcStoreCartItem { id: number; quantity: number; }
-interface WcStoreCart { items: WcStoreCartItem[]; }
-
-/** Forward Cart-Token + Nonce headers between requests so WC sees a single session. */
-function pickHeaders(res: Response): Record<string, string> {
-  const headers: Record<string, string> = {};
-  const cartToken = res.headers.get("Cart-Token") || res.headers.get("cart-token");
-  const nonce = res.headers.get("Nonce") || res.headers.get("nonce");
-  if (cartToken) headers["Cart-Token"] = cartToken;
-  if (nonce) headers["Nonce"] = nonce;
-  return headers;
-}
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const handleCheckout = async () => {
-    if (items.length === 0 || isCheckingOut) return;
+    if (items.length === 0) return;
     setIsCheckingOut(true);
-    setCheckoutError(null);
-
     try {
-      // 1) Initialize a fresh session and clear any leftover items.
-      const initRes = await fetch(`${STORE_API}/cart`, { credentials: "include" });
-      if (!initRes.ok) throw new Error(`Cart init failed: ${initRes.status}`);
-      let sessionHeaders = pickHeaders(initRes);
-
-      const clearRes = await fetch(`${STORE_API}/cart/items`, {
-        method: "DELETE",
+      const initRes = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart`, {
         credentials: "include",
-        headers: sessionHeaders,
       });
-      if (clearRes.ok) sessionHeaders = { ...sessionHeaders, ...pickHeaders(clearRes) };
+      const cartToken = initRes.headers.get("Cart-Token") || initRes.headers.get("cart-token");
+      const nonce = initRes.headers.get("Nonce") || initRes.headers.get("nonce");
 
-      // 2) Add each item; track per-item success.
-      const expected = new Map<number, number>();
       for (const item of items) {
-        const id = item.wcVariationId || item.wcProductId;
-        if (!id) throw new Error(`Missing WooCommerce ID for "${item.name}"`);
-        expected.set(id, (expected.get(id) || 0) + item.quantity);
-
-        const addRes = await fetch(`${STORE_API}/cart/add-item`, {
+        await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart/add-item`, {
           method: "POST",
           credentials: "include",
-          headers: { "Content-Type": "application/json", ...sessionHeaders },
-          body: JSON.stringify({ id, quantity: item.quantity }),
+          headers: {
+            "Content-Type": "application/json",
+            ...(cartToken ? { "Cart-Token": cartToken } : {}),
+            ...(nonce ? { Nonce: nonce } : {}),
+          },
+          body: JSON.stringify({
+            id: item.wcVariationId || item.wcProductId,
+            quantity: item.quantity,
+          }),
         });
-        if (!addRes.ok) throw new Error(`Failed to add "${item.name}" (${addRes.status})`);
-        sessionHeaders = { ...sessionHeaders, ...pickHeaders(addRes) };
       }
-
-      // 3) Verify the WC cart actually contains every expected item & quantity.
-      const verifyRes = await fetch(`${STORE_API}/cart`, {
-        credentials: "include",
-        headers: sessionHeaders,
-      });
-      if (!verifyRes.ok) throw new Error(`Cart verify failed: ${verifyRes.status}`);
-      const cart: WcStoreCart = await verifyRes.json();
-      const actual = new Map<number, number>();
-      for (const ci of cart.items || []) {
-        actual.set(ci.id, (actual.get(ci.id) || 0) + ci.quantity);
-      }
-      for (const [id, qty] of expected) {
-        if ((actual.get(id) || 0) < qty) {
-          throw new Error(`Verification failed for product ${id}`);
-        }
-      }
-
-      // 4) Success — redirect in the same tab.
-      window.location.href = CHECKOUT_URL;
     } catch (err) {
-      console.error("Checkout handoff failed:", err);
-      setCheckoutError(ERROR_MESSAGE);
-      toast.error(ERROR_MESSAGE);
+      console.warn("Cart handoff failed, falling back to checkout:", err);
+    } finally {
+      window.open(`${WC_BASE}/checkout/`, "_blank");
       setIsCheckingOut(false);
     }
   };
@@ -198,25 +151,15 @@ export default function CartDrawer() {
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
-            {checkoutError && (
-              <div
-                role="alert"
-                className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 px-3 py-2.5 text-xs font-body text-destructive-foreground"
-              >
-                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-destructive" />
-                <span className="text-white/80 leading-relaxed">{checkoutError}</span>
-              </div>
-            )}
             <button
               onClick={handleCheckout}
               disabled={isCheckingOut}
-              aria-busy={isCheckingOut}
               className="w-full py-3 rounded-lg bg-gold text-navy font-body font-semibold text-sm uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isCheckingOut ? (
                 <>
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  Preparing Checkout...
+                  Transferring Cart...
                 </>
               ) : (
                 <>
