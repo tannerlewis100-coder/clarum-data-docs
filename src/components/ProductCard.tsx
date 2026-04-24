@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ShoppingCart, ShieldCheck, MapPin } from "lucide-react";
 import type { WcProduct } from "@/lib/woocommerce";
 import { useCart } from "@/contexts/CartContext";
+import ProductCoaModal, { getLocalCoa, hasCoa } from "@/components/ProductCoaModal";
 
 interface Props {
   product: WcProduct;
@@ -20,6 +21,8 @@ export default function ProductCard({ product }: Props) {
   const { addItem } = useCart();
   const hasVariations = product.type === "variable" && product.variations.length > 0;
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [coaOpen, setCoaOpen] = useState(false);
+  const coaAvailable = hasCoa(getLocalCoa(product.slug));
 
   const selectedVariation = hasVariations ? product.variations[selectedIdx] : null;
   const displayPrice = selectedVariation ? selectedVariation.price : product.price;
