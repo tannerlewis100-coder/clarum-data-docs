@@ -10,6 +10,7 @@ import CartDrawer from "@/components/CartDrawer";
 import AgeGate from "@/components/AgeGate";
 import DiscountPopup from "@/components/DiscountPopup";
 import Footer from "@/components/Footer";
+import ComingSoon from "@/components/ComingSoon";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
@@ -24,39 +25,61 @@ import Disclaimer from "./pages/Disclaimer";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <CartProvider>
-            <AgeGate />
-            <DiscountPopup />
-            <Header />
-            <CartDrawer />
-            <main className="min-h-screen">
+const IS_COMING_SOON = true;
+
+const App = () => {
+  if (IS_COMING_SOON) {
+    return (
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/product/:slug" element={<ProductDetail />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/coa-library" element={<COALibrary />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/disclaimer" element={<Disclaimer />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<ComingSoon />} />
               </Routes>
-            </main>
-            <Footer />
-          </CartProvider>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    );
+  }
+
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <CartProvider>
+              <AgeGate />
+              <DiscountPopup />
+              <Header />
+              <CartDrawer />
+              <main className="min-h-screen">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/product/:slug" element={<ProductDetail />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/coa-library" element={<COALibrary />} />
+                  <Route path="/faq" element={<FAQ />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/disclaimer" element={<Disclaimer />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+            </CartProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  );
+};
 
 export default App;
