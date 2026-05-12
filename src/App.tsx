@@ -10,6 +10,7 @@ import CartDrawer from "@/components/CartDrawer";
 import AgeGate from "@/components/AgeGate";
 import DiscountPopup from "@/components/DiscountPopup";
 import Footer from "@/components/Footer";
+import ComingSoon from "@/components/ComingSoon";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
@@ -23,6 +24,8 @@ import Terms from "./pages/Terms";
 import Disclaimer from "./pages/Disclaimer";
 
 const queryClient = new QueryClient();
+
+const IS_COMING_SOON = true;
 
 const App = () => (
   <HelmetProvider>
